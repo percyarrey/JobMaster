@@ -1,0 +1,113 @@
+<section class="flex justify-content-center">
+  <div
+    class="w-full border-1 shadow-2 mx-1 border-gray-300 border-round-2xl flex align-items-center flex-column"
+    style="max-width: 40rem; padding: 55px 0px 55px 0px"
+  >
+    <h5 class="title text-2xl mb-5">Log In to JobMaster</h5>
+    <form [formGroup]="LoginForm" (submit)="submitForm()">
+      <!-- EMAIL -->
+      <div class="mb-4">
+        <input
+          type="text"
+          class="w-full"
+          id="email"
+          pInputText
+          formControlName="email"
+          placeholder="Username or email"
+        />
+        <small
+          class="block p-error"
+          *ngIf="email.invalid && (email.dirty || email.touched)"
+        >
+          <span *ngIf="email.errors?.['required']"
+            >Email should not be empty</span
+          >
+          <span *ngIf="email.errors?.['email']">Email should be valid</span>
+        </small>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="relative mb-3">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          class="w-full"
+          id="password"
+          pInputText
+          formControlName="password"
+          placeholder="password"
+        />
+        <button
+          type="button"
+          class="toggle-button"
+          (click)="togglePasswordVisibility()"
+        >
+          <i
+            class="pi"
+            [ngClass]="{
+              'pi-eye': !showPassword,
+              'pi-eye-slash': showPassword
+            }"
+          ></i>
+        </button>
+        <small
+          class="block p-error"
+          *ngIf="password.invalid && (password.dirty || password.touched)"
+        >
+          Field should not be empty
+        </small>
+      </div>
+
+      <!-- FORGOT PASSWORD -->
+      <div class="flex justify-content-end mb-3">
+        <a class="underline x-black75" routerLink="/forgotpassword"
+          >Forget Password?</a
+        >
+      </div>
+
+      <!-- CONTINUE -->
+      <div class="mb-4">
+        <button
+          type="submit"
+          [disabled]="LoginForm.invalid"
+          class="p-button x-bg-primary border-teal-400 w-full justify-content-center text-xl"
+          [ngClass]="{
+            'opacity-20': LoginForm.invalid
+          }"
+        >
+          Continue
+        </button>
+      </div>
+
+      <!-- OR -->
+      <div class="flex justify-content-between align-items-center mb-4">
+        <div class="x-bg-black25 Or-line"></div>
+        <div class="text-md x-black50">or</div>
+        <div class="x-bg-black25 Or-line"></div>
+      </div>
+
+      <!-- CONTINUE WITH GOOGLE -->
+      <button type="button" class="google-btn mb-4">
+        <img src="./assets/images/auth/google icon.png" alt="google icon" />
+        <div class="text-white">Continue with Google</div>
+      </button>
+
+      <!-- CONTINUE WITH FACEBOOK -->
+      <button type="button" class="facebook-btn mb-4">
+        <img src="./assets/images/auth/facebook icon.png" alt="facebook icon" />
+        <div>Continue with Facebook</div>
+      </button>
+
+      <!-- DON'T HAVE AN ACCOUNT -->
+      <div class="flex align-items-center justify-content-center gap-2 mb-4">
+        <div class="x-bg-black25 Dont-line"></div>
+        <div class="text-sm x-black50 text-center">Don't have an Account?</div>
+        <div class="x-bg-black25 Dont-line"></div>
+      </div>
+
+      <!-- DON'T HAVE AN ACCOUNT BUTTON-->
+      <div class="register-link">
+        <a routerLink="/register"> Create an account </a>
+      </div>
+    </form>
+  </div>
+</section>

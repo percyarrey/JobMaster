@@ -1,1 +1,64 @@
 /* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+@import "primeflex/primeflex.scss";
+
+:root {
+  --n-color: #03754c;
+  --p-color: #02d869;
+  --s-color: #ffd700;
+  --s-bg: #f8f8f8;
+  --t-color: #ba3fae;
+
+  --black5: rgba(0, 0, 0, 0.05);
+  --black25: rgba(0, 0, 0, 0.25);
+  --black50: rgba(0, 0, 0, 0.45);
+  --black75: rgba(0, 0, 0, 0.7);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* PRIMARY */
+.x-primary {
+  color: var(--p-color);
+}
+
+.x-bg-primary {
+  background-color: var(--p-color) !important;
+}
+
+/* SECONDARY */
+.x-secondary {
+  color: var(--s-color);
+}
+
+.x-bg-secondary {
+  background-color: var(--s-bg) !important;
+}
+
+/* BLACK */
+.x-black25 {
+  color: var(--black25);
+}
+.x-bg-black25 {
+  background-color: var(--black25);
+}
+
+.x-black50 {
+  color: var(--black50);
+}
+.x-bg-black50 {
+  background-color: var(--black50);
+}
+
+.x-black75 {
+  color: var(--black75);
+}
+.x-bg-black75 {
+  background-color: var(--black75);
+}
