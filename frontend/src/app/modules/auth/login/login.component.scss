@@ -1,3 +1,6 @@
+:host :ng-deep {
+}
+
 .title {
   all: unset;
   font-weight: 550;
@@ -35,6 +38,7 @@ form {
 
 .google-btn {
   all: unset;
+  cursor: pointer;
   background-color: #4280ef;
   width: 100%;
   display: flex;
@@ -56,6 +60,7 @@ form {
 
 .facebook-btn {
   all: unset;
+  cursor: pointer;
   width: 100%;
   display: flex;
   align-items: center;

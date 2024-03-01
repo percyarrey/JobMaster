@@ -1,25 +1,25 @@
-import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 /* FORM */
-import { InputTextModule } from 'primeng/inputtext';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 /* ICONS */
-
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [ReactiveFormsModule, InputTextModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
-  constructor(private router: Router, private formBuilder: FormBuilder) {}
+export class LoginComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private authService: AuthService
+  ) {}
 
   LoginForm = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required]],
     password: ['', Validators.required],
   });
 
@@ -39,5 +39,21 @@ export class LoginComponent {
   /* SUBMIT FORM */
   submitForm(): void {
     console.log(this.LoginForm.value);
+  }
+
+  /* SOCIAL AUTHENTICATION */
+  /* GOOGLE AUTH*/
+  ngOnInit(): void {
+    this.authService.InitGoogle();
+  }
+  handleGoogleLogin = () => {
+    this.authService.handleGoogleLogin();
+    this.router?.navigate(['/auth/completeregistration']);
+  };
+
+  /* FACEBOOK AUTH */
+  handleFacebookLogin() {
+    this.authService.handleFacebookLogin();
+    this.router?.navigate(['/auth/completeregistration']);
   }
 }

@@ -3,8 +3,12 @@
     class="w-full border-1 shadow-2 mx-1 border-gray-300 border-round-2xl flex align-items-center flex-column"
     style="max-width: 40rem; padding: 55px 0px 55px 0px"
   >
-    <h5 class="title text-2xl mb-5">Sign Up to JOBMASTER</h5>
-    <form [formGroup]="RegisterForm" (submit)="submitForm()">
+    <div class="text-md mb-1 x-black75" style="font-family: poppins">
+      Fill the following Form
+    </div>
+    <h5 class="title text-2xl mb-5">Complete your Registration</h5>
+
+    <form [formGroup]="CompleteRegForm" (submit)="submitForm()">
       <!-- NAME -->
       <div class="flex justify-content-between gap-1">
         <!-- FIRST NAME -->
@@ -52,27 +56,6 @@
             >
           </small>
         </div>
-      </div>
-
-      <!-- EMAIL -->
-      <div class="mb-4">
-        <input
-          type="text"
-          class="w-full"
-          id="email"
-          pInputText
-          formControlName="email"
-          placeholder="Email"
-        />
-        <small
-          class="block p-error"
-          *ngIf="email.invalid && (email.dirty || email.touched)"
-        >
-          <span *ngIf="email.errors?.['required']"
-            >Email should not be empty</span
-          >
-          <span *ngIf="email.errors?.['email']">Email should be valid</span>
-        </small>
       </div>
 
       <!-- COUNTRY -->
@@ -167,7 +150,7 @@
         <small>
           <span
             class="block p-error"
-            *ngIf="RegisterForm.errors?.['passwordMismatch'] && confirmPassword.valid && password.valid"
+            *ngIf="CompleteRegForm.errors?.['passwordMismatch'] && confirmPassword.valid && password.valid"
           >
             password should match
           </span>
@@ -175,7 +158,7 @@
       </div>
 
       <!-- I WANT TO -->
-      <div class="mb-4">
+      <div class="mb-6">
         <div class="text-center font-semibold">I want to</div>
         <div class="flex mt-3">
           <button
@@ -210,87 +193,18 @@
         </div>
       </div>
 
-      <!-- SEND EMAILS -->
-      <div class="mb-3 flex gap-2 align-items-start">
-        <input
-          type="checkbox"
-          pInputCheckbox
-          id="sendEmails"
-          formControlName="sendEmails"
-          style="scale: 1.2; margin-top: 5px"
-        />
-        <label for="sendEmails" class="x-black75"
-          >Yes, Send me genuinely useful emails every now and then.
-        </label>
-      </div>
-
-      <!-- TERMS AND CONDITIONS -->
-      <div class="mb-4 flex gap-2 align-items-start">
-        <input
-          type="checkbox"
-          pInputCheckbox
-          id="termsAndConditions"
-          formControlName="termsAndConditions"
-          class="mt-2"
-          style="scale: 1.2; margin-top: 5px"
-        />
-        <label for="termsAndConditions" class="x-black75"
-          >Yes, I understand and agree to the JobMaster
-          <a routerLink="/auth/login">Terms of services</a>, including the
-          <a routerLink="/auth/login">user Agreement</a> and
-          <a routerLink="/auth/login">Privacy Policy</a>
-        </label>
-      </div>
-
       <!-- CONTINUE -->
       <div class="mb-4">
         <button
           type="submit"
-          [disabled]="RegisterForm.invalid"
+          [disabled]="CompleteRegForm.invalid"
           class="p-button x-bg-primary border-teal-400 w-full justify-content-center text-xl"
           [ngClass]="{
-            'opacity-20': RegisterForm.invalid
+            'opacity-20': CompleteRegForm.invalid
           }"
         >
           Continue
         </button>
-      </div>
-
-      <!-- OR -->
-      <div class="flex justify-content-between align-items-center mb-4">
-        <div class="x-bg-black25 Or-line"></div>
-        <div class="text-md x-black50">or</div>
-        <div class="x-bg-black25 Or-line"></div>
-      </div>
-
-      <!-- CONTINUE WITH GOOGLE -->
-      <button
-        type="button"
-        class="google-btn mb-4"
-        (click)="handleGoogleLogin()"
-      >
-        <img src="./assets/images/auth/google icon.png" alt="google icon" />
-        <div class="text-white">Continue with Google</div>
-      </button>
-
-      <!-- CONTINUE WITH FACEBOOK -->
-      <button type="button" class="facebook-btn mb-4">
-        <img src="./assets/images/auth/facebook icon.png" alt="facebook icon" />
-        <div>Continue with Facebook</div>
-      </button>
-
-      <!-- Already have an Account -->
-      <div class="flex align-items-center justify-content-center gap-2 mb-4">
-        <div class="x-bg-black25 Dont-line"></div>
-        <div class="text-sm x-black50 text-center">
-          Already have an Account?
-        </div>
-        <div class="x-bg-black25 Dont-line"></div>
-      </div>
-
-      <!-- Already have an Account BUTTON-->
-      <div class="register-link">
-        <a routerLink="/auth/login"> Log In </a>
       </div>
     </form>
   </div>

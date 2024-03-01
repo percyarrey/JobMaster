@@ -3,7 +3,7 @@
     class="w-full border-1 shadow-2 mx-1 border-gray-300 border-round-2xl flex align-items-center flex-column"
     style="max-width: 40rem; padding: 55px 0px 55px 0px"
   >
-    <h5 class="title text-2xl mb-5">Log In to JobMaster</h5>
+    <h5 class="title text-2xl mb-5">Log In to JOBMASTER</h5>
     <form [formGroup]="LoginForm" (submit)="submitForm()">
       <!-- EMAIL -->
       <div class="mb-4">
@@ -20,9 +20,8 @@
           *ngIf="email.invalid && (email.dirty || email.touched)"
         >
           <span *ngIf="email.errors?.['required']"
-            >Email should not be empty</span
+            >Field should not be empty</span
           >
-          <span *ngIf="email.errors?.['email']">Email should be valid</span>
         </small>
       </div>
 
@@ -53,13 +52,13 @@
           class="block p-error"
           *ngIf="password.invalid && (password.dirty || password.touched)"
         >
-          Field should not be empty
+          Password should not be empty
         </small>
       </div>
 
       <!-- FORGOT PASSWORD -->
       <div class="flex justify-content-end mb-3">
-        <a class="underline x-black75" routerLink="/forgotpassword"
+        <a class="underline x-black75" routerLink="/auth/forgotpassword"
           >Forget Password?</a
         >
       </div>
@@ -86,13 +85,21 @@
       </div>
 
       <!-- CONTINUE WITH GOOGLE -->
-      <button type="button" class="google-btn mb-4">
+      <button
+        type="button"
+        class="google-btn mb-4"
+        (click)="handleGoogleLogin()"
+      >
         <img src="./assets/images/auth/google icon.png" alt="google icon" />
         <div class="text-white">Continue with Google</div>
       </button>
 
       <!-- CONTINUE WITH FACEBOOK -->
-      <button type="button" class="facebook-btn mb-4">
+      <button
+        (click)="handleFacebookLogin()"
+        type="button"
+        class="facebook-btn mb-4"
+      >
         <img src="./assets/images/auth/facebook icon.png" alt="facebook icon" />
         <div>Continue with Facebook</div>
       </button>
@@ -106,7 +113,7 @@
 
       <!-- DON'T HAVE AN ACCOUNT BUTTON-->
       <div class="register-link">
-        <a routerLink="/register"> Create an account </a>
+        <a routerLink="/auth/register"> Create an account </a>
       </div>
     </form>
   </div>
