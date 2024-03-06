@@ -11,8 +11,11 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
-  username: string;
+  @Column()
+  fname: string;
+
+  @Column()
+  lname: string;
 
   @Column({ unique: true })
   email: string;
@@ -27,7 +30,13 @@ export class User {
   quarter: string;
 
   @Column({ default: 'client' })
-  role: string;
+  accounttype: string;
+
+  @Column({ default: 'active' })
+  accountstatus: string;
+
+  @Column({ default: 'partial' })
+  authstatus: string;
 
   @Column({ nullable: true })
   phone_number: string;

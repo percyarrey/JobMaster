@@ -1,3 +1,6 @@
+<!-- TOAST -->
+<p-toast></p-toast>
+
 <section class="flex justify-content-center">
   <div
     class="w-full border-1 shadow-2 mx-1 border-gray-300 border-round-2xl flex align-items-center flex-column"
@@ -9,62 +12,13 @@
     <h5 class="title text-2xl mb-5">Complete your Registration</h5>
 
     <form [formGroup]="CompleteRegForm" (submit)="submitForm()">
-      <!-- NAME -->
-      <div class="flex justify-content-between gap-1">
-        <!-- FIRST NAME -->
-        <div class="mb-4">
-          <input
-            type="text"
-            class="w-full"
-            id="fname"
-            pInputText
-            formControlName="fname"
-            placeholder="First Name"
-          />
-          <small
-            class="block p-error"
-            *ngIf="fname.invalid && (fname.dirty || fname.touched)"
-          >
-            <span *ngIf="fname.errors?.['required']"
-              >First name should not be empty</span
-            >
-            <span *ngIf="fname.errors?.['pattern']"
-              >First name should be valid</span
-            >
-          </small>
-        </div>
-
-        <!-- LAST NAME -->
-        <div class="mb-4">
-          <input
-            type="text"
-            class="w-full"
-            id="lname"
-            pInputText
-            formControlName="lname"
-            placeholder="Last Name"
-          />
-          <small
-            class="block p-error"
-            *ngIf="lname.invalid && (lname.dirty || lname.touched)"
-          >
-            <span *ngIf="lname.errors?.['required']"
-              >Last name should not be empty</span
-            >
-            <span *ngIf="lname.errors?.['pattern']"
-              >Last name should be valid</span
-            >
-          </small>
-        </div>
-      </div>
-
-      <!-- COUNTRY -->
+      <!-- TOWN -->
       <div class="mb-4">
         <p-autoComplete
-          formControlName="country"
+          formControlName="town"
           [suggestions]="suggestions"
           (completeMethod)="search($event)"
-          placeholder="Country"
+          placeholder="Town / City"
           [inputStyle]="{
             width: '100%'
           }"
@@ -74,27 +28,31 @@
         ></p-autoComplete>
         <small
           class="block p-error"
-          *ngIf="country.invalid && (country.dirty || country.touched)"
+          *ngIf="town.invalid && (town.dirty || town.touched)"
         >
-          Country should not be empty
+          Town / City should not be empty
         </small>
       </div>
 
-      <!-- Address -->
+      <!-- QUARTER-->
       <div class="mb-4">
-        <input
-          type="text"
-          class="w-full"
-          id="address"
-          pInputText
-          formControlName="address"
-          placeholder="address"
-        />
+        <p-autoComplete
+          formControlName="quarter"
+          [suggestions]="suggestions"
+          (completeMethod)="search($event)"
+          placeholder="Quarter / Locality"
+          [inputStyle]="{
+            width: '100%'
+          }"
+          [style]="{
+            width: '100%'
+          }"
+        ></p-autoComplete>
         <small
           class="block p-error"
-          *ngIf="address.invalid && (address.dirty || address.touched)"
+          *ngIf="quarter.invalid && (quarter.dirty || quarter.touched)"
         >
-          Address should not be empty
+          Quarter / Locality should not be empty
         </small>
       </div>
 
@@ -173,7 +131,7 @@
             style="padding: 0.7rem 0"
             (click)="handleAccountType($event)"
           >
-            Hire a Worker
+            Find a Worker
           </button>
           <button
             name="serviceProvider"

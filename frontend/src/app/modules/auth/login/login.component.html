@@ -1,3 +1,6 @@
+<!-- TOAST -->
+<p-toast></p-toast>
+
 <section class="flex justify-content-center">
   <div
     class="w-full border-1 shadow-2 mx-1 border-gray-300 border-round-2xl flex align-items-center flex-column"
@@ -13,15 +16,16 @@
           id="email"
           pInputText
           formControlName="email"
-          placeholder="Username or email"
+          placeholder="Email"
         />
         <small
           class="block p-error"
           *ngIf="email.invalid && (email.dirty || email.touched)"
         >
           <span *ngIf="email.errors?.['required']"
-            >Field should not be empty</span
+            >Email should not be empty</span
           >
+          <span *ngIf="email.errors?.['email']">Email should be valid</span>
         </small>
       </div>
 

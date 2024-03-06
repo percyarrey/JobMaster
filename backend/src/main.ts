@@ -13,6 +13,23 @@ async function bootstrap() {
     new FastifyAdapter({ logger: true }),
   );
 
+  const CORS_OPTIONS = {
+    origin: ['http://localhost:4200'], // or '*' or whatever is required
+    allowedHeaders: [
+      'Access-Control-Allow-Origin',
+      'Origin',
+      'X-Requested-With',
+      'Accept',
+      'Content-Type',
+      'Authorization',
+    ],
+    exposedHeaders: 'Authorization',
+    credentials: true,
+    methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE', 'PATCH'],
+  };
+
+  app.enableCors(CORS_OPTIONS);
+
   const config = new DocumentBuilder()
     .setTitle('Job Master')
     .setDescription('An online service marketplace')

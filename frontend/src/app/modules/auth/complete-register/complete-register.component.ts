@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 
 /* FORM */
 import { FormBuilder, Validators } from '@angular/forms';
@@ -6,26 +6,22 @@ import { passwordMatchValidator } from '../shared/password-match.directive';
 
 /* SERVICES */
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
-
-/* INTERFACES */
-import { User } from '../interfaces/user';
 
 /* TOAST */
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
 }
-
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
+  selector: 'app-completeregister',
+  templateUrl: './complete-register.component.html',
+  styleUrl: './complete-register.component.scss',
   providers: [MessageService],
 })
-export class RegisterComponent {
+export class CompleteregisterComponent {
   /* VARIABLE DECLARATION */
   suggestions: any[] = [];
   accountType: string = 'client';
@@ -37,58 +33,30 @@ export class RegisterComponent {
     private messageService: MessageService
   ) {}
 
+  ngOnInit() {}
   /* FORM BUILDER */
-  RegisterForm = this.formBuilder.group(
+  CompleteRegForm = this.formBuilder.group(
     {
-      fname: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/),
-        ],
-      ],
-      lname: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/),
-        ],
-      ],
-      email: ['', [Validators.required, Validators.email]],
       town: ['', Validators.required],
       quarter: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
-      sendEmails: [false],
-      termsAndConditions: [false, Validators.requiredTrue],
     },
     { validators: passwordMatchValidator }
   );
 
   /* GETTER */
-  get fname() {
-    return this.RegisterForm.controls['fname'];
-  }
-  get lname() {
-    return this.RegisterForm.controls['lname'];
-  }
-  get email() {
-    return this.RegisterForm.controls['email'];
-  }
   get town() {
-    return this.RegisterForm.controls['town'];
+    return this.CompleteRegForm.controls['town'];
   }
   get quarter() {
-    return this.RegisterForm.controls['quarter'];
+    return this.CompleteRegForm.controls['quarter'];
   }
   get password() {
-    return this.RegisterForm.controls['password'];
+    return this.CompleteRegForm.controls['password'];
   }
   get confirmPassword() {
-    return this.RegisterForm.controls['confirmPassword'];
-  }
-  get termsAndConditions() {
-    return this.RegisterForm.controls['termsAndConditions'];
+    return this.CompleteRegForm.controls['confirmPassword'];
   }
 
   /* AUTO COMPLETE */
@@ -102,32 +70,15 @@ export class RegisterComponent {
     this.accountType = event.target.name;
   }
 
-  /* SOCIAL AUTHENTICATION */
-  /* GOOGLE AUTH*/
-  ngOnInit(): void {
-    this.authService.InitGoogle();
-  }
-  handleGoogleLogin = () => {
-    this.authService.handleGoogleLogin();
-    /* this.router?.navigate(['/auth/completeregistration']); */
-  };
-
-  /* FACEBOOK AUTH */
-  handleFacebookLogin() {
-    this.authService.handleFacebookLogin();
-    /* this.router?.navigate(['/auth/completeregistration']); */
-  }
-
   /* SUBMIT FORM */
   submitForm(): void {
     var finalForm = {
-      ...this.RegisterForm.value,
+      ...this.CompleteRegForm.value,
       accounttype: this.accountType,
     };
     delete finalForm.confirmPassword;
-    delete finalForm.termsAndConditions;
 
-    this.authService.registerUser(finalForm as User).subscribe(
+    this.authService.completeRegistration(finalForm as any).subscribe(
       (res: any) => {
         this.messageService.add({
           severity: 'success',
@@ -135,11 +86,10 @@ export class RegisterComponent {
           detail: 'Registered Successfully',
         });
         localStorage.setItem('token', res.token);
-        const payload = this.authService.decodeToken(res.token);
 
         setTimeout(() => {
           // Handle Navigation
-          if (payload.accountType === 'serviceProvider') {
+          if (this.accountType === 'serviceProvider') {
             this.router?.navigate(['/service-provider/create-profile']);
           } else {
             this.router?.navigate(['']);

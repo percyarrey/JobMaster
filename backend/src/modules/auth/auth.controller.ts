@@ -34,6 +34,12 @@ export class AuthController {
     return this.authService.create(registerDto, LoginDto);
   }
 
+  /* REGISTER USER that is google and facebook */
+  @Post('socialRegister')
+  socialReg(@Body() registerDto: RegisterDto) {
+    return this.authService.socialRegister(registerDto);
+  }
+
   /* LOGIN USER*/
   @Post('login')
   @UseGuards(LocalGuard)
@@ -48,10 +54,14 @@ export class AuthController {
     return req.user;
   }
 
-  /*  @Patch(':id')
-  update(@Param('id') id: string, ) {
-    return this.authService.update(+id, LoginDto);
-  } */
+  @Patch('completeRegister')
+  @UseGuards(JwtAuthGuard)
+  update(@Req() req: any, @Body() userDetails: any) {
+    // Perform the necessary operations to complete the registration
+
+    // You can use the provided email and userDetails to update the user's details in the backend
+    return this.authService.completeReg(req.user.email, userDetails);
+  }
 
   /* @Delete(':id')
   remove(@Param('id') id: string) {

@@ -2,6 +2,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 
@@ -18,6 +19,7 @@ import { User } from './entities/User.entity';
 
 /* BCRYPT */
 import { hash, compare } from 'bcrypt';
+import { completeRegDto } from './dto/completeReg.dto';
 
 @Injectable()
 export class AuthService {
@@ -29,37 +31,75 @@ export class AuthService {
 
   /* REGISTER USER */
   async create(registerDto: RegisterDto, loginDto: LoginDto) {
-    const usernameRegex = /^[a-zA-Z0-9]+$/;
+    console.log(registerDto);
+    const nameRegex = /^[a-zA-Z0-9]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (registerDto.role) {
-      throw new UnauthorizedException();
+    if (!nameRegex.test(registerDto.fname)) {
+      throw new HttpException('Invalid First Name.', HttpStatus.BAD_REQUEST);
     }
-
-    if (!usernameRegex.test(registerDto.username)) {
-      throw new HttpException(
-        'Invalid username. Only alphanumeric characters are allowed.',
-        HttpStatus.BAD_REQUEST,
-      );
+    if (!nameRegex.test(registerDto.lname)) {
+      throw new HttpException('Invalid Last Name.', HttpStatus.BAD_REQUEST);
     }
 
     if (!emailRegex.test(registerDto.email)) {
       throw new HttpException('Invalid email address.', HttpStatus.BAD_REQUEST);
     }
-    const existingUsername: User = await this.userRepository.findOne({
-      where: { username: ILike(registerDto.username) },
-    });
 
-    const existingEmail: User = await this.userRepository.findOne({
+    const existingUser: User = await this.userRepository.findOne({
       where: { email: ILike(registerDto.email) },
     });
 
-    if (existingUsername) {
-      throw new HttpException('Username already exists', HttpStatus.CONFLICT);
+    if (existingUser) {
+      throw new HttpException('Email already in use', HttpStatus.CONFLICT);
     }
 
-    if (existingEmail) {
-      throw new HttpException('Email already in use', HttpStatus.CONFLICT);
+    // Hash the password
+    const hashedPassword = await hash(registerDto.password, 10);
+
+    // Create and save the user
+    const user = await this.userRepository.create({
+      ...registerDto,
+      password: hashedPassword,
+      authstatus: 'full',
+    });
+    const userSave = await this.userRepository.save(user);
+
+    if (userSave) {
+      const { id, password: hashedPassword, ...user } = userSave;
+      return {
+        token: this.jwtService.sign(user),
+      };
+    }
+    throw new HttpException(
+      'Something went wrong',
+      HttpStatus.INTERNAL_SERVER_ERROR,
+    );
+  }
+
+  /* SOCIAL REGISTER ie google and facebook */
+  async socialRegister(registerDto: RegisterDto) {
+    const nameRegex = /^[a-zA-Z0-9]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!nameRegex.test(registerDto.fname)) {
+      throw new HttpException('Invalid First Name.', HttpStatus.BAD_REQUEST);
+    }
+    if (!nameRegex.test(registerDto.lname)) {
+      throw new HttpException('Invalid Last Name.', HttpStatus.BAD_REQUEST);
+    }
+
+    if (!emailRegex.test(registerDto.email)) {
+      throw new HttpException('Invalid email address.', HttpStatus.BAD_REQUEST);
+    }
+
+    const existingUser: User = await this.userRepository.findOne({
+      where: { email: ILike(registerDto.email) },
+    });
+
+    if (existingUser) {
+      const { id, password: hashedPassword, ...user } = existingUser;
+      return {
+        token: this.jwtService.sign(user),
+      };
     }
 
     // Hash the password
@@ -73,8 +113,10 @@ export class AuthService {
     const userSave = await this.userRepository.save(user);
 
     if (userSave) {
-      const { password: hashedPassword, ...user } = userSave;
-      return this.jwtService.sign(user);
+      const { id, password: hashedPassword, ...user } = userSave;
+      return {
+        token: this.jwtService.sign(user),
+      };
     }
     throw new HttpException(
       'Something went wrong',
@@ -83,35 +125,50 @@ export class AuthService {
   }
 
   /* LOGIN USER */
-  async loginUser({ username, password }: LoginDto) {
+  async loginUser({ email, password }: LoginDto) {
     const findUser: User = await this.userRepository.findOne({
-      where: [{ username: ILike(username) }, { email: ILike(username) }],
+      where: [{ email: ILike(email) }],
     });
     if (!findUser) return null;
 
     const passwordMatch = await compare(password, findUser.password);
 
     if (passwordMatch) {
-      const { password, ...user } = findUser;
-      return { ...user, token: this.jwtService.sign(user) };
+      const { id, password: hashedPassword, ...user } = findUser;
+      return {
+        token: this.jwtService.sign(user),
+      };
     }
 
     return null;
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  /* COMPLETE REGISTERATION from facebook and google */
+  async completeReg(email: string, completeRegDto: completeRegDto) {
+    var findUser: User = await this.userRepository.findOne({
+      where: { email: ILike(email) },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    if (!findUser) {
+      throw new NotFoundException('User not found');
+    }
 
-  update(id: number, loginDto: LoginDto) {
-    return `This action updates a #${id} auth`;
-  }
+    const hashedPassword = await hash(completeRegDto.password, 10);
+    findUser = {
+      ...findUser,
+      password: hashedPassword,
+      quarter: completeRegDto.quarter,
+      town: completeRegDto.town,
+      accounttype: completeRegDto.accounttype,
+      authstatus: 'full',
+    };
+    // Update the user's fields as needed
+    findUser.password = hashedPassword;
+    // Update other fields if necessary
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    const updatedUser = await this.userRepository.save(findUser);
+    return {
+      token: this.jwtService.sign(updatedUser),
+    };
   }
 }

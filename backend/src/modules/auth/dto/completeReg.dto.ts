@@ -1,24 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class RegisterDto {
-  @ApiProperty({
-    example: 'user',
-    required: true,
-  })
-  fname: string;
-
-  @ApiProperty({
-    example: 'user',
-    required: true,
-  })
-  lname: string;
-
-  @ApiProperty({
-    example: 'tanyitikuarrey@gmail.com',
-    required: true,
-  })
-  email: string;
-
+export class completeRegDto {
   @ApiProperty({
     example: '1234578910',
     required: true,

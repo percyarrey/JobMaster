@@ -1,3 +1,6 @@
+<!-- TOAST -->
+<p-toast></p-toast>
+
 <section class="flex justify-content-center">
   <div
     class="w-full border-1 shadow-2 mx-1 border-gray-300 border-round-2xl flex align-items-center flex-column"
@@ -75,13 +78,13 @@
         </small>
       </div>
 
-      <!-- COUNTRY -->
+      <!-- Town -->
       <div class="mb-4">
         <p-autoComplete
-          formControlName="country"
+          formControlName="town"
           [suggestions]="suggestions"
           (completeMethod)="search($event)"
-          placeholder="Country"
+          placeholder="Town / City"
           [inputStyle]="{
             width: '100%'
           }"
@@ -91,27 +94,31 @@
         ></p-autoComplete>
         <small
           class="block p-error"
-          *ngIf="country.invalid && (country.dirty || country.touched)"
+          *ngIf="town.invalid && (town.dirty || town.touched)"
         >
-          Country should not be empty
+          town should not be empty
         </small>
       </div>
 
-      <!-- Address -->
+      <!-- QUARTER -->
       <div class="mb-4">
-        <input
-          type="text"
-          class="w-full"
-          id="address"
-          pInputText
-          formControlName="address"
-          placeholder="address"
-        />
+        <p-autoComplete
+          formControlName="quarter"
+          [suggestions]="suggestions"
+          (completeMethod)="search($event)"
+          placeholder="Quarter / City"
+          [inputStyle]="{
+            width: '100%'
+          }"
+          [style]="{
+            width: '100%'
+          }"
+        ></p-autoComplete>
         <small
           class="block p-error"
-          *ngIf="address.invalid && (address.dirty || address.touched)"
+          *ngIf="quarter.invalid && (quarter.dirty || quarter.touched)"
         >
-          Address should not be empty
+          Quarter should not be empty
         </small>
       </div>
 
@@ -190,7 +197,7 @@
             style="padding: 0.7rem 0"
             (click)="handleAccountType($event)"
           >
-            Hire a Worker
+            Find a Worker
           </button>
           <button
             name="serviceProvider"
@@ -274,19 +281,14 @@
       </button>
 
       <!-- CONTINUE WITH FACEBOOK -->
-      <button type="button" class="facebook-btn mb-4">
+      <button
+        (click)="handleFacebookLogin()"
+        type="button"
+        class="facebook-btn mb-4"
+      >
         <img src="./assets/images/auth/facebook icon.png" alt="facebook icon" />
         <div>Continue with Facebook</div>
       </button>
-
-      <!-- Already have an Account -->
-      <div class="flex align-items-center justify-content-center gap-2 mb-4">
-        <div class="x-bg-black25 Dont-line"></div>
-        <div class="text-sm x-black50 text-center">
-          Already have an Account?
-        </div>
-        <div class="x-bg-black25 Dont-line"></div>
-      </div>
 
       <!-- Already have an Account BUTTON-->
       <div class="register-link">

@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { User } from '../interfaces/user';
 
 /* SOCIAL AUTHENTICATION */
 /* GOOGLE AUTH */
@@ -16,11 +17,15 @@ declare const FB: any;
   providedIn: 'root',
 })
 export class AuthService {
-  private appId = '784300333637176';
+  private appId = environment.appID;
 
   jsonData: string[] = [];
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private ngzone: NgZone
+  ) {
     /* FETCH SUGGESTIONS */
     this.http
       .get<string[]>('./assets/suggestionData.json')
@@ -49,6 +54,35 @@ export class AuthService {
       js.src = 'https://connect.facebook.net/en_US/sdk.js';
       fjs.parentNode.insertBefore(js, fjs);
     })(document, 'script', 'facebook-jssdk');
+  }
+
+  /* REGISTER USER */
+  registerUser(userDetails: User) {
+    return this.http.post(
+      `${environment.backendUrl}auth/register`,
+      userDetails
+    );
+  }
+
+  /* LOGIN USER */
+  loginUser(userDetails: { email: string; password: string }) {
+    return this.http.post(`${environment.backendUrl}auth/login`, {
+      username: userDetails.email,
+      password: userDetails.password,
+    });
+  }
+
+  /* GET USER PROFILE */
+  userProfile() {
+    return this.http.get(`${environment.backendUrl}auth/profile`);
+  }
+
+  /* GET USER PROFILE */
+  completeRegistration(userDetails: any) {
+    return this.http.patch(
+      `${environment.backendUrl}auth/completeRegister`,
+      userDetails
+    );
   }
 
   /* GET SUGGESTION */
@@ -85,8 +119,7 @@ export class AuthService {
   /* GOOGLE AUTH */
   InitGoogle(): void {
     google.accounts.id.initialize({
-      client_id:
-        '707075028141-5uk97hhsh5unkvvkegdi1rjt0a4hme0h.apps.googleusercontent.com',
+      client_id: environment.clientID,
       callback: this.handleGoogleResponse,
     });
     google.accounts.id.prompt();
@@ -144,11 +177,47 @@ export class AuthService {
     // a response on googleLoginCallback method previously created
   };
 
-  handleGoogleResponse(response: any) {
+  handleGoogleResponse = (response: any) => {
     const payload = JSON.parse(atob(response.credential.split('.')[1]));
-    console.log(payload);
-    this.router?.navigate(['/auth/completeregistration']);
-  }
+    const finalForm = {
+      profilepic: payload.profilepic,
+      accounttype: 'none',
+      fname: payload.given_name,
+      lname: payload.family_name,
+      email: payload.email,
+      town: 'none',
+      quarter: 'none',
+      password: 'none',
+      sendEmails: true,
+    };
+
+    this.http
+      .post(`${environment.backendUrl}auth/socialRegister`, finalForm)
+      .subscribe(
+        (res: any) => {
+          localStorage.setItem('token', res.token);
+          const payload = this.decodeToken(res.token);
+          if (payload.authstatus === 'full') {
+            this.ngzone.run(() => {
+              this.router?.navigate(['/service-provider']);
+            });
+          } else {
+            this.ngzone.run(() => {
+              this.router?.navigate(['/auth/complete-registration']);
+            });
+          }
+        },
+        (err) => {
+          if (err.status === 409) {
+            this.ngzone.run(() => {
+              this.router?.navigate(['']);
+            });
+          } else {
+            console.error(err);
+          }
+        }
+      );
+  };
 
   /* FACEBOOK AUTH */
   handleFacebookLogin() {
@@ -162,5 +231,17 @@ export class AuthService {
       },
       { scope: 'public_profile,email' }
     );
+  }
+
+  /* UTILS */
+
+  decodeToken(token: string): any {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload;
+    } catch (error) {
+      console.log(error);
+      localStorage.removeItem('token');
+    }
   }
 }

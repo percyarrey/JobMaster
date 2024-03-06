@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { passwordMatchValidator } from '../shared/password-match.directive';
 @Component({
   selector: 'app-resetpassword',
-  templateUrl: './resetpassword.component.html',
-  styleUrl: './resetpassword.component.scss',
+  templateUrl: './reset-password.component.html',
+  styleUrl: './reset-password.component.scss',
 })
 export class ResetpasswordComponent {
   constructor(private router: Router, private formBuilder: FormBuilder) {}

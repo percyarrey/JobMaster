@@ -5,7 +5,7 @@ export class LoginDto {
     example: 'user',
     required: true,
   })
-  username: string;
+  email: string;
 
   @ApiProperty({
     example: '1234578910',
