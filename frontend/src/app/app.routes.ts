@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 
 /* MODULES */
+import { NotFoundComponent } from './modules/extra/not-found/not-found.component';
 
 export const routes: Routes = [
   /* HOME OR CLIENT*/
@@ -22,6 +23,7 @@ export const routes: Routes = [
         return token ? false : true;
       },
     ], */
+    title: 'JobMaster | Authentication',
   },
 
   /* SERVICE PROVIDER*/
@@ -33,6 +35,9 @@ export const routes: Routes = [
       ),
 
     canActivate: [authGuard],
-    title: 'Service Provider',
+    title: 'JobMaster | Service Provider',
   },
+
+  /* 404 */
+  { path: '**', component: NotFoundComponent },
 ];
