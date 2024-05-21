@@ -1,0 +1,272 @@
+<!-- HERO -->
+<section
+  class="hero-section px-2 lg:pl-5"
+  [style]="{
+    background: 'linear-gradient(to bottom, #456975, #4A6B76)'
+  }"
+>
+  <div class="grid h-full justify-content-center align-items-center">
+    <div class="col-11 lg:col-8">
+      <p
+        class="text-5xl md:text-7xl font-bold font-roboto line-height-2 text-center lg:text-left"
+      >
+        Meeting your life changing Opportunity
+      </p>
+      <div
+        class="flex-column row-gap-2 lg:flex-row flex md:mt-8"
+        style="min-height: 3.5rem"
+      >
+        <!-- SEARCH SERVICE -->
+        <div class="w-full">
+          <p-autoComplete
+            [showEmptyMessage]="false"
+            [emptyMessage]=""
+            [(ngModel)]="selectedService"
+            [suggestions]="serviceSuggestions"
+            (completeMethod)="searchJob($event)"
+            field="name"
+            placeholder="Job title, Keyword, or company..."
+            [inputStyle]="{
+              width: '100%',
+              height:'100%',
+            }"
+            [style]="{
+              height: '100%',
+              width: '100%'
+            }"
+            (keyup.enter)="searchClient()"
+            inputStyleClass="lg:border-noround-right"
+          ></p-autoComplete>
+        </div>
+
+        <!-- SEARCH BUTTON -->
+        <button
+          class="border-round lg:border-noround-left search-link font-medium text-2xl lg:text-xl h-4rem"
+          [routerLink]="'/joblisting'"
+          (click)="searchClient()"
+        >
+          <i class="pi pi-search text-white text-xl"></i>
+          <span class="mx-auto">Search</span>
+        </button>
+      </div>
+      <div
+        class="flex flex-wrap popular-links x-font-roboto column-gap-3 row-gap-1 mt-5 text-md align-items-center"
+      >
+        <div class="text-xl">Recent Searches:</div>
+        <a
+          [routerLink]="'/joblisting'"
+          [queryParams]="{ category: 'Electrician' }"
+          >Web developer</a
+        >
+        <a [routerLink]="'/joblisting'" [queryParams]="{ category: 'Glazier' }"
+          >writer</a
+        >
+        <a
+          [routerLink]="'/joblisting'"
+          [queryParams]="{ category: 'Electronic' }"
+          >Personal assistance</a
+        >
+      </div>
+    </div>
+
+    <div
+      [classList]="'hidden col-4 p-0 h-full lg:flex align-items-end relative '"
+      style="transition: all 1s ease-in"
+    >
+      <img
+        [src]="'/assets/images/client/home/Heroimg.png'"
+        style="
+          object-fit: cover;
+          width: 100%;
+          height: 80%;
+          object-position: center;
+          position: relative;
+          bottom: -4px;
+        "
+        alt="Hero Image"
+      />
+    </div>
+  </div>
+</section>
+<hr class="p-0 m-0" style="opacity: 0.2" />
+<!-- COMPANIES -->
+<section class="cat-section px-2 lg:px-5 py-5">
+  <div class="flex justify-content-between">
+    <h1 class="x-primary">COMMON COMPANIES</h1>
+    <div class="flex align-items-center gap-2">
+      <button
+        (click)="carousel.navBackward($event)"
+        [classList]="
+          carousel.isBackwardNavDisabled()
+            ? 'border-round-left carouselNav opacity-30'
+            : 'border-round-left carouselNav '
+        "
+      >
+        <i class="pi pi-chevron-left"></i>
+      </button>
+      <button
+        (click)="carousel.navForward($event)"
+        [classList]="
+          navForward
+            ? 'border-round-right carouselNav opacity-30'
+            : 'border-round-right carouselNav '
+        "
+      >
+        <i class="pi pi-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+  <div class="mt-5 relative">
+    <p-carousel
+      [value]="companies"
+      [numVisible]="4"
+      [numScroll]="1"
+      [responsiveOptions]="responsiveOptions"
+      indicatorStyleClass="hidden"
+      [showNavigators]="false"
+      [draggable]="true"
+      (onPage)="navForward = carousel.isForwardNavDisabled()"
+      #carousel
+    >
+      <ng-template let-company pTemplate="item">
+        <div
+          class="company-item border-round-sm cursor-pointer shadow-2 x-bg-secondary flex flex-column align-items-center py-5 w-full"
+          (click)="router.navigate(['/jobdetails/' + company.id])"
+        >
+          <img
+            [src]="company.logo"
+            alt=""
+            style="width: 120px; height: 70px; object-fit: cover"
+          />
+          <p class="x-black75">{{ company.name }}</p>
+          <a
+            [routerLink]="'/jobdetails/' + company.id"
+            class="x-black75 text-sm"
+            >View Company</a
+          >
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+</section>
+<hr class="p-0 m-0" style="opacity: 0.2" />
+<hr class="p-0 m-0" style="opacity: 0.2" />
+<!-- joblisting -->
+<section class="joblisting-section px-2 lg:px-5 pt-4 pb-8">
+  <div class="flex justify-content-between">
+    <div>
+      <h1 class="mb-4 x-primary">Newly Posted Job Listing</h1>
+    </div>
+  </div>
+  <div>
+    @for (job of jobListing; track $index) {
+    <div class="grid align-items-center cursor-pointer">
+      <div class="col-12 md:col-4">
+        <div class="flex align-items-center gap-2">
+          <img [src]="job.logo" [alt]="job.name" width="60" height="60" />
+          <div>
+            <div class="text-xl font-semibold">{{ job.name }}</div>
+            <div class="x-black75">{{ job.company }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 md:col-4">
+        <i class="pi pi-map-marker x-primary"></i>
+        <span class="x-black75">
+          {{ job.country }} -
+          {{ job.town }}
+        </span>
+      </div>
+      <div
+        class="col-12 md:col-4 flex justify-content-center md:justify-content-end"
+      >
+        <div
+          class="x-bg-primary text-center font-semibold text-white py-1 border-round-md w-full md:w-10rem"
+        >
+          {{ job.jobType }}
+        </div>
+      </div>
+    </div>
+    <hr class="p-0 my-3 m-0" style="opacity: 0.2" />
+    }
+  </div>
+</section>
+<hr class="p-0 m-0" style="opacity: 0.2" />
+<!-- TESTIMONIAL -->
+<section class="testimonial-section px-2 lg:px-5 pt-4 pb-8">
+  <div class="flex justify-content-between">
+    <div>
+      <h1 class="mb-4 x-primary">What Our People Say About Us!!!</h1>
+    </div>
+  </div>
+  <div class="relative">
+    <p-carousel
+      [value]="testimonials"
+      [numVisible]="2"
+      [numScroll]="1"
+      [responsiveOptions]="[
+    {
+      breakpoint: '768px',
+      numVisible: 1,
+      numScroll: 1,
+    }
+  ]"
+      indicatorStyleClass="hidden"
+      [showNavigators]="false"
+      [draggable]="true"
+      (onPage)="
+        testimonialNavForward = testimonialCarousel.isForwardNavDisabled()
+      "
+      #testimonialCarousel
+    >
+      <ng-template let-testimony pTemplate="item">
+        <div
+          class="x-bg-secondary w-full border-round-md py-6 px-4 md:px-6 shadow-2"
+        >
+          <div>
+            <i class="pi pi-reviews text-5xl x-primary"></i>
+          </div>
+          <p class="text-lg font-medium x-black75">
+            {{ testimony.testimony }}
+          </p>
+          <div class="flex gap-2">
+            <img
+              width="50"
+              class="border-circle"
+              src="{{ testimony.profilePath }}"
+              alt="{{ testimony.name }}"
+            />
+            <div class="font-meduim">
+              <div class="text-md">{{ testimony.name }}</div>
+              <div class="x-black50 mt-1">{{ testimony.service }}</div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-carousel>
+
+    <!-- CAROUSEL CONTROLS -->
+    <button
+      (click)="testimonialCarousel.navBackward($event)"
+      [classList]="
+        testimonialCarousel.isBackwardNavDisabled()
+          ? 'border-circle x-bg-secondary carouselNav opacity-0'
+          : 'border-circle x-bg-secondary carouselNav '
+      "
+      style="position: absolute; top: 7.7rem; left: -0.5rem"
+    >
+      <i class="pi pi-chevron-left"></i>
+    </button>
+    <button
+      (click)="testimonialCarousel.navForward($event)"
+      [classList]="
+        testimonialNavForward
+          ? 'border-circle x-bg-secondary carouselNav opacity-0'
+          : 'border-circle x-bg-secondary carouselNav '
+      "
+      style="position: absolute; top: 7.7rem; right: -0.2rem"
+    >
+      <i class="pi pi-chevron-right text-lg"></i>
+    </button>
+  </div>
+</section>

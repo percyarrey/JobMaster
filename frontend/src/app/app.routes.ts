@@ -30,8 +30,8 @@ export const routes: Routes = [
   {
     path: 'service-provider',
     loadChildren: () =>
-      import('./modules/service-provider/service-provider-routing.module').then(
-        (m) => m.ServiceProviderRoutingModule
+      import('./modules/service-provider/service-provider.module').then(
+        (m) => m.ServiceProviderModule
       ),
 
     canActivate: [authGuard],

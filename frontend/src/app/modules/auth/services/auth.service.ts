@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, NgZone } from '@angular/core';
+import { inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { User } from '../interfaces/user';
+import { isPlatformBrowser } from '@angular/common';
+import decodeToken from '../../../shared/utils/decodeToken';
+import { setCookie } from '../../../shared/utils/decodeCookie';
 
 /* SOCIAL AUTHENTICATION */
 /* GOOGLE AUTH */
@@ -19,41 +22,37 @@ declare const FB: any;
 export class AuthService {
   private appId = environment.appID;
 
-  jsonData: string[] = [];
-
+  private platformID = inject(PLATFORM_ID);
   constructor(
     private http: HttpClient,
     private router: Router,
     private ngzone: NgZone
   ) {
-    /* FETCH SUGGESTIONS */
-    this.http
-      .get<string[]>('./assets/suggestionData.json')
-      .subscribe((data) => {
-        this.jsonData = data;
-      });
-
     /* FACEBOOK AUTH */
-    (window as any).fbAsyncInit = () => {
-      FB.init({
-        appId: this.appId,
-        cookie: true,
-        xfbml: true,
-        version: 'v19.0',
-      });
-    };
-    // Load the Facebook SDK asynchronously
-    (function (d, s, id) {
-      let js: any,
-        fjs: any = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {
-        return;
-      }
-      js = d.createElement(s);
-      js.id = id;
-      js.src = 'https://connect.facebook.net/en_US/sdk.js';
-      fjs.parentNode.insertBefore(js, fjs);
-    })(document, 'script', 'facebook-jssdk');
+    if (isPlatformBrowser(this.platformID)) {
+      try {
+        (window as any).fbAsyncInit = () => {
+          FB.init({
+            appId: this.appId,
+            cookie: true,
+            xfbml: true,
+            version: 'v19.0',
+          });
+        };
+        // Load the Facebook SDK asynchronously
+        (function (d, s, id) {
+          let js: any,
+            fjs: any = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) {
+            return;
+          }
+          js = d.createElement(s);
+          js.id = id;
+          js.src = 'https://connect.facebook.net/en_US/sdk.js';
+          fjs.parentNode.insertBefore(js, fjs);
+        })(document, 'script', 'facebook-jssdk');
+      } catch (e) {}
+    }
   }
 
   /* REGISTER USER */
@@ -77,7 +76,7 @@ export class AuthService {
     return this.http.get(`${environment.backendUrl}auth/profile`);
   }
 
-  /* GET USER PROFILE */
+  /* COMPLETE REGISTRATION*/
   completeRegistration(userDetails: any) {
     return this.http.patch(
       `${environment.backendUrl}auth/completeRegister`,
@@ -85,58 +84,60 @@ export class AuthService {
     );
   }
 
+  /* FORGOT PASSWORD*/
+  forgotPassword(email: string) {
+    return true;
+  }
+  /* FORGOT PASSWORD*/
+  resetPassword(email: string) {
+    return true;
+  }
+  /* FORGOT PASSWORD*/
+  verifyEmail(email: string) {
+    return true;
+  }
+
   /* GET SUGGESTION */
-  getSuggestions(query: string): string[] {
+  getSuggestions(): string[] {
     const results: string[] = [];
-    const normalizedQuery = query.toLowerCase();
-
-    for (const item of this.jsonData) {
-      const normalizedItem = item.toLowerCase();
-      if (normalizedItem.startsWith(normalizedQuery)) {
-        results.push(item);
-        if (results.length === 5) {
-          break; // Break the loop if 5 suggestions are found
-        }
-      }
-    }
-
-    if (results.length === 0) {
-      for (const item of this.jsonData) {
-        const normalizedItem = item.toLowerCase();
-        if (normalizedItem.includes(normalizedQuery)) {
+    try {
+      const data$: Observable<string[]> = this.http.get<string[]>(
+        './assets/countrySuggestionData.json'
+      );
+      data$.subscribe((data: any) => {
+        for (const item of data) {
           results.push(item);
-          if (results.length >= 5) {
-            break; // Break the loop if 5 suggestions are found
-          }
         }
-      }
-    }
+      });
+    } catch (error) {}
 
     return results;
   }
-
   /* SOCIAL AUTHENTICATION */
   /* GOOGLE AUTH */
   InitGoogle(): void {
-    google.accounts.id.initialize({
-      client_id: environment.clientID,
-      callback: this.handleGoogleResponse,
-    });
-    google.accounts.id.prompt();
-    this.googleButtonWrapper = this.createFakeGoogleWrapper();
-    /* google.accounts.id.prompt((notification: any) => {
+    if (isPlatformBrowser(this.platformID)) {
+      try {
+        google.accounts.id.initialize({
+          client_id: environment.clientID,
+          callback: this.handleGoogleResponse,
+        });
+        google.accounts.id.prompt();
+        this.googleButtonWrapper = this.createFakeGoogleWrapper();
+        /* google.accounts.id.prompt((notification: any) => {
     if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-      console.log(notification.getNotDisplayedReason());
     }
   }); */
-    google.accounts.id.renderButton(
-      document.getElementById('custom-google-btn'),
-      {
-        theme: 'filled_blue',
-        sharp: 'pill',
-        width: 400,
-      }
-    );
+        google.accounts.id.renderButton(
+          document.getElementById('custom-google-btn'),
+          {
+            theme: 'filled_blue',
+            sharp: 'pill',
+            width: 400,
+          }
+        );
+      } catch {}
+    }
   }
   googleSignInWithGoogle = null;
   createFakeGoogleWrapper = () => {
@@ -185,18 +186,18 @@ export class AuthService {
       fname: payload.given_name,
       lname: payload.family_name,
       email: payload.email,
-      town: 'none',
-      quarter: 'none',
+      address: 'none',
+      country: 'none',
       password: 'none',
       sendEmails: true,
     };
 
     this.http
       .post(`${environment.backendUrl}auth/socialRegister`, finalForm)
-      .subscribe(
-        (res: any) => {
-          localStorage.setItem('token', res.token);
-          const payload = this.decodeToken(res.token);
+      .subscribe({
+        next: (res: any) => {
+          setCookie('token', res.token, 30);
+          const payload = decodeToken(res.token);
           if (payload.authstatus === 'full') {
             this.ngzone.run(() => {
               this.router?.navigate(['/service-provider']);
@@ -207,7 +208,7 @@ export class AuthService {
             });
           }
         },
-        (err) => {
+        error: (err) => {
           if (err.status === 409) {
             this.ngzone.run(() => {
               this.router?.navigate(['']);
@@ -215,8 +216,8 @@ export class AuthService {
           } else {
             console.error(err);
           }
-        }
-      );
+        },
+      });
   };
 
   /* FACEBOOK AUTH */
@@ -231,17 +232,5 @@ export class AuthService {
       },
       { scope: 'public_profile,email' }
     );
-  }
-
-  /* UTILS */
-
-  decodeToken(token: string): any {
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload;
-    } catch (error) {
-      console.log(error);
-      localStorage.removeItem('token');
-    }
   }
 }

@@ -5,10 +5,9 @@ import { ServiceProviderRoutingModule } from './service-provider-routing.module'
 
 /* COMPONENTS */
 import { CreateProfileComponent } from './create-profile/create-profile.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [CreateProfileComponent, DashboardComponent],
+  declarations: [CreateProfileComponent],
   imports: [CommonModule, ServiceProviderRoutingModule],
 })
 export class ServiceProviderModule {}

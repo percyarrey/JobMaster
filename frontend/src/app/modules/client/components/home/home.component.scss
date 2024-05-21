@@ -1,0 +1,135 @@
+:host ::ng-deep {
+  .hero-section {
+    .p-autocomplete {
+      height: 100%;
+      width: 100%;
+      input {
+        box-shadow: none !important;
+        outline: none !important;
+        /* box-shadow: 0 0 0 0.2rem #bfdbfe; */
+      }
+    }
+    .p-autocomplete-panel .p-autocomplete-items {
+      padding: 0;
+    }
+  }
+
+  .cat-section {
+    /* .p-carousel-items-container {
+        gap: 1rem;
+      } */
+    .p-carousel-item {
+      padding: 0.2rem 0.4rem;
+      display: flex;
+      justify-content: center;
+    }
+  }
+  .joblisting-section {
+    /* .p-carousel-items-container {
+        gap: 0.4rem;
+      } */
+    .p-carousel-item {
+      padding: 0.2rem 0.4rem;
+      display: flex;
+      justify-content: center;
+    }
+  }
+  .testimonial-section {
+    /* .p-carousel-items-container {
+        gap: 0.4rem;
+      } */
+    .p-carousel-item {
+      padding: 0.2rem 0.8rem;
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+/* HERO SECTION */
+.hero-section {
+  height: 100vh;
+  min-height: 660px;
+  max-height: 1080px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #6c0000; /*#841d44 Dark red color */
+  /* Gradient effect */
+  position: relative; /* Required for pseudo-elements */
+  color: white;
+}
+
+.search-link {
+  all: unset;
+  background-color: var(--s-color);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 9px;
+  cursor: pointer;
+}
+.popular-links {
+  a {
+    all: unset;
+    cursor: pointer;
+    border: 2px solid white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+  }
+}
+
+/* COMPANIES SECTION */
+.cat-section {
+  .category-item {
+    overflow: hidden;
+    height: 255px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .carouselNav {
+    all: unset;
+    cursor: pointer;
+    border: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1px #585859;
+    background-color: #5858590b;
+    height: 40px;
+    width: 40px;
+  }
+}
+
+/* joblisting */
+.joblisting-section {
+  .carouselNav {
+    all: unset;
+    cursor: pointer;
+    border: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1px #585859;
+    background-color: #5858590b;
+    height: 40px;
+    width: 40px;
+  }
+}
+/* TESTIMONIAL */
+.testimonial-section {
+  .carouselNav {
+    all: unset;
+    cursor: pointer;
+    border: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1px #585859;
+    background-color: #5858590b;
+    height: 40px;
+    width: 40px;
+  }
+}

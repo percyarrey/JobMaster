@@ -1,0 +1,299 @@
+<section class="flex justify-content-center">
+  <div
+    class="w-full border-1 shadow-2 mx-1 border-gray-300 border-round-2xl flex align-items-center flex-column"
+    style="max-width: 40rem; padding: 55px 0px 55px 0px"
+  >
+    <h5 class="title text-2xl mb-5">Sign Up to JOBMASTER</h5>
+    <form [formGroup]="RegisterForm" (submit)="submitForm()">
+      <!-- NAME -->
+      <div class="flex justify-content-between gap-1">
+        <!-- FIRST NAME -->
+        <div class="mb-4">
+          <p-floatLabel>
+            <input
+              type="text"
+              class="w-full"
+              id="fname"
+              pInputText
+              formControlName="fname"
+            />
+            <label for="fname">First Name</label>
+          </p-floatLabel>
+
+          @if (fname.invalid && (fname.dirty || fname.touched)) {<small
+            class="block p-error"
+          >
+            @if (fname.errors?.['required']) {<span
+              >First name should not be empty</span
+            >} @if (fname.errors?.['pattern']) {
+            <span>First name should be valid</span>
+            } </small
+          >}
+        </div>
+
+        <!-- LAST NAME -->
+        <div class="mb-4">
+          <p-floatLabel>
+            <input
+              type="text"
+              class="w-full"
+              id="lname"
+              pInputText
+              formControlName="lname"
+            />
+            <label for="lname">Last Name</label>
+          </p-floatLabel>
+
+          @if (lname.invalid && (lname.dirty || lname.touched)) {<small
+            class="block p-error"
+          >
+            @if (lname.errors?.['required']) {<span
+              >Last name should not be empty</span
+            >} @if (lname.errors?.['pattern']) {<span
+              >Last name should be valid</span
+            >} </small
+          >}
+        </div>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="mb-4">
+        <p-floatLabel>
+          <input
+            type="text"
+            class="w-full"
+            id="email"
+            pInputText
+            formControlName="email"
+          />
+          <label for="email">Email</label>
+        </p-floatLabel>
+
+        @if (email.invalid && (email.dirty || email.touched)) {<small
+          class="block p-error"
+        >
+          @if (email.errors?.['required']) {<span
+            >Email should not be empty</span
+          >} @if (email.errors?.['email']) {<span>Email should be valid</span
+          >} </small
+        >}
+      </div>
+      <!-- COUNTRY -->
+      <div class="mb-4">
+        <p-floatLabel>
+          <p-autoComplete
+            field="name"
+            formControlName="country"
+            [suggestions]="suggestions"
+            (completeMethod)="search($event)"
+            inputId="country"
+            [inputStyle]="{
+              width: '100%'
+            }"
+            [style]="{
+              width: '100%'
+            }"
+          ></p-autoComplete>
+          <label for="country">Country</label>
+        </p-floatLabel>
+
+        @if (country.invalid && (country.dirty || country.touched)) {
+        <small class="block p-error"> Country should not be empty </small>}
+      </div>
+
+      <!-- Town -->
+      <div class="mb-4">
+        <p-floatLabel>
+          <p-autoComplete
+            field="name"
+            formControlName="town"
+            [suggestions]="suggestions"
+            (completeMethod)="search($event)"
+            inputId="town"
+            [inputStyle]="{
+              width: '100%'
+            }"
+            [style]="{
+              width: '100%'
+            }"
+          ></p-autoComplete>
+          <label for="town">Town</label>
+        </p-floatLabel>
+
+        @if (town.invalid && (town.dirty || town.touched)) {
+        <small class="block p-error"> town should not be empty </small>
+        }
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="mb-4">
+        <p-floatLabel>
+          <input
+            type="password"
+            class="w-full"
+            id="password"
+            pInputText
+            formControlName="password"
+          />
+          <label for="password">Password</label>
+        </p-floatLabel>
+
+        @if (password.invalid && (password.dirty || password.touched)) {<small
+          class="block p-error"
+        >
+          @if (password.errors?.['required']) {<span
+            >Password should not be empty</span
+          >} @if (password.errors?.['minlength']) {<span
+            >Password should be more than 8 letters</span
+          >
+          } </small
+        >}
+      </div>
+
+      <!--CONFIRM PASSWORD -->
+      <div class="mb-4">
+        <p-floatLabel>
+          <input
+            type="password"
+            class="w-full"
+            id="confirmPassword"
+            pInputText
+            formControlName="confirmPassword"
+          />
+          <label for="confirmPassword">Confirm Password</label>
+        </p-floatLabel>
+        @if (confirmPassword.invalid && (confirmPassword.dirty ||
+        confirmPassword.touched)) {<small class="block p-error">
+          @if (confirmPassword.errors?.['required']) {<span
+            >Confirm Password should not be empty</span
+          >} @if (confirmPassword.errors?.['minlength']) {<span
+            >Confirm Password should be more than 8 letters</span
+          >} </small
+        >}
+
+        <!-- PASSWORD MISMATCH ERROR -->
+        <small>
+          @if (RegisterForm.errors?.['passwordMismatch'] &&
+          confirmPassword.valid && password.valid) {<span class="block p-error">
+            password should match </span
+          >}
+        </small>
+      </div>
+
+      <!-- I WANT TO -->
+      <div class="mb-4">
+        <div class="text-center font-semibold">I Am a/an</div>
+        <div class="flex mt-3">
+          <button
+            name="jobSeeker"
+            type="button"
+            class="w-full justify-content-center text-lg border-round-left cursor-pointer"
+            [ngClass]="{
+              ' x-bg-primary border-none text-white':
+                accountType === 'jobSeeker',
+              ' bg-transparent border-2 x-black75 border-right-none  border-gray-400':
+                accountType !== 'jobSeeker'
+            }"
+            style="padding: 0.7rem 0"
+            (click)="handleAccountType($event)"
+          >
+            Job Seeker
+          </button>
+          <button
+            name="employer"
+            type="button"
+            class="w-full justify-content-center text-lg border-round-right text-lg cursor-pointer"
+            [ngClass]="{
+              ' x-bg-primary border-none text-white':
+                accountType === 'employer',
+              ' bg-transparent border-2 x-black75 border-left-none  border-gray-400 ':
+                accountType !== 'employer'
+            }"
+            style="padding: 0.7rem 0"
+            (click)="handleAccountType($event)"
+          >
+            Employer
+          </button>
+        </div>
+      </div>
+
+      <!-- SEND EMAILS -->
+      <div class="mb-3 flex gap-2 align-items-start">
+        <input
+          type="checkbox"
+          pInputCheckbox
+          id="sendEmails"
+          formControlName="sendEmails"
+          style="scale: 1.2; margin-top: 5px"
+        />
+        <label for="sendEmails" class="x-black75"
+          >Yes, Send me genuinely useful emails every now and then.
+        </label>
+      </div>
+
+      <!-- TERMS AND CONDITIONS -->
+      <div class="mb-4 flex gap-2 align-items-start">
+        <input
+          type="checkbox"
+          pInputCheckbox
+          id="termsAndConditions"
+          formControlName="termsAndConditions"
+          class="mt-2"
+          style="scale: 1.2; margin-top: 5px"
+        />
+        <label for="termsAndConditions" class="x-black75"
+          >Yes, I understand and agree to the JOBMASTER
+          <a routerLink="/auth/login">Terms of services</a>, including the
+          <a routerLink="/auth/login">user Agreement</a> and
+          <a routerLink="/auth/login">Privacy Policy</a>
+        </label>
+      </div>
+
+      <!-- CONTINUE -->
+      <div class="mb-4">
+        <button
+          type="submit"
+          [disabled]="RegisterForm.invalid"
+          class="p-button x-bg-primary border-teal-400 w-full justify-content-center text-xl"
+          [ngClass]="{
+            'opacity-20': RegisterForm.invalid
+          }"
+        >
+          Continue
+        </button>
+      </div>
+
+      <!-- OR -->
+      <div class="flex justify-content-between align-items-center mb-4">
+        <div class="x-bg-black25 Or-line"></div>
+        <div class="text-md x-black50">or</div>
+        <div class="x-bg-black25 Or-line"></div>
+      </div>
+
+      <!-- CONTINUE WITH GOOGLE -->
+      <button
+        type="button"
+        class="google-btn mb-4"
+        (click)="handleSocialAuth('google')"
+      >
+        <img src="./assets/images/auth/google icon.png" alt="google icon" />
+        <div class="text-white">Continue with Google</div>
+      </button>
+
+      <!-- CONTINUE WITH FACEBOOK -->
+      <button
+        (click)="handleSocialAuth('facebook')"
+        type="button"
+        class="facebook-btn mb-4"
+      >
+        <img src="./assets/images/auth/facebook icon.png" alt="facebook icon" />
+        <div>Continue with Facebook</div>
+      </button>
+
+      <!-- Already have an Account BUTTON-->
+      <div class="register-link">
+        <a routerLink="/auth/login"> Log In </a>
+      </div>
+    </form>
+  </div>
+</section>

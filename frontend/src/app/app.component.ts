@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 //LAYOUT
 import { HeaderComponent } from './shared/layout/header/header.component';
@@ -13,5 +13,19 @@ import { FooterComponent } from './shared/layout/footer/footer.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'jobmaster';
+  title = 'JOBMASTER';
+
+  isRoute(route: string | string[]): boolean {
+    const routes = Array.isArray(route) ? route : [route];
+
+    return routes.some((el) => {
+      if (el === '') {
+        return this.router.url.valueOf() === '/';
+      } else {
+        return this.router.url.startsWith('/' + el);
+      }
+    });
+  }
+
+  constructor(private router: Router) {}
 }

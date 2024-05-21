@@ -15,7 +15,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
 
 /* ENTITIES */
-import { User } from './entities/User.entity';
+import { User } from './entities/Users.entity';
 
 /* BCRYPT */
 import { hash, compare } from 'bcrypt';
@@ -57,12 +57,12 @@ export class AuthService {
     const hashedPassword = await hash(registerDto.password, 10);
 
     // Create and save the user
-    const user = await this.userRepository.create({
+    const users = await this.userRepository.create({
       ...registerDto,
       password: hashedPassword,
       authstatus: 'full',
     });
-    const userSave = await this.userRepository.save(user);
+    const userSave = await this.userRepository.save(users);
 
     if (userSave) {
       const { id, password: hashedPassword, ...user } = userSave;

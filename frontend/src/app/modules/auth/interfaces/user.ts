@@ -4,7 +4,7 @@ export interface User {
   lname?: string | null | undefined;
   email?: string | null | undefined;
   town?: string | null | undefined;
-  quarter?: string | null | undefined;
+  country?: string | null | undefined;
   password?: string | undefined;
   sendEmails?: boolean | undefined;
 }

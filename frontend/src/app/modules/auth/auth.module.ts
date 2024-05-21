@@ -1,30 +1,35 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-/* PRIMENG MODULES */
+/* PRIME NG MODULES */
 import { AuthRoutingModule } from './auth-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { RouterModule } from '@angular/router';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastModule } from 'primeng/toast';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 /* COMPONENT */
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
-import { ForgotpasswordComponent } from './forgot-password/forgot-password.component';
-import { ResetpasswordComponent } from './reset-password/reset-password.component';
-import { CompleteregisterComponent } from './complete-register/complete-register.component';
-import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import {
+  CompleteRegisterComponent,
+  LoginComponent,
+  RegisterComponent,
+  ResetPasswordComponent,
+  VerifyEmailComponent,
+  ForgotPasswordComponent,
+  AuthComponent,
+} from './components';
 
 @NgModule({
   declarations: [
+    AuthComponent,
+    CompleteRegisterComponent,
     LoginComponent,
     RegisterComponent,
-    ForgotpasswordComponent,
-    ResetpasswordComponent,
-    CompleteregisterComponent,
+    ResetPasswordComponent,
     VerifyEmailComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     CommonModule,
@@ -34,6 +39,7 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
     RouterModule,
     AutoCompleteModule,
     ToastModule,
+    FloatLabelModule,
   ],
 })
 export class AuthModule {}
