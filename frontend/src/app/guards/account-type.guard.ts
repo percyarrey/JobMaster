@@ -20,7 +20,7 @@ export const accountTypeGuard: CanActivateFn = (route, state) => {
         return false;
       }
       ngzone.run(() => {
-        router.navigate(['/service-provider/create-profile']);
+        router.navigate(['/employer']);
       });
 
       return false;

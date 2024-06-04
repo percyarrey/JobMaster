@@ -1,0 +1,225 @@
+<div class="tabPanels">
+  <form [formGroup]="JobForm" (submit)="submitForm()">
+    <!-- JOB INFORMATION -->
+    <div>
+      <!-- NAME -->
+      <div class="mb-5">
+        <div class="">
+          <div class="flex align-items-center gap-4">
+            <span class="x-font-roboto font-medium" style="white-space: nowrap"
+              >JOB NAME</span
+            >
+            <div class="line"></div>
+          </div>
+          <small class="text-sm x-black50"> This name is the job title </small>
+        </div>
+        <div class="input-container">
+          <p-floatLabel>
+            <input
+              type="text"
+              class="w-full"
+              id="name"
+              pInputText
+              formControlName="name"
+            />
+            <label for="name">Job Name</label>
+          </p-floatLabel>
+          @if (name.invalid && (name.dirty || name.touched)) {<small
+            class="block p-error"
+          >
+            @if (name.errors?.['required']) {<span
+              >Name should not be empty</span
+            >} @if (name.errors?.['pattern']) {
+            <span>Name should be valid</span>
+            } </small
+          >}
+        </div>
+      </div>
+      <!-- CATEGORY-->
+      <div class="mb-5">
+        <div class="">
+          <div class="flex align-items-center gap-4">
+            <span class="x-font-roboto font-medium" style="white-space: nowrap"
+              >JOB CATEGORY</span
+            >
+            <div class="line"></div>
+          </div>
+          <small class="text-sm x-black50"> Please select the Category </small>
+        </div>
+        <div class="input-container">
+          <p-dropdown
+            id="job"
+            [styleClass]="'w-full'"
+            [options]="jobs"
+            formControlName="job"
+            [filter]="true"
+            placeholder="Select a Job"
+          ></p-dropdown>
+          @if (job.invalid && (job.dirty || job.touched)) {<small
+            class="block p-error"
+          >
+            @if (job.errors?.['required']) {<span>Job should not be empty</span
+            >} @if (job.errors?.['pattern']) {
+            <span>Job should be valid</span>
+            } </small
+          >}
+        </div>
+        @if (JobForm.value.job === 'others') {
+        <div class="input-container">
+          <p-floatLabel>
+            <input
+              type="text"
+              id="others"
+              formControlName="otherJob"
+              class="w-full"
+              pInputText
+            />
+            <label for="others">Please specify</label>
+          </p-floatLabel>
+          @if (otherJob.invalid && (otherJob.dirty || otherJob.touched)) {<small
+            class="block p-error"
+          >
+            @if (otherJob.errors?.['required']) {<span
+              >Job should not be empty</span
+            >} @if (otherJob.errors?.['pattern']) {
+            <span>Job should be valid</span>
+            } </small
+          >}
+        </div>
+        }
+      </div>
+    </div>
+    <!-- CONTACT -->
+    <div class="mb-5">
+      <div class="mb-2">
+        <div class="flex align-items-center gap-4">
+          <span class="x-font-roboto font-medium" style="white-space: nowrap"
+            >SALARY RANGE</span
+          >
+          <div class="line"></div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-12 sm:col-6">
+          <label for="minCost">Minimum salary</label>
+          <div class="currency-input">
+            <span class="currency-symbol">XAF</span>
+            <input type="number" id="minCost" formControlName="minCost" />
+          </div>
+        </div>
+
+        <div class="col">
+          <label for="maxCost">Maximum salary</label>
+          <div class="currency-input">
+            <span class="currency-symbol">XAF</span>
+            <input type="number" id="maxCost" formControlName="maxCost" />
+          </div>
+        </div>
+      </div>
+      @if ((minCost.invalid && (minCost.dirty || minCost.touched))) {<small
+        class="block p-error"
+        >min cost should be valid </small
+      >} @if ( (maxCost.invalid && (maxCost.dirty ||
+      maxCost.touched))&&minCost.valid) {<small class="block p-error"
+        >max cost should be valid </small
+      >} @if (JobForm.errors?.['costMismatch'] && (maxCost.dirty ||
+      maxCost.touched)&&maxCost.valid&&minCost.valid) {
+      <small class="block p-error"
+        >Maximum cost should be greater than minimum cost.</small
+      >
+      }
+    </div>
+
+    <!-- REQUIREMENT -->
+    <div class="mb-5">
+      <div class="mb-3">
+        <div class="flex align-items-center gap-4">
+          <span class="x-font-roboto font-medium" style="white-space: nowrap"
+            >REQUIREMENT</span
+          >
+          <div class="line"></div>
+        </div>
+        <small class="text-sm x-black50">Add a requirement</small>
+      </div>
+      <div>
+        <ul style="list-style: none">
+          @for (requirement of requirements; track $index) {
+          <div class="flex justify-content-between">
+            <li>
+              <i class="pi pi-check x-primary"></i>
+              {{ requirement }}
+            </li>
+            <button
+              type="button"
+              style="all: unset"
+              (click)="requirements.splice($index, 1)"
+            >
+              <i class="pi pi-trash text-red-600"></i>
+            </button>
+          </div>
+          }
+        </ul>
+        <div>
+          <p-inputGroup>
+            <input
+              type="text"
+              pInputText
+              placeholder="Add a requirement"
+              (change)="updateReq($event)"
+            />
+            <button
+              type="button"
+              pButton
+              icon="pi pi-plus"
+              class="p-button-warning"
+              (click)="addReq()"
+            ></button>
+          </p-inputGroup>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="mb-5">
+      <div class="">
+        <div class="flex align-items-center gap-4">
+          <span class="x-font-roboto font-medium" style="white-space: nowrap">
+            DESCRIPTION
+          </span>
+          <div class="line"></div>
+        </div>
+      </div>
+      <div class="input-container">
+        <textarea
+          id="float-input"
+          rows="5"
+          style="width: 100%"
+          formControlName="description"
+          pInputTextarea
+          placeholder="Write a short description of the job..."
+        ></textarea>
+      </div>
+      @if (description.invalid && (description.dirty || description.touched))
+      {<small class="block p-error">
+        @if (description.errors?.['required']) {<span
+          >Description should not be empty</span
+        >} </small
+      >}
+    </div>
+
+    <!-- NEXT BUTTON -->
+    <div class="flex justify-content-end">
+      <button
+        type="submit"
+        class="x-bg-primary p-button px-8 border-none"
+        [disabled]="JobForm.invalid"
+        [ngClass]="{
+          ' opacity-20': JobForm.invalid
+        }"
+      >
+        Next
+      </button>
+    </div>
+  </form>
+</div>

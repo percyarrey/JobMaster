@@ -10,6 +10,7 @@ export const routes: Routes = [
     path: '',
     loadChildren: () =>
       import('./modules/client/client.module').then((m) => m.ClientModule),
+    title: 'JobMaster - Online Remote Job Portal',
   },
 
   /* AUTH */
@@ -26,16 +27,16 @@ export const routes: Routes = [
     title: 'JobMaster | Authentication',
   },
 
-  /* SERVICE PROVIDER*/
+  /* EMPLOYER*/
   {
-    path: 'service-provider',
+    path: 'employer',
     loadChildren: () =>
-      import('./modules/service-provider/service-provider.module').then(
-        (m) => m.ServiceProviderModule
+      import('./modules/employer/employer.module').then(
+        (m) => m.EmployerModule
       ),
 
-    canActivate: [authGuard],
-    title: 'JobMaster | Service Provider',
+    /* canActivate: [authGuard], */
+    title: 'JobMaster | Employers',
   },
 
   /* 404 */

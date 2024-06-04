@@ -118,7 +118,7 @@
   </div>
   <div class="mt-5 relative">
     <p-carousel
-      [value]="companies"
+      [value]="jobListing"
       [numVisible]="4"
       [numScroll]="1"
       [responsiveOptions]="responsiveOptions"
@@ -131,16 +131,16 @@
       <ng-template let-company pTemplate="item">
         <div
           class="company-item border-round-sm cursor-pointer shadow-2 x-bg-secondary flex flex-column align-items-center py-5 w-full"
-          (click)="router.navigate(['/jobdetails/' + company.id])"
+          (click)="navigateToCompany(company.company.id)"
         >
           <img
-            [src]="company.logo"
+            [src]="company.company.logo"
             alt=""
             style="width: 120px; height: 70px; object-fit: cover"
           />
-          <p class="x-black75">{{ company.name }}</p>
+          <p class="x-black75">{{ company.company.name }}</p>
           <a
-            [routerLink]="'/jobdetails/' + company.id"
+            [routerLink]="'/company/' + company.company.id"
             class="x-black75 text-sm"
             >View Company</a
           >
@@ -160,30 +160,45 @@
   </div>
   <div>
     @for (job of jobListing; track $index) {
-    <div class="grid align-items-center cursor-pointer">
+    <div
+      class="grid align-items-center cursor-pointer"
+      (click)="navigateToJob(job.job.id)"
+    >
       <div class="col-12 md:col-4">
         <div class="flex align-items-center gap-2">
-          <img [src]="job.logo" [alt]="job.name" width="60" height="60" />
+          <img
+            [src]="job.company.logo"
+            [alt]="job.job.title"
+            width="60"
+            height="60"
+          />
           <div>
-            <div class="text-xl font-semibold">{{ job.name }}</div>
-            <div class="x-black75">{{ job.company }}</div>
+            <div class="text-xl font-semibold">{{ job.job.title }}</div>
+            <div class="x-black75">{{ job.company.name }}</div>
           </div>
         </div>
       </div>
       <div class="col-12 md:col-4">
         <i class="pi pi-map-marker x-primary"></i>
         <span class="x-black75">
-          {{ job.country }} -
-          {{ job.town }}
+          {{ job.company.country }} -
+          {{ job.company.town }}
         </span>
       </div>
       <div
         class="col-12 md:col-4 flex justify-content-center md:justify-content-end"
       >
         <div
-          class="x-bg-primary text-center font-semibold text-white py-1 border-round-md w-full md:w-10rem"
+          [classList]="
+            'text-center font-semibold text-white py-1 border-round-md w-8rem ' +
+            (job.job.type == 'Full-time'
+              ? 'x-bg-primary '
+              : job.job.type == 'part-time'
+              ? 'x-bg-tertiary'
+              : 'x-bg-nursery')
+          "
         >
-          {{ job.jobType }}
+          {{ job.job.type }}
         </div>
       </div>
     </div>

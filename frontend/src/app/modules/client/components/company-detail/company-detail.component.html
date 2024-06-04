@@ -1,0 +1,72 @@
+<div
+  class="flex justify-content-center align-content-center mb-5 mt-5 gap-3 flex-wrap"
+>
+  <img [src]="company.logo" alt="Company Logo" width="120" height="100" />
+  <h1>{{ company.name }}</h1>
+</div>
+<div class="surface-0 flex justify-content-center">
+  <div class="card w-full">
+    <div class="surface-section border-round shadow-2 p-5">
+      <h2 class="mb-1">Company Background</h2>
+      <p>{{ company.background }}</p>
+
+      <h2 class="mt-4 mb-1">Services</h2>
+      <div>
+        @for (service of company.services; track $index) {
+        <div>{{ service }}</div>
+        }
+      </div>
+
+      <div class="flex justify-content-between align-items-center mt-4">
+        <div class="flex align-items-center">
+          <i class="pi pi-globe text-primary mr-2"></i>
+          <a [href]="company.website" target="_blank" class="text-primary">{{
+            company.website
+          }}</a>
+        </div>
+        <div class="flex align-items-center">
+          <i class="pi pi-calendar text-primary mr-2"></i>
+          <span>Established: {{ company.established }}</span>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <h2 class="mb-4">Available Jobs</h2>
+        <div class="grid">
+          @for (job of company.jobs; track $index) {
+          <div class="col-12">
+            <div class="card cursor-pointer" (click)="navigateToJob(job.id)">
+              <div class="mb-2 text-xl font-semibold">{{ job.title }}</div>
+              <div class="flex justify-content-between align-items-center mb-3">
+                <div
+                  [classList]="
+                    'text-center font-semibold text-white py-1 border-round-md w-8rem ' +
+                    (job.type == 'Full-time'
+                      ? 'x-bg-primary '
+                      : job.type == 'part-time'
+                      ? 'x-bg-tertiary'
+                      : 'x-bg-nursery')
+                  "
+                >
+                  {{ job.type }}
+                </div>
+                <span class="font-medium">
+                  <b>Experience:</b> {{ job.experience }} years
+                </span>
+              </div>
+              <p>{{ job.description }}</p>
+              <div class="flex justify-content-between align-items-center">
+                <span class="surface-300 text-600 px-2 py-1 border-round">
+                  Deadline: {{ job.deadline }}
+                </span>
+                <i class="pi pi-arrow-right text-primary"></i>
+              </div>
+            </div>
+            <hr style="opacity: 0.05" />
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

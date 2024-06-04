@@ -1,0 +1,29 @@
+:host ::ng-deep {
+  @media screen and (min-width: 992px) {
+    .p-ripple {
+      display: none;
+    }
+  }
+}
+
+.feature-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  .feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    i {
+      display: flex;
+      padding: 0.3rem;
+      font-size: 13px;
+      background-color: var(--p-color);
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

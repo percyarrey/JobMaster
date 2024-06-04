@@ -1,10 +1,14 @@
 <div class="app-body flex flex-column relative">
-  <div style="z-index: 1102; position: fixed; width: 100vw">
+  <div
+    [style]="
+      isRoute(['auth']) ? '' : 'z-index: 1102; position: fixed; width: 100vw'
+    "
+  >
     <app-header></app-header>
   </div>
   <!-- lg:px-6 -->
   <div
-    [classList]="isRoute(['', 'joblisting']) ? 'flex-1' : 'lg:px-6 flex-1 pb-5'"
+    [classList]="isRoute(['']) ? 'flex-1' : 'lg:px-5 flex-1 pb-5'"
     [style]="
       isRoute([''])
         ? { zIndex: 9, }

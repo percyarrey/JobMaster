@@ -1,26 +1,27 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 
-export class completeRegDto {
+export class CompleteRegDto {
   @ApiProperty({
-    example: '1234578910',
+    example: "1234578910",
     required: true,
   })
   password: string;
 
   @ApiProperty({
-    example: 'Buea',
+    example: "Buea",
     required: true,
   })
   town: string;
 
   @ApiProperty({
-    example: 'Molyko',
+    example: "Molyko",
     required: true,
+    type: "string", // Adjust this if 'country' is an object
   })
-  quarter: string;
+  country: any;
 
   @ApiProperty({
-    example: 'client',
+    example: "client",
     required: true,
   })
   accounttype: string;

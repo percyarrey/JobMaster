@@ -1,0 +1,67 @@
+<div class="job-details mt-5">
+  <div>
+    <span class="text-2xl md:text-4xl font-bold x-font-roboto">{{
+      job.job.title
+    }}</span>
+    <span
+      [classList]="
+        'text-center ml-2 font-semibold text-white border-round-md h-fit w-6rem text-sm ' +
+        (job.job.type == 'Full-time'
+          ? 'x-bg-primary '
+          : job.job.type == 'part-time'
+          ? 'x-bg-tertiary'
+          : 'x-bg-nursery')
+      "
+    >
+      {{ job.job.type }}
+    </span>
+  </div>
+  <p class="job-description">{{ job.job.description }}</p>
+
+  <div class="job-info justify-content-between flex-wrap">
+    <div class="info-item">
+      <i class="pi pi-user-plus"></i>
+      <span>{{ job.job.experience }} years of experience</span>
+    </div>
+    <div class="info-item">
+      <i class="pi pi-calendar"></i>
+      <span>Deadline: {{ job.job.deadline }}</span>
+    </div>
+  </div>
+</div>
+<hr class="p-0 m-0 my-5" style="opacity: 0.2" />
+<div
+  class="flex justify-content-between align-items-center flex-wrap row-gap-3"
+>
+  <div class="job-company-info">
+    <img [src]="job.company.logo" alt="Company Logo" />
+    <div class="company-details">
+      <h2>{{ job.company.name }}</h2>
+      <p>
+        <i class="pi pi-map-marker"></i>
+        {{ job.company.town }}, {{ job.company.country }}
+      </p>
+    </div>
+  </div>
+  <div class="flex justify-content-end w-full sm:w-fit">
+    <a [routerLink]="'/company/' + job.company.id" class="x-primary"
+      >View Company</a
+    >
+  </div>
+</div>
+<hr class="p-0 m-0 my-5" style="opacity: 0.2" />
+<div class="job-requirements">
+  <h2>Requirements:</h2>
+  <ul>
+    @for (requirement of job.job.requirements; track $index) {
+    <li>
+      <i class="pi pi-check"></i>
+      {{ requirement }}
+    </li>
+    }
+  </ul>
+</div>
+
+<div class="flex justify-content-center mt-6">
+  <p-button label="Apply Now" severity="success" styleClass="px-7"></p-button>
+</div>

@@ -200,7 +200,7 @@ export class AuthService {
           const payload = decodeToken(res.token);
           if (payload.authstatus === 'full') {
             this.ngzone.run(() => {
-              this.router?.navigate(['/service-provider']);
+              this.router?.navigate(['/employer']);
             });
           } else {
             this.ngzone.run(() => {

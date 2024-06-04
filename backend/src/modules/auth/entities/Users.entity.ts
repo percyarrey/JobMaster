@@ -4,10 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-} from 'typeorm';
+} from "typeorm";
 
 @Entity()
-export class User {
+export class Users {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,25 +24,19 @@ export class User {
   password: string;
 
   @Column()
-  town: string;
+  country: string;
 
   @Column()
-  quarter: string;
+  town: string;
 
-  @Column({ default: 'client' })
+  @Column({ default: "jobSeeker" })
   accounttype: string;
 
-  @Column({ default: 'active' })
+  @Column({ default: "active" })
   accountstatus: string;
 
-  @Column({ default: 'partial' })
+  @Column({ default: "partial" })
   authstatus: string;
-
-  @Column({ nullable: true })
-  phone_number: string;
-
-  @Column({ nullable: true })
-  whatsapp_number: string;
 
   @CreateDateColumn()
   createdAt: Date;

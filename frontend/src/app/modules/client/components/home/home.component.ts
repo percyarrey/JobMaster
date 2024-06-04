@@ -14,11 +14,6 @@ interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
 }
-interface Company {
-  id: string;
-  name: string;
-  logo: string;
-}
 interface Testimonial {
   name: string;
   service?: string;
@@ -35,7 +30,7 @@ export class HomeComponent {
     private clientService: ClientService,
     @Inject(PLATFORM_ID) private platformID: Object,
     private ngzone: NgZone,
-    public router: Router,
+    private router: Router,
     private route: ActivatedRoute
   ) {}
 
@@ -59,43 +54,19 @@ export class HomeComponent {
 
     this.serviceSuggestions = filtered;
   }
-  /* AUTO COMPLETE COUNTRY*/
-  countries: any[] | undefined;
-  countrySuggestions: any[] = [];
-
-  selectedCountry: any;
-
-  searchCountry(event: AutoCompleteCompleteEvent) {
-    let filtered: any[] = [];
-    let query = event.query;
-
-    for (let i = 0; i < (this.countries as any[]).length; i++) {
-      let country = (this.countries as any[])[i];
-      if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-        filtered.push(country);
-      }
-    }
-
-    this.countrySuggestions = filtered;
-  }
   /* SEARCH */
   searchClient() {
     const queryParams = { ...this.route.snapshot.queryParams }; // Get the existing query parameters
-    (queryParams['s'] = this.selectedService?.name
+    (queryParams['query'] = this.selectedService?.name
       ? this.selectedService.name
       : this.selectedService),
-      (queryParams['location'] = this.selectedCountry?.name
-        ? this.selectedCountry.name
-        : this.selectedCountry);
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: queryParams,
-    });
+      this.router.navigate(['/joblisting'], {
+        queryParams: queryParams,
+      });
   }
 
   ngOnInit() {
     this.services = this.clientService.getSuggestions('service');
-    this.countries = this.clientService.getSuggestions('country');
     this.responsiveOptions = [
       {
         breakpoint: '1200px',
@@ -113,37 +84,9 @@ export class HomeComponent {
         numScroll: 1,
       },
     ];
-    this.companies = [
-      {
-        id: '1',
-        name: 'Google',
-        logo: 'assets/images/client/home/electrician.png',
-      },
-      {
-        id: '2',
-        name: 'Twitter',
-        logo: 'assets/images/client/home/electronic.png',
-      },
-      {
-        id: '3',
-        name: 'Whatsapp',
-        logo: 'assets/images/client/home/mechanic.png',
-      },
-      {
-        id: '4',
-        name: 'Meta',
-        logo: 'assets/images/client/home/glazier.png',
-      },
-      {
-        id: '5',
-        name: 'Facebook',
-        logo: 'assets/images/client/home/fridge.jpg',
-      },
-    ];
   }
 
   /* CAROUSEL SECTION */
-  companies: Company[] = [];
   responsiveOptions: any[] | undefined;
   navForward: boolean = false;
 
@@ -159,71 +102,192 @@ export class HomeComponent {
   agenciesNavForward: boolean = false;
   jobListing: Job[] = [
     {
-      logo: 'assets/images/client/home/electrician.png',
-      company: 'Project Gateway',
-      country: 'United States',
-      jobType: 'Full-Time',
-      name: 'Project Writer',
-      town: 'Washington',
+      company: {
+        id: '1',
+        logo: 'assets/images/client/home/electrician.png',
+        name: 'TechMasterLimited',
+        country: 'United States',
+        town: 'San Francisco',
+      },
+      job: {
+        id: '1',
+        title: 'Software Engineer',
+        type: 'Full-time',
+        description:
+          'We are looking for a talented software engineer to join our team.',
+        experience: 3,
+        deadline: new Date('2024-06-30T00:00:00.000Z'),
+      },
     },
     {
-      logo: 'assets/images/client/home/electrician.png',
-      company: 'Eco Innovators',
-      country: 'Canada',
-      jobType: 'Part-Time',
-      name: 'Sustainability Consultant',
-      town: 'Vancouver',
+      company: {
+        id: '1',
+        logo: 'assets/images/client/home/electrician.png',
+        name: 'TechMasterLimited',
+        country: 'United States',
+        town: 'San Francisco',
+      },
+      job: {
+        id: '1',
+        title: 'Software Engineer',
+        type: 'Full-time',
+        description:
+          'We are looking for a talented software engineer to join our team.',
+        experience: 3,
+        deadline: new Date('2024-06-30T00:00:00.000Z'),
+      },
     },
     {
-      logo: 'assets/images/client/home/electrician.png',
-      company: 'Tech Solutions Inc.',
-      country: 'United Kingdom',
-      jobType: 'Full-Time',
-      name: 'Software Developer',
-      town: 'London',
+      company: {
+        id: '1',
+        logo: 'assets/images/client/home/electrician.png',
+        name: 'TechMasterLimited',
+        country: 'United States',
+        town: 'San Francisco',
+      },
+      job: {
+        id: '1',
+        title: 'Software Engineer',
+        type: 'Full-time',
+        description:
+          'We are looking for a talented software engineer to join our team.',
+        experience: 3,
+        deadline: new Date('2024-06-30T00:00:00.000Z'),
+      },
     },
     {
-      logo: 'assets/images/client/home/electrician.png',
-      company: 'HealthFirst',
-      country: 'Australia',
-      jobType: 'Contract',
-      name: 'Healthcare Analyst',
-      town: 'Sydney',
+      company: {
+        id: '1',
+        logo: 'assets/images/client/home/electrician.png',
+        name: 'TechMasterLimited',
+        country: 'United States',
+        town: 'San Francisco',
+      },
+      job: {
+        id: '1',
+        title: 'Software Engineer',
+        type: 'Full-time',
+        description:
+          'We are looking for a talented software engineer to join our team.',
+        experience: 3,
+        deadline: new Date('2024-06-30T00:00:00.000Z'),
+      },
     },
     {
-      logo: 'assets/images/client/home/electrician.png',
-      company: 'Green Energy Co.',
-      country: 'Germany',
-      jobType: 'Full-Time',
-      name: 'Renewable Energy Engineer',
-      town: 'Berlin',
+      company: {
+        id: '1',
+        logo: 'assets/images/client/home/electrician.png',
+        name: 'TechMasterLimited',
+        country: 'United States',
+        town: 'San Francisco',
+      },
+      job: {
+        id: '1',
+        title: 'Software Engineer',
+        type: 'Full-time',
+        description:
+          'We are looking for a talented software engineer to join our team.',
+        experience: 3,
+        deadline: new Date('2024-06-30T00:00:00.000Z'),
+      },
     },
     {
-      logo: 'assets/images/client/home/electrician.png',
-      company: 'EduTech',
-      country: 'India',
-      jobType: 'Remote',
-      name: 'E-learning Specialist',
-      town: 'Bangalore',
+      company: {
+        id: '1',
+        logo: 'assets/images/client/home/electrician.png',
+        name: 'TechMasterLimited',
+        country: 'United States',
+        town: 'San Francisco',
+      },
+      job: {
+        id: '1',
+        title: 'Software Engineer',
+        type: 'Full-time',
+        description:
+          'We are looking for a talented software engineer to join our team.',
+        experience: 3,
+        deadline: new Date('2024-06-30T00:00:00.000Z'),
+      },
     },
     {
-      logo: 'assets/images/client/home/electrician.png',
-      company: 'Marketing Masters',
-      country: 'France',
-      jobType: 'Full-Time',
-      name: 'Digital Marketing Manager',
-      town: 'Paris',
+      company: {
+        id: '1',
+        logo: 'assets/images/client/home/electrician.png',
+        name: 'TechMasterLimited',
+        country: 'United States',
+        town: 'San Francisco',
+      },
+      job: {
+        id: '1',
+        title: 'Software Engineer',
+        type: 'Full-time',
+        description:
+          'We are looking for a talented software engineer to join our team.',
+        experience: 3,
+        deadline: new Date('2024-06-30T00:00:00.000Z'),
+      },
+    },
+    {
+      company: {
+        id: '1',
+        logo: 'assets/images/client/home/electrician.png',
+        name: 'TechMasterLimited',
+        country: 'United States',
+        town: 'San Francisco',
+      },
+      job: {
+        id: '1',
+        title: 'Software Engineer',
+        type: 'Full-time',
+        description:
+          'We are looking for a talented software engineer to join our team.',
+        experience: 3,
+        deadline: new Date('2024-06-30T00:00:00.000Z'),
+      },
+    },
+    {
+      company: {
+        id: '1',
+        logo: 'assets/images/client/home/electrician.png',
+        name: 'TechMasterLimited',
+        country: 'United States',
+        town: 'San Francisco',
+      },
+      job: {
+        id: '1',
+        title: 'Software Engineer',
+        type: 'Full-time',
+        description:
+          'We are looking for a talented software engineer to join our team.',
+        experience: 3,
+        deadline: new Date('2024-06-30T00:00:00.000Z'),
+      },
+    },
+    {
+      company: {
+        id: '1',
+        logo: 'assets/images/client/home/electrician.png',
+        name: 'TechMasterLimited',
+        country: 'United States',
+        town: 'San Francisco',
+      },
+      job: {
+        id: '1',
+        title: 'Software Engineer',
+        type: 'Full-time',
+        description:
+          'We are looking for a talented software engineer to join our team.',
+        experience: 3,
+        deadline: new Date('2024-06-30T00:00:00.000Z'),
+      },
     },
   ];
 
-  getCountryInfo(country: any): any {
-    const result =
-      this.countries?.filter(
-        (el) => el.name.toLowerCase() === country.toLowerCase()
-      ) || [];
-    return result[0] === undefined
-      ? { name: 'Cameroon', code: '+237', symbol: 'XAF' }
-      : result[0];
+  navigateToCompany(id: string) {
+    this.router.navigate(['/company', id]);
+  }
+  navigateToJob(id: string) {
+    this.router.navigate(['/job', id]);
   }
 
   /* TESTIMONIAL CAROUSEL SECTION */

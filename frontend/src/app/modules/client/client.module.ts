@@ -10,11 +10,17 @@ import { RouterModule } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
 
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { ChipModule } from 'primeng/chip';
+import { ImageModule } from 'primeng/image';
 /* COMPONENTS */
-import { HomeComponent } from './components';
+import {
+  HomeComponent,
+  JobDetailComponent,
+  JobListingComponent,
+} from './components';
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [HomeComponent, JobListingComponent, JobDetailComponent],
   imports: [
     CommonModule,
     ClientRoutingModule,
@@ -25,6 +31,7 @@ import { HomeComponent } from './components';
     RouterModule,
     PaginatorModule,
     BreadcrumbModule,
+    ChipModule,
   ],
 })
 export class ClientModule {}

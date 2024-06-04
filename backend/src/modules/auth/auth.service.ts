@@ -1,68 +1,72 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prettier/prettier */
 import {
   HttpException,
   HttpStatus,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+} from "@nestjs/common";
 
 /* DTO */
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from "./dto/login.dto";
+import { RegisterDto } from "./dto/register.dto";
 
-import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { JwtService } from "@nestjs/jwt";
+import { InjectRepository } from "@nestjs/typeorm";
+import { ILike, Repository } from "typeorm";
 
 /* ENTITIES */
-import { User } from './entities/Users.entity';
+import { Users } from "./entities/Users.entity";
 
 /* BCRYPT */
-import { hash, compare } from 'bcrypt';
-import { completeRegDto } from './dto/completeReg.dto';
+import { hash, compare } from "bcrypt";
+import { CompleteRegDto } from "./dto/completeReg.dto";
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @InjectRepository(Users)
+    private readonly usersRepository: Repository<Users>,
     private jwtService: JwtService,
   ) {}
 
   /* REGISTER USER */
-  async create(registerDto: RegisterDto, loginDto: LoginDto) {
-    console.log(registerDto);
+  async create(registerDto: RegisterDto) {
     const nameRegex = /^[a-zA-Z0-9]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!nameRegex.test(registerDto.fname)) {
-      throw new HttpException('Invalid First Name.', HttpStatus.BAD_REQUEST);
+      throw new HttpException("Invalid First Name.", HttpStatus.BAD_REQUEST);
     }
     if (!nameRegex.test(registerDto.lname)) {
-      throw new HttpException('Invalid Last Name.', HttpStatus.BAD_REQUEST);
+      throw new HttpException("Invalid Last Name.", HttpStatus.BAD_REQUEST);
     }
 
     if (!emailRegex.test(registerDto.email)) {
-      throw new HttpException('Invalid email address.', HttpStatus.BAD_REQUEST);
+      throw new HttpException("Invalid email address.", HttpStatus.BAD_REQUEST);
     }
 
-    const existingUser: User = await this.userRepository.findOne({
+    const existingUser: Users = await this.usersRepository.findOne({
       where: { email: ILike(registerDto.email) },
     });
 
     if (existingUser) {
-      throw new HttpException('Email already in use', HttpStatus.CONFLICT);
+      throw new HttpException("Email already in use", HttpStatus.CONFLICT);
     }
 
     // Hash the password
     const hashedPassword = await hash(registerDto.password, 10);
 
     // Create and save the user
-    const users = await this.userRepository.create({
+    const user = await this.usersRepository.create({
       ...registerDto,
       password: hashedPassword,
-      authstatus: 'full',
+
+      country: registerDto.country?.name
+        ? registerDto.country?.name
+        : registerDto.country,
+      authstatus: "full",
     });
-    const userSave = await this.userRepository.save(users);
+    const userSave = await this.usersRepository.save(user);
 
     if (userSave) {
       const { id, password: hashedPassword, ...user } = userSave;
@@ -71,7 +75,7 @@ export class AuthService {
       };
     }
     throw new HttpException(
-      'Something went wrong',
+      "Something went wrong",
       HttpStatus.INTERNAL_SERVER_ERROR,
     );
   }
@@ -81,17 +85,17 @@ export class AuthService {
     const nameRegex = /^[a-zA-Z0-9]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!nameRegex.test(registerDto.fname)) {
-      throw new HttpException('Invalid First Name.', HttpStatus.BAD_REQUEST);
+      throw new HttpException("Invalid First Name.", HttpStatus.BAD_REQUEST);
     }
     if (!nameRegex.test(registerDto.lname)) {
-      throw new HttpException('Invalid Last Name.', HttpStatus.BAD_REQUEST);
+      throw new HttpException("Invalid Last Name.", HttpStatus.BAD_REQUEST);
     }
 
     if (!emailRegex.test(registerDto.email)) {
-      throw new HttpException('Invalid email address.', HttpStatus.BAD_REQUEST);
+      throw new HttpException("Invalid email address.", HttpStatus.BAD_REQUEST);
     }
 
-    const existingUser: User = await this.userRepository.findOne({
+    const existingUser: Users = await this.usersRepository.findOne({
       where: { email: ILike(registerDto.email) },
     });
 
@@ -104,13 +108,12 @@ export class AuthService {
 
     // Hash the password
     const hashedPassword = await hash(registerDto.password, 10);
-
     // Create and save the user
-    const user = await this.userRepository.create({
+    const user = await this.usersRepository.create({
       ...registerDto,
       password: hashedPassword,
     });
-    const userSave = await this.userRepository.save(user);
+    const userSave = await this.usersRepository.save(user);
 
     if (userSave) {
       const { id, password: hashedPassword, ...user } = userSave;
@@ -119,14 +122,14 @@ export class AuthService {
       };
     }
     throw new HttpException(
-      'Something went wrong',
+      "Something went wrong",
       HttpStatus.INTERNAL_SERVER_ERROR,
     );
   }
 
   /* LOGIN USER */
   async loginUser({ email, password }: LoginDto) {
-    const findUser: User = await this.userRepository.findOne({
+    const findUser: Users = await this.usersRepository.findOne({
       where: [{ email: ILike(email) }],
     });
     if (!findUser) return null;
@@ -144,29 +147,31 @@ export class AuthService {
   }
 
   /* COMPLETE REGISTERATION from facebook and google */
-  async completeReg(email: string, completeRegDto: completeRegDto) {
-    var findUser: User = await this.userRepository.findOne({
+  async completeReg(email: string, completeRegDto: CompleteRegDto) {
+    let findUser: Users = await this.usersRepository.findOne({
       where: { email: ILike(email) },
     });
 
     if (!findUser) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException("User not found");
     }
 
     const hashedPassword = await hash(completeRegDto.password, 10);
     findUser = {
       ...findUser,
       password: hashedPassword,
-      quarter: completeRegDto.quarter,
+      country: completeRegDto.country?.name
+        ? completeRegDto.country?.name
+        : completeRegDto.country,
       town: completeRegDto.town,
       accounttype: completeRegDto.accounttype,
-      authstatus: 'full',
+      authstatus: "full",
     };
     // Update the user's fields as needed
     findUser.password = hashedPassword;
     // Update other fields if necessary
 
-    const updatedUser = await this.userRepository.save(findUser);
+    const updatedUser = await this.usersRepository.save(findUser);
     return {
       token: this.jwtService.sign(updatedUser),
     };

@@ -1,8 +1,18 @@
 export interface Job {
-  logo: string;
-  company: string;
-  name: string;
-  jobType: string;
-  country: string;
-  town: string;
+  company: {
+    logo: string;
+    id: string;
+    name: string;
+    country: string;
+    town: string;
+  };
+  job: {
+    id: string;
+    title: string;
+    type: string;
+    description: string;
+    experience?: number;
+    deadline?: Date;
+    requirements?: string[];
+  };
 }

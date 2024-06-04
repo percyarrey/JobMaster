@@ -37,25 +37,23 @@
       <!-- TOWN -->
       <div class="mb-4">
         <p-floatLabel>
-          <p-autoComplete
-            field="name"
+          <input
+            type="text"
+            class="w-full"
+            id="town"
+            pInputText
             formControlName="town"
-            inputId="town"
-            [suggestions]="suggestions"
-            (completeMethod)="search($event)"
-            [inputStyle]="{
-              width: '100%'
-            }"
-            [style]="{
-              width: '100%'
-            }"
-          ></p-autoComplete>
-          <label for="town">Town</label>
+          />
+          <label for="town">Town / City</label>
         </p-floatLabel>
 
-        @if (town.invalid && (town.dirty || town.touched)) {
-        <small class="block p-error"> Town should not be empty </small>
-        }
+        @if (town.invalid && (town.dirty || town.touched)) {<small
+          class="block p-error"
+        >
+          @if (town.errors?.['required']) {<span>Town should not be empty</span
+          >} @if (town.errors?.['pattern']) {<span>Town should be valid</span
+          >} </small
+        >}
       </div>
 
       <!-- PASSWORD -->

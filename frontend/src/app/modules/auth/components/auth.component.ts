@@ -172,13 +172,14 @@ export class AuthComponent implements OnInit {
       };
       switch (error.status) {
         case 400:
-          errorMessage.message = error.message;
+          errorMessage.message = error.error.message;
           break;
         case 409:
-          errorMessage.message = error.message;
+          errorMessage.message = error.error.message;
+          errorMessage.type = 'warn';
           break;
         case 401:
-          errorMessage.message = error.message;
+          errorMessage.message = error.error.message;
           errorMessage.type = 'warn';
           break;
         case 500:
