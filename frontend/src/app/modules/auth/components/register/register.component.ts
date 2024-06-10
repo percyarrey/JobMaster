@@ -123,7 +123,7 @@ export class RegisterComponent {
   submitForm(): void {
     var finalForm = {
       ...this.RegisterForm.value,
-      accountType: this.accountType,
+      accounttype: this.accountType,
     };
     delete finalForm.confirmPassword;
     delete finalForm.termsAndConditions;

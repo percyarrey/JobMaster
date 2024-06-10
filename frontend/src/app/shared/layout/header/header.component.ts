@@ -5,6 +5,7 @@ import {
   PLATFORM_ID,
   ViewChild,
   Inject,
+  inject,
 } from '@angular/core';
 
 interface Category {
@@ -30,6 +31,9 @@ import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ClientService } from '../../../modules/client/services/client.service';
+import { User } from '../../../modules/auth/interfaces/user';
+import { Store } from '@ngrx/store';
+import { deleteCookie } from '../../utils/decodeCookie';
 
 @Component({
   selector: 'app-header',
@@ -52,11 +56,13 @@ import { ClientService } from '../../../modules/client/services/client.service';
 export class HeaderComponent implements OnInit {
   /* CHECK SCROLL */
   Scrolled: boolean = false;
+  userData: User | undefined;
   constructor(
     @Inject(PLATFORM_ID) private platformID: Object,
     private router: Router,
     private clientService: ClientService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store<{ user: User }>
   ) {
     if (isPlatformBrowser(this.platformID)) {
       this.Scrolled = window.scrollY !== 0;
@@ -64,6 +70,10 @@ export class HeaderComponent implements OnInit {
         this.Scrolled = window.scrollY !== 0;
       });
     }
+    this.store.select('user').subscribe((user) => {
+      this.userData = user;
+      console.log(user);
+    });
   }
 
   /* MENU */
@@ -74,55 +84,33 @@ export class HeaderComponent implements OnInit {
     this.country = this.clientService.getSuggestions('country');
     this.items = [
       {
-        label: 'File',
-        icon: 'pi pi-file',
+        label: 'Employer',
+        icon: 'pi  pi-briefcase',
         items: [
           {
-            label: 'New',
+            label: 'add a job',
             icon: 'pi pi-plus',
-            items: [
-              {
-                label: 'Document',
-                icon: 'pi pi-file',
-              },
-              {
-                label: 'Image',
-                icon: 'pi pi-image',
-              },
-              {
-                label: 'Video',
-                icon: 'pi pi-video',
-              },
-            ],
           },
           {
-            label: 'Open',
-            icon: 'pi pi-folder-open',
+            label: 'edit profile',
+            icon: 'pi pi-file',
           },
           {
-            label: 'Print',
-            icon: 'pi pi-print',
+            label: 'all jobs',
+            icon: 'pi pi-building ',
           },
         ],
+        visible: this.userData?.accounttype === 'employer',
       },
       {
-        label: 'Edit',
-        icon: 'pi pi-file-edit',
-        items: [
-          {
-            label: 'Copy',
-            icon: 'pi pi-copy',
-          },
-          {
-            label: 'Delete',
-            icon: 'pi pi-times',
-          },
-        ],
+        label: 'Messages',
+        icon: 'pi pi-envelope',
       },
       {
-        label: 'Search',
-        icon: 'pi pi-search',
+        label: 'Notifications',
+        icon: 'pi pi-bell',
       },
+
       {
         separator: true,
       },
@@ -149,7 +137,12 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-    this.router.navigate(['/']);
+    deleteCookie('token');
+    this.refreshPage();
+  }
+
+  refreshPage(): void {
+    window.location.reload();
   }
 
   /*  SIDEBAR */

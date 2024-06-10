@@ -26,7 +26,7 @@
       <i class="pi pi-envelope text-xl"></i> -->
 
       <!-- HOME LINKS --><!-- ELSE --><!-- USER ICON BUTTON -->
-      @if (isRoute(['','joblisting','job','company'])) {
+      @if (!userData) {
       <!-- MD LINKS -->
       <div class="gap-3 hidden md:flex">
         <a
@@ -205,16 +205,30 @@
         ></p-button>
       </div>
       }@else {
-      <div class="card flex justify-content-center align-items-center">
+      <div class="card flex justify-content-center align-items-center gap-4">
+        <i
+          [classList]="
+            'pi pi-bell text-xl cursor-pointer ' +
+            (Scrolled || !isRoute('') ? 'text-gray-500' : 'text-white')
+          "
+        ></i>
+        <i
+          [classList]="
+            'pi pi-envelope text-xl cursor-pointer ' +
+            (Scrolled || !isRoute('') ? 'text-gray-500' : 'text-white')
+          "
+        ></i>
+
         <button
           style="all: unset; display: flex; align-items: end; cursor: pointer"
           (click)="menu.toggle($event)"
         >
-          <img
-            src="./assets/images/layout/header/user icon.png"
-            height="35"
-            alt="user icon"
-          />
+          <i
+            [classList]="
+              'pi pi-user text-xl border-1 p-2 border-circle ' +
+              (Scrolled || !isRoute('') ? 'text-gray-500' : 'text-white')
+            "
+          ></i>
         </button>
         <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
       </div>

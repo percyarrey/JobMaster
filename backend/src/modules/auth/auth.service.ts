@@ -32,6 +32,7 @@ export class AuthService {
 
   /* REGISTER USER */
   async create(registerDto: RegisterDto) {
+    console.log(registerDto);
     const nameRegex = /^[a-zA-Z0-9]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!nameRegex.test(registerDto.fname)) {
@@ -69,7 +70,7 @@ export class AuthService {
     const userSave = await this.usersRepository.save(user);
 
     if (userSave) {
-      const { id, password: hashedPassword, ...user } = userSave;
+      const { id, password: hashedPassword, accountstatus, ...user } = userSave;
       return {
         token: this.jwtService.sign(user),
       };
@@ -137,7 +138,7 @@ export class AuthService {
     const passwordMatch = await compare(password, findUser.password);
 
     if (passwordMatch) {
-      const { id, password: hashedPassword, ...user } = findUser;
+      const { id, password: hashedPassword, accountstatus, ...user } = findUser;
       return {
         token: this.jwtService.sign(user),
       };

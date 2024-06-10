@@ -13,6 +13,8 @@ import decodeToken from '../../../shared/utils/decodeToken';
 /* INTERFACES */
 import { User } from '../interfaces/user';
 import { setCookie } from '../../../shared/utils/decodeCookie';
+import { Store } from '@ngrx/store';
+import { setUser } from '../../../actions/user.actions';
 
 @Component({
   selector: 'app-auth',
@@ -27,7 +29,8 @@ export class AuthComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private messageService: MessageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store<{ user: User }>
   ) {
     console.log('hello');
     this.route.url.subscribe((url: any) => {
@@ -102,8 +105,24 @@ export class AuthComponent implements OnInit {
   submitForm(action: string, data: any): any {
     switch (action) {
       case 'login':
-        this.authService.loginUser(data).subscribe((res: any) => {
-          handleSuccess(res, 'Login Successfully');
+        this.authService.loginUser(data).subscribe({
+          next: (res: any) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Login Successfully',
+            });
+            setCookie('token', res.token, 30);
+            const userData = decodeToken(res.token);
+            this.store.dispatch(setUser({ user: userData }));
+            setTimeout(() => {
+              this.router?.navigate(['/']);
+            }, 1000);
+          },
+          error(err) {
+            handleFailure(err);
+            console.error(err);
+          },
         });
         break;
       case 'register':
@@ -155,11 +174,12 @@ export class AuthComponent implements OnInit {
         detail: message,
       });
       setCookie('token', res.token, 30);
-      const token = decodeToken(res.token);
+      const userData = decodeToken(res.token);
+      this.store.dispatch(setUser({ user: userData }));
       setTimeout(() => {
         // Handle Navigation
-        if (token.accounttype === 'employer') {
-          this.router?.navigate(['/employer/getting-started']);
+        if (userData.accounttype === 'employer') {
+          this.router?.navigate(['/employer']);
         } else {
           this.router?.navigate(['/']);
         }
@@ -179,7 +199,7 @@ export class AuthComponent implements OnInit {
           errorMessage.type = 'warn';
           break;
         case 401:
-          errorMessage.message = error.error.message;
+          errorMessage.message = 'Wrong Credentials';
           errorMessage.type = 'warn';
           break;
         case 500:
