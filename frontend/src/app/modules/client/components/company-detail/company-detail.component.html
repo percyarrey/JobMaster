@@ -26,14 +26,14 @@
         </div>
         <div class="flex align-items-center">
           <i class="pi pi-calendar text-primary mr-2"></i>
-          <span>Established: {{ company.established }}</span>
+          <span>Established: {{ company.year}}</span>
         </div>
       </div>
 
       <div class="mt-4">
         <h2 class="mb-4">Available Jobs</h2>
         <div class="grid">
-          @for (job of company.jobs; track $index) {
+          <!-- @for (job of company.jobs; track $index) {
           <div class="col-12">
             <div class="card cursor-pointer" (click)="navigateToJob(job.id)">
               <div class="mb-2 text-xl font-semibold">{{ job.title }}</div>
@@ -64,7 +64,7 @@
             </div>
             <hr style="opacity: 0.05" />
           </div>
-          }
+          } -->
         </div>
       </div>
     </div>

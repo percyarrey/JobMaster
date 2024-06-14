@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,13 @@ export class ServiceProviderService {
     return results;
   }
 
+  /* GET PROFILE */
+  getProfile():Observable<any> {
+    return this.http.get<string[]>(
+      `${environment.backendUrl}companies`
+    );;
+  }
+
   /* GET SUBSCRIPTION DATA */
   getSubscriptionData(): Observable<any> {
     return this.http.get('./assets/subscriptionData.json');
@@ -32,7 +40,7 @@ export class ServiceProviderService {
 
   /* SAVE PROFILE*/
   saveProfile(data: any): Observable<any> {
-    return this.http.get<string[]>('./assets/countrySuggestionData.json');
+    return this.http.post(`${environment.backendUrl}companies`,data);
   }
 
   /* SAVE PROFILE*/

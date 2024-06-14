@@ -118,7 +118,7 @@
   </div>
   <div class="mt-5 relative">
     <p-carousel
-      [value]="jobListing"
+      [value]="companyData"
       [numVisible]="4"
       [numScroll]="1"
       [responsiveOptions]="responsiveOptions"
@@ -131,16 +131,16 @@
       <ng-template let-company pTemplate="item">
         <div
           class="company-item border-round-sm cursor-pointer shadow-2 x-bg-secondary flex flex-column align-items-center py-5 w-full"
-          (click)="navigateToCompany(company.company.id)"
+          (click)="navigateToCompany(company.name)"
         >
           <img
-            [src]="company.company.logo"
+            [src]="company.logo"
             alt=""
             style="width: 120px; height: 70px; object-fit: cover"
           />
-          <p class="x-black75">{{ company.company.name }}</p>
+          <p class="x-black75">{{ company.name }}</p>
           <a
-            [routerLink]="'/company/' + company.company.id"
+            [routerLink]="'/company/' + company.name"
             class="x-black75 text-sm"
             >View Company</a
           >

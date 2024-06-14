@@ -12,17 +12,19 @@ interface AutoCompleteCompleteEvent {
 }
 
 interface FinalForm {
+  logo: string | null | undefined;
   name?: string | null | undefined;
-  type?: string | null | undefined;
+  year?: string | null | undefined;
   phone?: string | null | undefined;
   whatsapp?: string | null | undefined;
   town?: string | null | undefined;
+  services:string[];
   country?: string | null | undefined;
-  bio?: string | null | undefined;
+  background?: string | null | undefined;
   facebook?: string | null | undefined;
   linkedIn?: string | null | undefined;
   website?: string | null | undefined;
-  photo?: string | null | undefined; // Add the 'photo' property with the appropriate type
+  
 }
 
 @Component({
@@ -53,13 +55,12 @@ export class ProfileComponent implements OnInit {
         Validators.pattern(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/),
       ],
     ],
-    date: ['', [Validators.required]],
+    year: ['', [Validators.required]],
     phone: ['', [Validators.required, Validators.pattern(/^\+?\d+$/)]],
     whatsapp: ['', [Validators.required, Validators.pattern(/^\+?\d+$/)]],
     town: ['', Validators.required],
     country: ['', Validators.required],
-    bio: '',
-
+    background: ['', Validators.required],
     facebook: '',
     linkedIn: '',
     website: '',
@@ -71,6 +72,7 @@ export class ProfileComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.countries = this.spService.getSuggestions();
+    /* this.spService.getProfile. */
   }
 
   /* READ IMAGE */
@@ -119,8 +121,8 @@ export class ProfileComponent implements OnInit {
   get name() {
     return this.ProfileForm.controls['name'];
   }
-  get date() {
-    return this.ProfileForm.controls['date'];
+  get year() {
+    return this.ProfileForm.controls['year'];
   }
   get phone() {
     return this.ProfileForm.controls['phone'];
@@ -137,23 +139,17 @@ export class ProfileComponent implements OnInit {
     return this.ProfileForm.controls['country'];
   }
 
-  get bio() {
-    return this.ProfileForm.controls['bio'];
+  get background() {
+    return this.ProfileForm.controls['background'];
   }
 
   /* SUBMIT FORM */
   submitForm() {
     var finalForm: FinalForm = {
       ...this.ProfileForm.value,
+      services:this.services,
+      logo: this.selectedImage,
     };
-
-    if (this.selectedImage) {
-      finalForm = {
-        ...finalForm,
-        photo: this.selectedImage,
-      };
-    }
-
     this.submitFormData.emit(finalForm);
   }
 }

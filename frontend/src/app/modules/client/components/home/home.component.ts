@@ -9,6 +9,7 @@ import { ClientService } from '../../services/client.service';
 import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Job } from '../../interfaces/job';
+import { homeCompany } from '../../interfaces/homecompany';
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -32,7 +33,13 @@ export class HomeComponent {
     private ngzone: NgZone,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.clientService.getCompany().subscribe({
+      next:(res=>{
+        this.companyData = [...res,...this.companyData]
+      })
+    })
+  }
 
   /* ! HERO SECTION */
   /* AUTO COMPLETE SERVICES*/
@@ -100,6 +107,56 @@ export class HomeComponent {
 
   /* jobListing CAROUSEL SECTION */
   agenciesNavForward: boolean = false;
+  companyData: homeCompany[] = [
+    {
+      background: 'https://via.placeholder.com/1920x1080',
+      country: 'United States',
+      facebook: 'https://www.facebook.com/example-company',
+      id: '1',
+      linked: '',
+      logo: 'https://via.placeholder.com/150',
+      name: 'Example Company',
+      phone: '+1 (555) 555-5555',
+      services: ['Web Development', 'Graphic Design', 'Digital Marketing'],
+      town: 'New York',
+      userId: 1,
+      website: '',
+      whatsapp: '+1 (555) 555-5555',
+      year: new Date('2015-01-01'),
+    },
+    {
+      background: 'https://via.placeholder.com/1920x1080',
+      country: 'Canada',
+      facebook: 'https://www.facebook.com/another-example-company',
+      id: '2',
+      linked: '',
+      logo: 'https://via.placeholder.com/150',
+      name: 'Another Example Company',
+      phone: '+1 (555) 555-5556',
+      services: ['Software Development', 'IT Consulting', 'Cloud Services'],
+      town: 'Toronto',
+      userId: 2,
+      website: '',
+      whatsapp: '+1 (555) 555-5556',
+      year: new Date('2010-05-01'),
+    },
+    {
+      background: 'https://via.placeholder.com/1920x1080',
+      country: 'United Kingdom',
+      facebook: 'https://www.facebook.com/third-example-company',
+      id: '3',
+      linked: '',
+      logo: 'https://via.placeholder.com/150',
+      name: 'Third Example Company',
+      phone: '+44 (0) 1234 567890',
+      services: ['Branding', 'Social Media Marketing', 'Event Planning'],
+      town: 'London',
+      userId: 3,
+      website: '',
+      whatsapp: '+44 (0) 1234 567890',
+      year: new Date('2018-09-15'),
+    },
+  ];
   jobListing: Job[] = [
     {
       company: {

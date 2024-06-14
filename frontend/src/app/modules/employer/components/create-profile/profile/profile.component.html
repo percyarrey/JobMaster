@@ -125,13 +125,13 @@
             </div>
           </div>
           <div class="input-container">
-            <p-calendar formControlName="date" styleClass="w-full" />
-            @if (date.invalid && (date.dirty || date.touched)) {<small
+            <p-calendar formControlName="year" styleClass="w-full" />
+            @if (year.invalid && (year.dirty || year.touched)) {<small
               class="block p-error"
             >
-              @if (date.errors?.['required']) {<span
+              @if (year.errors?.['required']) {<span
                 >Type should not be empty</span
-              >} @if (date.errors?.['pattern']) {
+              >} @if (year.errors?.['pattern']) {
               <span>Type should be valid</span>
               } </small
             >}
@@ -339,7 +339,7 @@
           id="float-input"
           rows="5"
           style="width: 100%"
-          formControlName="bio"
+          formControlName="background"
           pInputTextarea
           placeholder="Write a short description about your company"
         ></textarea>
@@ -400,11 +400,8 @@
     <div class="flex justify-content-end">
       <button
         type="submit"
-        class="x-bg-primary p-button px-8 border-none"
-        [disabled]="ProfileForm.invalid"
-        [ngClass]="{
-          ' opacity-20': ProfileForm.invalid
-        }"
+        [disabled]="ProfileForm.invalid && services.length<1 && !selectedImage"
+        [classList]="'x-bg-primary p-button px-8 border-none ' + (ProfileForm.valid && services.length>0 && selectedImage ? '' : 'opacity-20') "
       >
         Next
       </button>

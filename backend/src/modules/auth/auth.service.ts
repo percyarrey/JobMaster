@@ -32,7 +32,6 @@ export class AuthService {
 
   /* REGISTER USER */
   async create(registerDto: RegisterDto) {
-    console.log(registerDto);
     const nameRegex = /^[a-zA-Z0-9]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!nameRegex.test(registerDto.fname)) {

@@ -12,8 +12,8 @@ import { setCookie } from '../../../../shared/utils/decodeCookie';
   providers: [MessageService],
 })
 export class CreateProfileComponent {
-  activeIndex: number = 2;
-  step: number = 2;
+  activeIndex: number = 0;
+  step: number = 0;
   subscriptionData: any[] = [];
   constructor(
     private spService: ServiceProviderService,
@@ -30,11 +30,22 @@ export class CreateProfileComponent {
   submitForm(data: any): any {
     switch (this.activeIndex) {
       case 0:
-        /* this.spService.saveProfile(data).subscribe((res: any) => {
-          handleSuccess(res, 'Login Successfully');
-        }); */
-        this.activeIndex = 1;
-        this.step = 1;
+        this.spService.saveProfile(data).subscribe({
+          next:(res=>{
+
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Company added Succesfully',
+            });
+
+            this.activeIndex = 1;
+            this.step = 1;
+          }),
+          error:(err=>{
+            console.log(err)
+          })
+        });
         break;
       case 1:
         this.activeIndex = 2;
@@ -46,30 +57,15 @@ export class CreateProfileComponent {
       case 2:
         /* this.spService.saveService(data).subscribe((res: any) => {
           handleSuccess(res, 'Login Successfully');
+          
         }); */
+        this.router.navigate([''])
         break;
       default:
         break;
     }
 
-    /* SUBMIT UTIL FUNCTIONS */
-    const handleSuccess = (res: any, message: string) => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: message,
-      });
-      setCookie('token', res.token, 30);
-      const token = decodeToken(res.token);
-      setTimeout(() => {
-        // Handle Navigation
-        if (token.accounttype === 'serviceProvider') {
-          this.router?.navigate(['/']);
-        } else {
-          this.router?.navigate(['/']);
-        }
-      }, 1000);
-    };
+    
     const handleFailure = (error: any) => {
       let errorMessage = {
         message: 'Something went wrong',

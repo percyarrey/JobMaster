@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Company } from '../../interfaces/company';
+import { ClientService } from '../../services/client.service';
+import { homeCompany } from '../../interfaces/homecompany';
 
 @Component({
   selector: 'app-company-detail',
@@ -8,39 +9,37 @@ import { Company } from '../../interfaces/company';
   styleUrls: ['./company-detail.component.scss'],
 })
 export class CompanyDetailComponent implements OnInit {
-  company: Company = {
-    id: 'asdf',
-    name: 'Ajua Market',
-    website: 'www.ajuamarket.com',
-    established: 2021,
-    background: 'Company background',
-    services: ['Services', 'Expertise'],
-    country: 'Cameroon',
-    town: 'Remotely',
-    logo: 'assets/images/client/home/electrician.png',
-    jobs: [
-      {
-        id: '32',
-        title: 'Job Doorway Affiliate Marketer',
-        type: 'Part-time',
-        description:
-          'You work as an afilaite Marketer, recommending the services of Job Doorway to employers and employees and earn from your effort.',
-
-        experience: 2,
-        deadline: 2021,
-      },
-      {
-        id: '1',
-        title: 'Restaurant Workers',
-        type: 'Full-time',
-        description: 'Served customers within working hours',
-        experience: 2,
-        deadline: 2021,
-      },
-    ],
+  company: homeCompany = {
+    
+      background: 'https://via.placeholder.com/1920x1080',
+      country: 'United States',
+      facebook: 'https://www.facebook.com/example-company',
+      id: '1',
+      linked: '',
+      logo: 'https://via.placeholder.com/150',
+      name: 'Example Company',
+      phone: '+1 (555) 555-5555',
+      services: ['Web Development', 'Graphic Design', 'Digital Marketing'],
+      town: 'New York',
+      userId: 1,
+      website: '',
+      whatsapp: '+1 (555) 555-5555',
+      year: new Date('2015-01-01'),
+    
   };
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+
+  constructor(private route: ActivatedRoute, private router: Router, private clientService:ClientService) {
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      this.clientService.getCompanyDetails(id).subscribe({
+        next: (res) => {
+          this.company = res
+        }
+      });
+    });
+    
+  }
 
   ngOnInit() {
     // Fetch company details from the API using the 'ref' parameter in the URL

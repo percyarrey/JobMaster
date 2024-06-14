@@ -32,7 +32,6 @@ export class AuthComponent implements OnInit {
     private route: ActivatedRoute,
     private store: Store<{ user: User }>
   ) {
-    console.log('hello');
     this.route.url.subscribe((url: any) => {
       if (url[0] && url[0].path) {
         switch (url[0].path) {

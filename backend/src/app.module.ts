@@ -9,6 +9,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { CompaniesModule } from './modules/companies/companies.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { join } from 'path';
         synchronize: true,
       }),
     }),
+    CompaniesModule
   ],
   controllers: [AppController],
   providers: [AppService],

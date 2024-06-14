@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -24,5 +25,19 @@ export class ClientService {
       }
     });
     return results;
+  }
+  
+
+
+  /* GET COMPANIES*/
+  getCompany():Observable<any> {
+    return this.http.get<string[]>(
+      `${environment.backendUrl}companies`
+    );;
+  }
+  getCompanyDetails(name:string | null):Observable<any> {
+    return this.http.get<string[]>(
+      `${environment.backendUrl}companies/${name}`
+    );;
   }
 }
