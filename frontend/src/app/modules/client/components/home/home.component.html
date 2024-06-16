@@ -131,7 +131,7 @@
       <ng-template let-company pTemplate="item">
         <div
           class="company-item border-round-sm cursor-pointer shadow-2 x-bg-secondary flex flex-column align-items-center py-5 w-full"
-          (click)="navigateToCompany(company.name)"
+          (click)="navigateToCompany(company.id)"
         >
           <img
             [src]="company.logo"
@@ -140,7 +140,7 @@
           />
           <p class="x-black75">{{ company.name }}</p>
           <a
-            [routerLink]="'/company/' + company.name"
+            [routerLink]="'/company/' + company.id"
             class="x-black75 text-sm"
             >View Company</a
           >

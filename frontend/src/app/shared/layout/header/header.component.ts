@@ -72,7 +72,6 @@ export class HeaderComponent implements OnInit {
     }
     this.store.select('user').subscribe((user) => {
       this.userData = user;
-      console.log(user);
     });
   }
 
@@ -84,6 +83,18 @@ export class HeaderComponent implements OnInit {
     this.country = this.clientService.getSuggestions('country');
     this.items = [
       {
+        label:this.userData?.fname + ' ' + this.userData?.lname ,
+        disabled:true
+      },
+      {
+        label:this.userData?.email,
+        disabled:true
+      },
+      {
+        separator: true,
+      },
+      {
+        
         label: 'Employer',
         icon: 'pi  pi-briefcase',
         items: [

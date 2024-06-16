@@ -27,11 +27,11 @@ export class ServiceProviderService {
   }
 
   /* GET PROFILE */
-  getProfile():Observable<any> {
-    return this.http.get<string[]>(
-      `${environment.backendUrl}companies`
-    );;
-  }
+getProfile(id:any):Observable<any> {
+  return this.http.get<string[]>(
+    `${environment.backendUrl}companies/companyfromuser/${id}`
+  );
+}
 
   /* GET SUBSCRIPTION DATA */
   getSubscriptionData(): Observable<any> {
@@ -43,8 +43,15 @@ export class ServiceProviderService {
     return this.http.post(`${environment.backendUrl}companies`,data);
   }
 
-  /* SAVE PROFILE*/
-  saveService(data: any): Observable<any> {
-    return this.http.get<string[]>('./assets/countrySuggestionData.json');
+  /* ADD JOB*/
+  addJob(data: any): Observable<any> {
+    return this.http.post(`${environment.backendUrl}jobs`,data);
+  }
+
+  /* GET PROFILE */
+  getJob(id:any):Observable<any> {
+    return this.http.get<string[]>(
+      `${environment.backendUrl}jobs/${id}`
+    );;
   }
 }

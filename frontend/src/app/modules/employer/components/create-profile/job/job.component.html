@@ -48,23 +48,23 @@
         </div>
         <div class="input-container">
           <p-dropdown
-            id="job"
+            id="category"
             [styleClass]="'w-full'"
-            [options]="jobs"
-            formControlName="job"
+            [options]="categoryItems"
+            formControlName="category"
             [filter]="true"
             placeholder="Select a Job"
           ></p-dropdown>
-          @if (job.invalid && (job.dirty || job.touched)) {<small
+          @if (category.invalid && (category.dirty || category.touched)) {<small
             class="block p-error"
           >
-            @if (job.errors?.['required']) {<span>Job should not be empty</span
-            >} @if (job.errors?.['pattern']) {
-            <span>Job should be valid</span>
+            @if (category.errors?.['required']) {<span>Category should not be empty</span
+            >} @if (category.errors?.['pattern']) {
+            <span>Category should be valid</span>
             } </small
           >}
         </div>
-        @if (JobForm.value.job === 'others') {
+        @if (JobForm.value.category === 'others') {
         <div class="input-container">
           <p-floatLabel>
             <input
@@ -80,9 +80,9 @@
             class="block p-error"
           >
             @if (otherJob.errors?.['required']) {<span
-              >Job should not be empty</span
+              >Category should not be empty</span
             >} @if (otherJob.errors?.['pattern']) {
-            <span>Job should be valid</span>
+            <span>Category should be valid</span>
             } </small
           >}
         </div>
@@ -102,31 +102,31 @@
 
       <div class="grid">
         <div class="col-12 sm:col-6">
-          <label for="minCost">Minimum salary</label>
+          <label for="minsalary">Minimum salary</label>
           <div class="currency-input">
             <span class="currency-symbol">XAF</span>
-            <input type="number" id="minCost" formControlName="minCost" />
+            <input type="number" id="minsalary" formControlName="minsalary" />
           </div>
         </div>
 
         <div class="col">
-          <label for="maxCost">Maximum salary</label>
+          <label for="maxsalary">Maximum salary</label>
           <div class="currency-input">
             <span class="currency-symbol">XAF</span>
-            <input type="number" id="maxCost" formControlName="maxCost" />
+            <input type="number" id="maxsalary" formControlName="maxsalary" />
           </div>
         </div>
       </div>
-      @if ((minCost.invalid && (minCost.dirty || minCost.touched))) {<small
+      @if ((minsalary.invalid && (minsalary.dirty || minsalary.touched))) {<small
         class="block p-error"
-        >min cost should be valid </small
-      >} @if ( (maxCost.invalid && (maxCost.dirty ||
-      maxCost.touched))&&minCost.valid) {<small class="block p-error"
-        >max cost should be valid </small
-      >} @if (JobForm.errors?.['costMismatch'] && (maxCost.dirty ||
-      maxCost.touched)&&maxCost.valid&&minCost.valid) {
+        >min Salary should be valid </small
+      >} @if ( (maxsalary.invalid && (maxsalary.dirty ||
+      maxsalary.touched))&&minsalary.valid) {<small class="block p-error"
+        >max Salary should be valid </small
+      >} @if (JobForm.errors?.['costMismatch'] && (maxsalary.dirty ||
+      maxsalary.touched)&&maxsalary.valid&&minsalary.valid) {
       <small class="block p-error"
-        >Maximum cost should be greater than minimum cost.</small
+        >Maximum salary should be greater than minimum salary.</small
       >
       }
     </div>
@@ -213,10 +213,8 @@
       <button
         type="submit"
         class="x-bg-primary p-button px-8 border-none"
-        [disabled]="JobForm.invalid"
-        [ngClass]="{
-          ' opacity-20': JobForm.invalid
-        }"
+        [disabled]="JobForm.invalid && requirements.length<1"
+        [classList]="'x-bg-primary p-button px-8 border-none ' + (JobForm.valid && requirements.length>0 ? '' : 'opacity-20') "
       >
         Next
       </button>

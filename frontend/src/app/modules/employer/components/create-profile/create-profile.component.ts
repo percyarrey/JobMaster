@@ -3,7 +3,6 @@ import decodeToken from '../../../../shared/utils/decodeToken';
 import { ServiceProviderService } from '../../services/service-provider.service';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { setCookie } from '../../../../shared/utils/decodeCookie';
 
 @Component({
   selector: 'app-create-profile',
@@ -12,8 +11,8 @@ import { setCookie } from '../../../../shared/utils/decodeCookie';
   providers: [MessageService],
 })
 export class CreateProfileComponent {
-  activeIndex: number = 0;
-  step: number = 0;
+  activeIndex: number = localStorage.getItem('getStarted')? Number(localStorage.getItem('getStarted')):0;
+  step: number = localStorage.getItem('getStarted')? Number(localStorage.getItem('getStarted')):0;
   subscriptionData: any[] = [];
   constructor(
     private spService: ServiceProviderService,
@@ -32,7 +31,7 @@ export class CreateProfileComponent {
       case 0:
         this.spService.saveProfile(data).subscribe({
           next:(res=>{
-
+            
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
@@ -41,6 +40,7 @@ export class CreateProfileComponent {
 
             this.activeIndex = 1;
             this.step = 1;
+            localStorage.setItem('getStarted','1')
           }),
           error:(err=>{
             console.log(err)
@@ -48,18 +48,28 @@ export class CreateProfileComponent {
         });
         break;
       case 1:
-        this.activeIndex = 2;
+        /*  */
+        this.spService.addJob(data).subscribe({
+          next:res=>{
+            this.activeIndex = 2;
         this.step = 2;
-        /* this.spService.saveService(data).subscribe((res: any) => {
-          handleSuccess(res, 'Login Successfully');
-        }); */
+        localStorage.setItem('getStarted','2')
+          },
+          error:err=>{
+            console.log(err)
+          }
+        });
         break;
       case 2:
-        /* this.spService.saveService(data).subscribe((res: any) => {
-          handleSuccess(res, 'Login Successfully');
-          
-        }); */
-        this.router.navigate([''])
+        localStorage.setItem('getStarted','3')
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Profile Created Succesfully',
+        });
+        setTimeout(() => {
+          this.router.navigate(['/'])
+        }, 1000);
         break;
       default:
         break;

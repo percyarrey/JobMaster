@@ -2,13 +2,13 @@
   {
     "name": "Basic",
     "price": 0,
-    "description": "Made for a simple website or blog ",
+    "description": "Post up to five jobs for FREE ",
     "features": ["Feature 1", "Feature 2", "Feature 3"]
   },
   {
     "name": "Pro",
     "price": 1500,
-    "description": "Ideal for multiple sites needing storage, security, + backups  ",
+    "description": "Post up to 15 jobs in this plan",
     "features": [
       "Feature 1",
       "Feature 2",
@@ -20,7 +20,7 @@
   {
     "name": "Enterprise",
     "price": 5000,
-    "description": "Great for all online selling, eCommerce tools built-in ",
+    "description": "Post unlimited amount of jobs using this plan ",
     "features": [
       "Feature 1",
       "Feature 2",

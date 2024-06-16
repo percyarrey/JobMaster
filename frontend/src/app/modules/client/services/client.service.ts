@@ -35,9 +35,9 @@ export class ClientService {
       `${environment.backendUrl}companies`
     );;
   }
-  getCompanyDetails(name:string | null):Observable<any> {
+  getCompanyDetails(id:string | null):Observable<any> {
     return this.http.get<string[]>(
-      `${environment.backendUrl}companies/${name}`
+      `${environment.backendUrl}companies/${id}`
     );;
   }
 }

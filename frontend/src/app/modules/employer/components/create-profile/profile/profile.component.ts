@@ -4,6 +4,8 @@ import { ServiceProviderService } from '../../../services/service-provider.servi
 /* FORM */
 import { FormBuilder, Validators } from '@angular/forms';
 import { SelectItem } from 'primeng/api';
+import { Store } from '@ngrx/store';
+import { User } from '../../../../auth/interfaces/user';
 
 /* INTERFACES */
 interface AutoCompleteCompleteEvent {
@@ -22,7 +24,7 @@ interface FinalForm {
   country?: string | null | undefined;
   background?: string | null | undefined;
   facebook?: string | null | undefined;
-  linkedIn?: string | null | undefined;
+  linkedin?: string | null | undefined;
   website?: string | null | undefined;
   
 }
@@ -62,17 +64,36 @@ export class ProfileComponent implements OnInit {
     country: ['', Validators.required],
     background: ['', Validators.required],
     facebook: '',
-    linkedIn: '',
+    linkedin: '',
     website: '',
   });
+  yearDate: any = ''
 
   constructor(
     private spService: ServiceProviderService,
-    private formBuilder: FormBuilder
-  ) {}
-  ngOnInit(): void {
+    private formBuilder: FormBuilder,
+    private store: Store<{ user: User }>
+  ) {
     this.countries = this.spService.getSuggestions();
-    /* this.spService.getProfile. */
+    this.store.select('user').subscribe((user) => {
+      this.spService.getProfile(user.id).subscribe({
+        next:res=>{
+          if(res){
+            this.ProfileForm.patchValue(res);
+          this.selectedImage = res.logo
+          this.services = res.services
+          this.yearDate = res.year
+          }
+        },
+        error:err=>{
+          console.log(err)
+        }
+      })
+    });
+  }
+  ngOnInit(): void {
+    
+    
   }
 
   /* READ IMAGE */

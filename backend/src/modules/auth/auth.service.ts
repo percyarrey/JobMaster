@@ -69,7 +69,7 @@ export class AuthService {
     const userSave = await this.usersRepository.save(user);
 
     if (userSave) {
-      const { id, password: hashedPassword, accountstatus, ...user } = userSave;
+      const { password: hashedPassword, accountstatus, ...user } = userSave;
       return {
         token: this.jwtService.sign(user),
       };
@@ -100,7 +100,7 @@ export class AuthService {
     });
 
     if (existingUser) {
-      const { id, password: hashedPassword, ...user } = existingUser;
+      const {password: hashedPassword, ...user } = existingUser;
       return {
         token: this.jwtService.sign(user),
       };
@@ -116,7 +116,7 @@ export class AuthService {
     const userSave = await this.usersRepository.save(user);
 
     if (userSave) {
-      const { id, password: hashedPassword, ...user } = userSave;
+      const {password: hashedPassword, ...user } = userSave;
       return {
         token: this.jwtService.sign(user),
       };
@@ -137,7 +137,7 @@ export class AuthService {
     const passwordMatch = await compare(password, findUser.password);
 
     if (passwordMatch) {
-      const { id, password: hashedPassword, accountstatus, ...user } = findUser;
+      const { password: hashedPassword, accountstatus, ...user } = findUser;
       return {
         token: this.jwtService.sign(user),
       };

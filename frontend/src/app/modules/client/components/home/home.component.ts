@@ -100,7 +100,7 @@ export class HomeComponent {
   @ViewChild('carousel') carousel: any;
   @ViewChild('testimonialCarousel') testimonialCarousel: any;
   ngAfterViewInit() {
-    this.navForward = this.carousel.isForwardNavDisabled(); // Assign the result to navForward
+    /* this.navForward = this.carousel.isForwardNavDisabled(); */ // Assign the result to navForward
     this.testimonialNavForward =
       this.testimonialCarousel.isForwardNavDisabled(); // Ass
   }
@@ -139,6 +139,22 @@ export class HomeComponent {
       website: '',
       whatsapp: '+1 (555) 555-5556',
       year: new Date('2010-05-01'),
+    },
+    {
+      background: 'https://via.placeholder.com/1920x1080',
+      country: 'United Kingdom',
+      facebook: 'https://www.facebook.com/third-example-company',
+      id: '3',
+      linked: '',
+      logo: 'https://via.placeholder.com/150',
+      name: 'Third Example Company',
+      phone: '+44 (0) 1234 567890',
+      services: ['Branding', 'Social Media Marketing', 'Event Planning'],
+      town: 'London',
+      userId: 3,
+      website: '',
+      whatsapp: '+44 (0) 1234 567890',
+      year: new Date('2018-09-15'),
     },
     {
       background: 'https://via.placeholder.com/1920x1080',

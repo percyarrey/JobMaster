@@ -9,24 +9,7 @@ import { homeCompany } from '../../interfaces/homecompany';
   styleUrls: ['./company-detail.component.scss'],
 })
 export class CompanyDetailComponent implements OnInit {
-  company: homeCompany = {
-    
-      background: 'https://via.placeholder.com/1920x1080',
-      country: 'United States',
-      facebook: 'https://www.facebook.com/example-company',
-      id: '1',
-      linked: '',
-      logo: 'https://via.placeholder.com/150',
-      name: 'Example Company',
-      phone: '+1 (555) 555-5555',
-      services: ['Web Development', 'Graphic Design', 'Digital Marketing'],
-      town: 'New York',
-      userId: 1,
-      website: '',
-      whatsapp: '+1 (555) 555-5555',
-      year: new Date('2015-01-01'),
-    
-  };
+  company!: homeCompany
 
 
   constructor(private route: ActivatedRoute, private router: Router, private clientService:ClientService) {
@@ -34,7 +17,9 @@ export class CompanyDetailComponent implements OnInit {
       const id = params.get('id');
       this.clientService.getCompanyDetails(id).subscribe({
         next: (res) => {
+          if(res){
           this.company = res
+          }
         }
       });
     });

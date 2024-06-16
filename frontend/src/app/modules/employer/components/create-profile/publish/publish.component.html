@@ -29,12 +29,11 @@
           </div>
           }
           <div class="mt-auto">
-            <a
-              routerLink="/"
+            <button (click)="submitForm()"
               class="x-bg-primary p-button w-full mt-2 no-underline flex justify-content-center"
             >
-              {{ plan.price === 0 ? "Publish Service" : "Continue Payment" }}
-            </a>
+              {{ plan.price === 0 ? "Publish Job" : "Continue Payment" }}
+            </button>
           </div>
         </div>
       </div>

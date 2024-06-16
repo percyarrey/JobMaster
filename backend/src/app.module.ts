@@ -10,11 +10,14 @@ import { AuthModule } from './modules/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { CompaniesModule } from './modules/companies/companies.module';
+import { JobsModule } from './modules/jobs/jobs.module';
 
 @Module({
   imports: [
     AuthModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -29,8 +32,10 @@ import { CompaniesModule } from './modules/companies/companies.module';
         // do NOT use synchronize: true in real projects
         synchronize: true,
       }),
+      
     }),
-    CompaniesModule
+    CompaniesModule,
+    JobsModule
   ],
   controllers: [AppController],
   providers: [AppService],

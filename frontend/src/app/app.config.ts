@@ -14,5 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([tokenInterceptor])),
     provideAnimations(),
     provideStore(reducers, { metaReducers }),
+    
   ],
 };

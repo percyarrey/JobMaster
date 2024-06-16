@@ -8,50 +8,33 @@ import {
   } from "typeorm";
   
   @Entity()
-  export class Company {
+  export class Job {
     @PrimaryGeneratedColumn()
     id: number;
   
     @Column()
     userId:number;
-
-    
     
     @Column()
-    logo:string;
+    companyId:number;
+    
+    @Column()
+    name:string;
+    
+    @Column()
+    category:string;
 
     @Column()
-    name:string
+    minsalary:number;
 
     @Column()
-    year:Date;
-
-    @Column()
-    phone:string;
-
-    @Column()
-    whatsapp:string;
-
-    @Column()
-    country:string;
-
-    @Column()
-    town:string;
+    maxsalary:number;
 
     @Column({ type: 'simple-array' })
-    services: string[];
+    requirements: string[];
 
     @Column()
-    background:string;
-
-    @Column({default:''})
-    facebook:string;
-
-    @Column({default:''})
-    linkedin:string;
-
-    @Column({default:''})
-    website:string;
+    description:string;
 
     @CreateDateColumn()
     createdAt: Date;

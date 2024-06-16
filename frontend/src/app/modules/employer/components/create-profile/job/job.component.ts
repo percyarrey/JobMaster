@@ -10,6 +10,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { SelectItem } from 'primeng/api';
+import { Store } from '@ngrx/store';
+import { User } from '../../../../auth/interfaces/user';
 
 /* INTERFACES */
 interface AutoCompleteCompleteEvent {
@@ -19,17 +21,12 @@ interface AutoCompleteCompleteEvent {
 
 interface FinalForm {
   name?: string | null | undefined;
-  type?: string | null | undefined;
-  phone?: string | null | undefined;
-  whatsapp?: string | null | undefined;
-  address?: string | null | undefined;
-  country?: string | null | undefined;
-  bio?: string | null | undefined;
-  facebook?: string | null | undefined;
-  linkedIn?: string | null | undefined;
-  website?: string | null | undefined;
-  photo?: string | null | undefined; // Add the 'photo' property with the appropriate type
-  Requirements?: string[] | null | undefined;
+  otherJob?: string | null | undefined;
+  category?: string | null | undefined;
+  minsalary?: Number | null | undefined;
+  maxsalary?: Number | null | undefined;
+  requirements?: string[] | null | undefined;
+  description?: string | null | undefined;
 }
 
 @Component({
@@ -37,11 +34,10 @@ interface FinalForm {
   templateUrl: './job.component.html',
   styleUrl: './job.component.scss',
 })
-export class JobComponent implements OnInit {
+export class JobComponent{
   /* VARIABLE DECLARATION */
   newReq: string = '';
-  countries: any[] | undefined;
-  jobs: SelectItem[] = [
+  categoryItems: SelectItem[] = [
     { label: 'Software', value: 'Software' },
     { label: 'Digital assistant', value: 'Digital assistant' },
     { label: 'Social Media Marketer', value: 'Social Media Marketer' },
@@ -49,19 +45,32 @@ export class JobComponent implements OnInit {
   ];
 
   suggestions: string[] = [];
-  selectedImage: string | undefined;
 
   @Output() submitFormData = new EventEmitter<any>();
   constructor(
     private spJob: ServiceProviderService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private store: Store<{ user: User }>
+  ) {
+    this.store.select('user').subscribe((user) => {
+      this.spJob.getJob(user.id).subscribe({
+        next:res=>{
+          if(res){
+            this.JobForm.patchValue(res);
+          this.requirements = res.requirements
+          }
+        },
+        error:err=>{
+          console.log(err)
+        }
+      })
+    });}
 
   costValidator: ValidatorFn = (
     control: AbstractControl
   ): ValidationErrors | null => {
-    const minCost = control.get('minCost');
-    const maxCost = control.get('maxCost');
+    const minCost = control.get('minsalary');
+    const maxCost = control.get('maxsalary');
 
     if (!minCost || !maxCost) {
       return null;
@@ -80,60 +89,36 @@ export class JobComponent implements OnInit {
           Validators.pattern(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/),
         ],
       ],
-      job: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/),
-        ],
-      ],
-      otherJob: ['', [Validators.pattern(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/)]],
-
-      minCost: [, [Validators.required]],
-      maxCost: [, [Validators.required]],
+      category: ['', [Validators.required]],
+      otherJob: '',
+      minsalary: [, [Validators.required]],
+      maxsalary: [, [Validators.required]],
       description: ['', [Validators.required]],
     },
     { validators: this.costValidator }
   );
 
-  ngOnInit(): void {
-    this.countries = this.spJob.getSuggestions();
-  }
 
-  /* AUTO COMPLETE */
-  search(event: AutoCompleteCompleteEvent) {
-    let filtered: any[] = [];
-    let query = event.query;
-
-    for (let i = 0; i < (this.countries as any[]).length; i++) {
-      let country = (this.countries as any[])[i];
-      if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-        filtered.push(country);
-      }
-    }
-
-    this.suggestions = filtered;
-  }
 
   /* GETTER */
   get name() {
     return this.JobForm.controls['name'];
   }
-  get job() {
-    return this.JobForm.controls['job'];
+  get category() {
+    return this.JobForm.controls['category'];
   }
-  get otherJob() {
-    return this.JobForm.controls['otherJob'];
+  get minsalary() {
+    return this.JobForm.controls['minsalary'];
   }
-  get minCost() {
-    return this.JobForm.controls['minCost'];
-  }
-  get maxCost() {
-    return this.JobForm.controls['maxCost'];
+  get maxsalary() {
+    return this.JobForm.controls['maxsalary'];
   }
 
   get description() {
     return this.JobForm.controls['description'];
+  }
+  get otherJob() {
+    return this.JobForm.controls['otherJob'];
   }
 
   requirements: string[] = [];
@@ -151,21 +136,17 @@ export class JobComponent implements OnInit {
   submitForm() {
     var finalForm: FinalForm = {
       ...this.JobForm.value,
+      requirements: this.requirements,
     };
 
-    if (this.selectedImage) {
-      finalForm = {
+    if(this.JobForm.value.otherJob){
+      const {otherJob,...final} = {
         ...finalForm,
-        photo: this.selectedImage,
-      };
+        category:this.JobForm.value.otherJob
+      }
+      this.submitFormData.emit(final);
+      return
     }
-    if (this.requirements.length > 0) {
-      finalForm = {
-        ...finalForm,
-        Requirements: this.requirements,
-      };
-    }
-
     this.submitFormData.emit(finalForm);
   }
 }

@@ -11,7 +11,15 @@ export const authGuard: CanActivateFn = (route, state) => {
     map((user) => {
       if (route.routeConfig?.path === 'employer') {
         if (user && user.accounttype === 'employer') {
-          return true;
+          if(!localStorage.getItem('getStarted') || localStorage.getItem('getStarted')!=='3'){
+            return true;
+          }else{
+            ngZone.run(() => {
+              router.navigate(['/']);
+            });
+            return false;
+          }
+          
         } else {
           ngZone.run(() => {
             router.navigate(['/']);

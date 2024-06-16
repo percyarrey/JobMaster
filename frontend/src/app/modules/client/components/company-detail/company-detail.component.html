@@ -1,4 +1,5 @@
-<div
+@if (company) {
+  <div
   class="flex justify-content-center align-content-center mb-5 mt-5 gap-3 flex-wrap"
 >
   <img [src]="company.logo" alt="Company Logo" width="120" height="100" />
@@ -17,12 +18,41 @@
         }
       </div>
 
-      <div class="flex justify-content-between align-items-center mt-4">
+      <h2 class="mt-4 mb-2">Contact</h2>
+      <div class="flex justify-content-between">
         <div class="flex align-items-center">
-          <i class="pi pi-globe text-primary mr-2"></i>
-          <a [href]="company.website" target="_blank" class="text-primary">{{
-            company.website
-          }}</a>
+          <i class="pi pi-phone text-primary mr-2"></i>
+            {{company.phone}}
+        </div>
+        <div class="flex align-items-center">
+          <i class="pi pi-whatsapp text-primary mr-2"></i>
+            {{company.whatsapp}}
+        </div>
+      </div>
+      <div class="flex justify-content-between align-items-center mt-4">
+        <div class="flex flex-column gap-2">
+          <div class="flex align-items-center">
+            <i class="pi pi-globe text-primary mr-2"></i>
+            <a [href]="company.website" target="_blank" class="text-primary">{{
+              company.website
+            }}</a>
+          </div>
+          @if (company.facebook) {
+            <div class="flex align-items-center">
+              <i class="pi pi-facebook text-primary mr-2"></i>
+              <a [href]="company.facebook" target="_blank" class="text-primary">{{
+                company.facebook
+              }}</a>
+            </div>
+          }
+          @if (company.linked) {
+            <div class="flex align-items-center">
+              <i class="pi pi-linkein text-primary mr-2"></i>
+              <a [href]="company.linked" target="_blank" class="text-primary">{{
+                company.linked
+              }}</a>
+            </div>
+          }
         </div>
         <div class="flex align-items-center">
           <i class="pi pi-calendar text-primary mr-2"></i>
@@ -70,3 +100,11 @@
     </div>
   </div>
 </div>
+}@else {
+  <div class="text-center">
+    <h1>No Company Found</h1>
+  <a [href]="'/'" target="_blank" class="x-primary">
+    Return Home
+  </a>
+  </div>
+}
