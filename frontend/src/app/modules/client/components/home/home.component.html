@@ -139,9 +139,7 @@
             style="width: 120px; height: 70px; object-fit: cover"
           />
           <p class="x-black75">{{ company.name }}</p>
-          <a
-            [routerLink]="'/company/' + company.id"
-            class="x-black75 text-sm"
+          <a [routerLink]="'/company/' + company.id" class="x-black75 text-sm"
             >View Company</a
           >
         </div>
@@ -162,18 +160,18 @@
     @for (job of jobListing; track $index) {
     <div
       class="grid align-items-center cursor-pointer"
-      (click)="navigateToJob(job.job.id)"
+      (click)="navigateToJob(job.id)"
     >
       <div class="col-12 md:col-4">
         <div class="flex align-items-center gap-2">
           <img
             [src]="job.company.logo"
-            [alt]="job.job.title"
+            [alt]="job.name"
             width="60"
             height="60"
           />
           <div>
-            <div class="text-xl font-semibold">{{ job.job.title }}</div>
+            <div class="text-xl font-semibold uppercase">{{ job.name }}</div>
             <div class="x-black75">{{ job.company.name }}</div>
           </div>
         </div>
@@ -190,15 +188,11 @@
       >
         <div
           [classList]="
-            'text-center font-semibold text-white py-1 border-round-md w-8rem ' +
-            (job.job.type == 'Full-time'
-              ? 'x-bg-primary '
-              : job.job.type == 'part-time'
-              ? 'x-bg-tertiary'
-              : 'x-bg-nursery')
+            'text-center  font-semibold text-white py-1 border-round-md w-8rem ' +
+            (job.type == 'Full-time' ? 'x-bg-nursery' : 'bg-yellow-500')
           "
         >
-          {{ job.job.type }}
+          {{ job.type }}
         </div>
       </div>
     </div>

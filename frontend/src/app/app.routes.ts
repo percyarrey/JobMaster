@@ -8,7 +8,6 @@ export const routes: Routes = [
   /* HOME OR CLIENT*/
   {
     path: '',
-    canActivate: [authGuard],
     loadChildren: () =>
       import('./modules/client/client.module').then((m) => m.ClientModule),
     title: 'JobMaster - Online Remote Job Portal',
@@ -26,12 +25,11 @@ export const routes: Routes = [
   /* EMPLOYER*/
   {
     path: 'employer',
+    canActivate: [authGuard],
     loadChildren: () =>
       import('./modules/employer/employer.module').then(
         (m) => m.EmployerModule
       ),
-
-    canActivate: [authGuard],
     title: 'JobMaster | Employers',
   },
 

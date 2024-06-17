@@ -17,29 +17,10 @@ interface event {
 })
 export class JobListingComponent {
   textLength = textLength;
-  jobs: Job[] = [];
+  jobs: any = [];
   params: any = [];
   constructor(private route: ActivatedRoute, public router: Router) {
-    this.jobs = [
-      {
-        company: {
-          id: '1',
-          logo: 'assets/images/client/home/electrician.png',
-          name: 'TechMasterLimited',
-          country: 'United States',
-          town: 'San Francisco',
-        },
-        job: {
-          id: '1',
-          title: 'Software Engineer',
-          type: 'Full-time',
-          description:
-            'We are looking for a talented software engineer to join our team.',
-          experience: 3,
-          deadline: new Date('2024-06-30T00:00:00.000Z'),
-        },
-      },
-    ];
+
   }
 
   ngOnInit(): void {

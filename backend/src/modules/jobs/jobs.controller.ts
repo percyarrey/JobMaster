@@ -24,6 +24,14 @@ export class JobsController {
   findOne(@Param('id') id: string) {
     return this.jobsService.findOne(+id);
   }
+  @Get('findjob/:id')
+  findjob(@Param('id') id: string) {
+    return this.jobsService.findOne(+id);
+  }
+  @Get('findjobbycompany/:id')
+  findjobsbycompany(@Param('id') id: string) {
+    return this.jobsService.findJobsbyCompany(+id);
+  }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateJobDto: UpdateJobDto) {

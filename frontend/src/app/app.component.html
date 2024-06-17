@@ -1,7 +1,7 @@
 <div class="app-body flex flex-column relative">
   <div
     [style]="
-      isRoute(['auth']) ? '' : 'z-index: 1102; position: fixed; width: 100vw'
+      isRoute(['auth','employer']) ? '' : 'z-index: 1102; position: fixed; width: 100vw'
     "
   >
     <app-header></app-header>
@@ -10,7 +10,7 @@
   <div
     [classList]="isRoute(['']) ? 'flex-1' : 'lg:px-5 flex-1 pb-5'"
     [style]="
-      isRoute([''])
+      isRoute(['','employer'])
         ? { zIndex: 9, }
         : { zIndex: 9, marginTop: '72px' }
     "

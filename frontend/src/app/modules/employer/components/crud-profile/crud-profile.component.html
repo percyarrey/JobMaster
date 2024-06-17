@@ -1,0 +1,413 @@
+<p-toast></p-toast>
+<h1 class="text-center x-primary">Edit Company</h1>
+<div class="tabPanels">
+    <form [formGroup]="ProfileForm" (submit)="submitForm()">
+      <!-- TOP FORM -->
+      <div class="grid justify-content-between mb-5">
+        <!-- PROFILE PICTURE  -->
+        <div class="col-12 md:col-5">
+          <div class="flex align-items-center gap-4">
+            <span class="x-font-roboto font-medium" style="white-space: nowrap"
+              >COMPANY LOGO</span
+            >
+            <div class="line"></div>
+          </div>
+          <div class="flex justify-content-center align-items-center mt-3">
+            <div
+              class="flex relative align-items-center w-full justify-content-center x-bg-secondary border-round-md w-full"
+              style="height: 13rem"
+            >
+              <label for="dropzone-file" class="w-full h-full cursor-pointer">
+                @if (selectedImage) {
+                <div
+                  class="relative h-full overflow-hidden border-round-md"
+                  style="border: 1px solid rgba(128, 128, 128, 0.699)"
+                >
+                  <Img
+                    [src]="selectedImage"
+                    alt="Profile Image"
+                    class="w-full h-full"
+                    style="object-fit: contain"
+                  />
+                </div>
+                <button
+                  type="button"
+                  class="close-btn"
+                  (click)="selectedImage = undefined"
+                >
+                  <i class="pi pi-trash text-red-600"></i>
+                </button>
+                } @else{
+                <div
+                  class="flex x-black50 flex-column align-items-center justify-content-center h-full border-round-md"
+                  style="border: 1px solid rgba(128, 128, 128, 0.699)"
+                >
+                  <svg
+                    class="w-4rem"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 16"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                    />
+                  </svg>
+                  <p class="text-md font-semibold text-center mt-1">
+                    Upload
+                    <span class="text-md">a Logo <br /></span><br />
+                  </p>
+                </div>
+                }
+                <input
+                  accept="image/*"
+                  type="file"
+                  id="dropzone-file"
+                  class="hidden"
+                  (change)="onImageChange($event)"
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+  
+        <!-- USER INFORMATION -->
+        <div class="col-12 md:col-7 lg:col-6">
+          <!-- NAME -->
+          <div class="mb-5">
+            <div class="">
+              <div class="flex align-items-center gap-4">
+                <span
+                  class="x-font-roboto font-medium"
+                  style="white-space: nowrap"
+                  >NAME</span
+                >
+                <div class="line"></div>
+              </div>
+              <small class="text-sm x-black50">
+                This name is Full Name of the company
+              </small>
+            </div>
+            <div class="input-container">
+              <p-floatLabel>
+                <input
+                  type="text"
+                  class="w-full"
+                  id="name"
+                  pInputText
+                  formControlName="name"
+                />
+                <label for="name">Name</label>
+              </p-floatLabel>
+              @if (name.invalid && (name.dirty || name.touched)) {<small
+                class="block p-error"
+              >
+                @if (name.errors?.['required']) {<span
+                  >Name should not be empty</span
+                >} @if (name.errors?.['pattern']) {
+                <span>Name should be valid</span>
+                } </small
+              >}
+            </div>
+          </div>
+          <!-- ESTABLISH-->
+          <div>
+            <div class="">
+              <div class="flex align-items-center gap-4">
+                <span
+                  class="x-font-roboto font-medium"
+                  style="white-space: nowrap"
+                  >Year Established</span
+                >
+                <div class="line"></div>
+              </div>
+            </div>
+            <div class="input-container">
+              <p-calendar formControlName="year" styleClass="w-full" />
+              @if (year.invalid && (year.dirty || year.touched)) {<small
+                class="block p-error"
+              >
+                @if (year.errors?.['required']) {<span
+                  >Type should not be empty</span
+                >} @if (year.errors?.['pattern']) {
+                <span>Type should be valid</span>
+                } </small
+              >}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- CONTACT -->
+      <div class="mb-5">
+        <div class="">
+          <div class="flex align-items-center gap-4">
+            <span class="x-font-roboto font-medium" style="white-space: nowrap"
+              >CONTACT</span
+            >
+            <div class="line"></div>
+          </div>
+          <small class="text-sm x-black50">
+            Don't forget to add your country call code e.g +237xxxxxxxx
+          </small>
+        </div>
+  
+        <div class="grid grid-nogutter column-gap-3">
+          <!-- PHONE -->
+          <div class="col">
+            <div class="input-container">
+              <p-floatLabel>
+                <input
+                  id="phone"
+                  type="text"
+                  class="w-full"
+                  pInputText
+                  formControlName="phone"
+                />
+                <label for="phone">Phone Number</label>
+              </p-floatLabel>
+              @if (phone.invalid && (phone.dirty || phone.touched)) {<small
+                class="block p-error"
+              >
+                @if (phone.errors?.['required']) {<span
+                  >Phone should not be empty</span
+                >} @if (phone.errors?.['pattern']) {
+                <span>Phone number should be valid</span>
+                } </small
+              >}
+            </div>
+          </div>
+          <!-- WHATSAPP -->
+          <div class="col-12 md:col-6">
+            <div class="input-container">
+              <p-floatLabel>
+                <input
+                  id="whatsapp"
+                  type="text"
+                  class="w-full"
+                  pInputText
+                  formControlName="whatsapp"
+                />
+                <label for="whatsapp">Whatsapp Number</label>
+              </p-floatLabel>
+              @if (whatsapp.invalid && (whatsapp.dirty || whatsapp.touched))
+              {<small class="block p-error">
+                @if (whatsapp.errors?.['required']) {<span
+                  >Whatsapp should not be empty</span
+                >} @if (whatsapp.errors?.['pattern']) {
+                <span>Whatsapp should be valid</span>
+                } </small
+              >}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ADDRESS -->
+      <div class="mb-5">
+        <div class="">
+          <div class="flex align-items-center gap-4">
+            <span class="x-font-roboto font-medium" style="white-space: nowrap"
+              >ADDRESS</span
+            >
+            <div class="line"></div>
+          </div>
+        </div>
+        <div class="grid grid-nogutter column-gap-3">
+          <!-- COUNTRY -->
+          <div class="col">
+            <div class="input-container">
+              <p-floatLabel>
+                <p-autoComplete
+                  field="name"
+                  formControlName="country"
+                  [suggestions]="suggestions"
+                  [inputId]="'country'"
+                  (completeMethod)="search($event)"
+                  [inputStyle]="{
+                    width: '100%'
+                  }"
+                  [style]="{
+                    width: '100%'
+                  }"
+                ></p-autoComplete>
+                <label for="country">Country</label>
+              </p-floatLabel>
+              @if (country.invalid && (country.dirty || country.touched)) {<small
+                class="block p-error"
+              >
+                @if (country.errors?.['required']) {<span
+                  >Country should not be empty</span
+                >} </small
+              >}
+            </div>
+          </div>
+          <!-- Address -->
+          <div class="col-12 md:col-6">
+            <div class="input-container">
+              <p-floatLabel>
+                <p-autoComplete
+                  field="name"
+                  (completeMethod)="search($event)"
+                  [suggestions]="suggestions"
+                  formControlName="town"
+                  [inputId]="'town'"
+                  [inputStyle]="{
+                    width: '100%'
+                  }"
+                  [style]="{
+                    width: '100%'
+                  }"
+                ></p-autoComplete>
+                <label for="address">Address</label>
+              </p-floatLabel>
+              @if (town.invalid && (town.dirty || town.touched)) {<small
+                class="block p-error"
+              >
+                @if (town.errors?.['required']) {<span
+                  >Address should not be empty</span
+                >} </small
+              >}
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- SERVICES -->
+      <div class="mb-5">
+        <div class="mb-3">
+          <div class="flex align-items-center gap-4">
+            <span class="x-font-roboto font-medium" style="white-space: nowrap"
+              >SERVICES</span
+            >
+            <div class="line"></div>
+          </div>
+          <small class="text-sm x-black50"
+            >Add the Services which are offered by your company</small
+          >
+        </div>
+        <div>
+          <ul style="list-style: none">
+            @for (service of services; track $index) {
+            <div class="flex justify-content-between">
+              <li>
+                <i class="pi pi-check x-primary"></i>
+                {{ service }}
+              </li>
+              <button
+                type="button"
+                style="all: unset"
+                (click)="services.splice($index, 1)"
+              >
+                <i class="pi pi-trash text-red-600"></i>
+              </button>
+            </div>
+            }
+          </ul>
+          <div>
+            <p-inputGroup>
+              <input
+                type="text"
+                pInputText
+                placeholder="Add a service"
+                (change)="updateService($event)"
+              />
+              <button
+                type="button"
+                pButton
+                icon="pi pi-plus"
+                class="p-button-warning"
+                (click)="addService()"
+              ></button>
+            </p-inputGroup>
+          </div>
+        </div>
+      </div>
+  
+      <!-- ABOUT YOU -->
+      <div class="mb-5">
+        <div class="">
+          <div class="flex align-items-center gap-4">
+            <span class="x-font-roboto font-medium" style="white-space: nowrap">
+              BACKGROUND
+            </span>
+            <div class="line"></div>
+          </div>
+        </div>
+        <div class="input-container">
+          <textarea
+            id="float-input"
+            rows="5"
+            style="width: 100%"
+            formControlName="background"
+            pInputTextarea
+            placeholder="Write a short description about your company"
+          ></textarea>
+        </div>
+      </div>
+  
+      <!-- SOCIAL LINKS -->
+      <div class="mb-5">
+        <div class="">
+          <div class="flex align-items-center gap-4">
+            <span class="x-font-roboto font-medium" style="white-space: nowrap">
+              SOCIAL LINKS <span class="x-black50 text-sm">(optional)</span>
+            </span>
+            <div class="line"></div>
+          </div>
+        </div>
+        <div class="input-container">
+          <div class="p-field">
+            <label for="facebook">
+              <i class="pi pi-facebook" style="color: #3b5998"></i>
+              <span class="hidden sm:block">Facebook</span>
+            </label>
+            <input
+              type="text"
+              id="facebook"
+              class="w-full"
+              formControlName="facebook"
+            />
+          </div>
+          <div class="p-field">
+            <label for="linkedin">
+              <i class="pi pi-linkedin" style="color: #0077b5"></i>
+              <span class="hidden sm:block">linkedin</span>
+            </label>
+            <input
+              type="text"
+              class="w-full"
+              id="linkedin"
+              formControlName="linkedin"
+            />
+          </div>
+          <div class="p-field">
+            <label for="website">
+              <i class="pi pi-globe" style="color: #000000"></i>
+              <span class="hidden sm:block">Website</span>
+            </label>
+            <input
+              type="text"
+              class="w-full"
+              id="website"
+              formControlName="website"
+            />
+          </div>
+        </div>
+      </div>
+  
+      <!-- NEXT BUTTON -->
+      <div class="flex justify-content-end">
+        <button
+          type="submit"
+          [disabled]="ProfileForm.invalid && services.length<1 && !selectedImage"
+          [classList]="'x-bg-primary p-button px-8 border-none ' + (ProfileForm.valid && services.length>0 && selectedImage ? '' : 'opacity-20') "
+        >
+            Save
+        </button>
+      </div>
+    </form>
+  </div>
+  

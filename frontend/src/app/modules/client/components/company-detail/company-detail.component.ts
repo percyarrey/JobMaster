@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientService } from '../../services/client.service';
-import { homeCompany } from '../../interfaces/homecompany';
+import { Company } from '../../interfaces/company';
+import { Job } from '../../interfaces/job';
 
 @Component({
   selector: 'app-company-detail',
@@ -9,7 +10,8 @@ import { homeCompany } from '../../interfaces/homecompany';
   styleUrls: ['./company-detail.component.scss'],
 })
 export class CompanyDetailComponent implements OnInit {
-  company!: homeCompany
+  company!: Company
+  jobs!: Job[]
 
 
   constructor(private route: ActivatedRoute, private router: Router, private clientService:ClientService) {
@@ -22,6 +24,11 @@ export class CompanyDetailComponent implements OnInit {
           }
         }
       });
+      this.clientService.getJobByCompany(id).subscribe({
+        next:res=>{
+          this.jobs = res
+        }
+      })
     });
     
   }

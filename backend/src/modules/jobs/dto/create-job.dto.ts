@@ -27,11 +27,26 @@ export class CreateJobDto {
         type: [String],
         example: ["Requirement A", "Requirement B", "Requirement C"],
       })
-      requirement: string[];
+      requirements: string[];
     
       @ApiProperty({
         example: "software",
       })
       description: string;
+
+      @ApiProperty({
+        example: "full-time",
+      })
+      type: string;
+
+      @ApiProperty({
+        example: "12-123-2024",
+      })
+      deadline: Date;
+
+      @ApiProperty({
+        example: 0,
+      })
+      experience: number;
       
 }

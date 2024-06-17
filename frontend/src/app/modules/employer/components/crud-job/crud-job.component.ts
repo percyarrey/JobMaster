@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ServiceProviderService } from '../../../services/service-provider.service';
 
 /* FORM */
 import {
@@ -9,9 +8,11 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { SelectItem } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
 import { Store } from '@ngrx/store';
-import { User } from '../../../../auth/interfaces/user';
+import { User } from '../../../auth/interfaces/user';
+import { ServiceProviderService } from '../../services/service-provider.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 /* INTERFACES */
 interface AutoCompleteCompleteEvent {
@@ -33,11 +34,12 @@ interface FinalForm {
 }
 
 @Component({
-  selector: 'app-job',
-  templateUrl: './job.component.html',
-  styleUrl: './job.component.scss',
+  selector: 'app-crud-job',
+  templateUrl: './crud-job.component.html',
+  styleUrl: './crud-job.component.scss',
+  providers: [MessageService],
 })
-export class JobComponent{
+export class CrudJobComponent {
   /* VARIABLE DECLARATION */
   newReq: string = '';
   categoryItems: SelectItem[] = [
@@ -48,35 +50,35 @@ export class JobComponent{
   ];
 
   suggestions: string[] = [];
+  jobId: string | null = '';
 
   @Output() submitFormData = new EventEmitter<any>();
   constructor(
     private spJob: ServiceProviderService,
     private formBuilder: FormBuilder,
-    private store: Store<{ user: User }>
+    private store: Store<{ user: User }>,
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+    private router: Router
   ) {
-    this.store.select('user').subscribe((user) => {
-      this.spJob.getJob(user.id).subscribe({
-        next:res=>{
-          if(res){
-            const result = this.categoryItems.find(e => res.category === e.value);
-            if(!result){
-              res.otherJob = res.category
-              res.category = 'others'
+    this.jobId = this.route.snapshot.paramMap.get('id');
+
+    if (this.jobId) {
+      this.store.select('user').subscribe((user) => {
+        this.spJob.getJob(user.id).subscribe({
+          next: (res) => {
+            if (res) {
+              this.JobForm.patchValue(res);
+              this.requirements = res.requirements;
             }
-            if(res.experience ===0){
-              delete res.experience
-            }
-            console.log(res)
-            this.JobForm.patchValue(res);
-          this.requirements = res.requirements
-          }
-        },
-        error:err=>{
-          console.log(err)
-        }
-      })
-    });}
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+      });
+    }
+  }
 
   costValidator: ValidatorFn = (
     control: AbstractControl
@@ -112,8 +114,6 @@ export class JobComponent{
     },
     { validators: this.costValidator }
   );
-
-
 
   /* GETTER */
   get name() {
@@ -161,16 +161,39 @@ export class JobComponent{
     var finalForm: FinalForm = {
       ...this.JobForm.value,
       requirements: this.requirements,
-      experience:this.JobForm.value.experience?this.JobForm.value.experience:0
     };
-    if(this.JobForm.value.otherJob){
-      const {otherJob,...final} = {
+
+    if (this.JobForm.value.otherJob) {
+      finalForm = {
         ...finalForm,
-        category:this.JobForm.value.otherJob
-      }
-      this.submitFormData.emit(final);
-      return
+        category: this.JobForm.value.otherJob,
+        experience: this.JobForm.value.experience
+          ? this.JobForm.value.experience
+          : 0,
+      };
     }
-    this.submitFormData.emit(finalForm);
+    delete finalForm.otherJob;
+    this.spJob.addJob(finalForm).subscribe({
+      next: (res) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: this.jobId
+            ? 'Job Edited Succesfully'
+            : 'Job added Succesfully',
+        });
+        setTimeout(() => {
+          this.router.navigate(['/job/', res.id]);
+        }, 1500);
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'error',
+          detail: 'Something went wrong',
+        });
+        console.log(err);
+      },
+    });
   }
 }

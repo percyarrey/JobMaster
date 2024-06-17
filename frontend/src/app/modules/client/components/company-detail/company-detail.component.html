@@ -1,110 +1,129 @@
 @if (company) {
-  <div
-  class="flex justify-content-center align-content-center mb-5 mt-5 gap-3 flex-wrap"
+<div
+  class="flex flex-column justify-content-center align-items-center align-content-center mb-5 mt-5 gap-3 flex-wrap x-bg-nursery py-5"
 >
   <img [src]="company.logo" alt="Company Logo" width="120" height="100" />
-  <h1>{{ company.name }}</h1>
+  <h1 class="uppercase text-white">{{ company.name }}</h1>
 </div>
 <div class="surface-0 flex justify-content-center">
   <div class="card w-full">
     <div class="surface-section border-round shadow-2 p-5">
-      <h2 class="mb-1">Company Background</h2>
+      <div class="mb-1 text-xl font-semibold uppercase">Background</div>
       <p>{{ company.background }}</p>
-
-      <h2 class="mt-4 mb-1">Services</h2>
+      <div class="flex justify-content-end">
+        <div class="flex align-items-center">
+          <i class="pi pi-calendar text-primary mr-2"></i>
+          <span>Established: {{ company.year }}</span>
+        </div>
+      </div>
+      <div class="mb-1 text-xl font-semibold uppercase">Services</div>
       <div>
         @for (service of company.services; track $index) {
         <div>{{ service }}</div>
         }
       </div>
 
-      <h2 class="mt-4 mb-2">Contact</h2>
+      <div class="mb-1 text-xl mt-3 font-semibold uppercase">Contact</div>
       <div class="flex justify-content-between">
         <div class="flex align-items-center">
           <i class="pi pi-phone text-primary mr-2"></i>
-            {{company.phone}}
+          {{ company.phone }}
         </div>
         <div class="flex align-items-center">
           <i class="pi pi-whatsapp text-primary mr-2"></i>
-            {{company.whatsapp}}
+          {{ company.whatsapp }}
         </div>
       </div>
-      <div class="flex justify-content-between align-items-center mt-4">
-        <div class="flex flex-column gap-2">
-          <div class="flex align-items-center">
-            <i class="pi pi-globe text-primary mr-2"></i>
-            <a [href]="company.website" target="_blank" class="text-primary">{{
-              company.website
-            }}</a>
-          </div>
-          @if (company.facebook) {
-            <div class="flex align-items-center">
-              <i class="pi pi-facebook text-primary mr-2"></i>
-              <a [href]="company.facebook" target="_blank" class="text-primary">{{
-                company.facebook
-              }}</a>
-            </div>
-          }
-          @if (company.linked) {
-            <div class="flex align-items-center">
-              <i class="pi pi-linkein text-primary mr-2"></i>
-              <a [href]="company.linked" target="_blank" class="text-primary">{{
-                company.linked
-              }}</a>
-            </div>
-          }
-        </div>
+      <div class="flex flex-column gap-3">
         <div class="flex align-items-center">
-          <i class="pi pi-calendar text-primary mr-2"></i>
-          <span>Established: {{ company.year}}</span>
+          <i class="pi pi-globe text-primary mr-2"></i>
+          <a [href]="company.website" target="_blank" class="text-primary">{{
+            company.website
+          }}</a>
         </div>
+        @if (company.facebook) {
+        <div class="flex align-items-center">
+          <i class="pi pi-facebook text-primary mr-2"></i>
+          <a [href]="company.facebook" target="_blank" class="text-primary">{{
+            company.facebook
+          }}</a>
+        </div>
+        } @if (company.linked) {
+        <div class="flex align-items-center">
+          <i class="pi pi-linkein text-primary mr-2"></i>
+          <a [href]="company.linked" target="_blank" class="text-primary">{{
+            company.linked
+          }}</a>
+        </div>
+        }
       </div>
 
       <div class="mt-4">
         <h2 class="mb-4">Available Jobs</h2>
         <div class="grid">
-          <!-- @for (job of company.jobs; track $index) {
+          @for (job of jobs; track $index) {
           <div class="col-12">
-            <div class="card cursor-pointer" (click)="navigateToJob(job.id)">
-              <div class="mb-2 text-xl font-semibold">{{ job.title }}</div>
-              <div class="flex justify-content-between align-items-center mb-3">
-                <div
-                  [classList]="
-                    'text-center font-semibold text-white py-1 border-round-md w-8rem ' +
-                    (job.type == 'Full-time'
-                      ? 'x-bg-primary '
-                      : job.type == 'part-time'
-                      ? 'x-bg-tertiary'
-                      : 'x-bg-nursery')
-                  "
-                >
-                  {{ job.type }}
+            <div
+              class="card cursor-pointer x-bg-secondary p-4 rounded-md"
+              (click)="navigateToJob(job.id)"
+            >
+              <div class="flex gap-2">
+                <img
+                  [src]="company.logo"
+                  alt="Company Logo"
+                  width="120"
+                  height="100"
+                />
+                <div class="flex justify-content-between flex-1">
+                  <div>
+                    <div class="mb-2 text-xl font-semibold uppercase">
+                      {{ job.name }}
+                    </div>
+                    <div
+                      [classList]="
+                        'text-center  font-semibold text-white py-1 border-round-md w-8rem ' +
+                        (job.type == 'Full-time'
+                          ? 'x-bg-nursery'
+                          : 'bg-yellow-500')
+                      "
+                    >
+                      {{ job.type }}
+                    </div>
+                    <p>{{ job.description }}</p>
+                  </div>
+                  <div>
+                    @if(job.experience){
+                    <div class="font-medium">
+                      <b>Experience:</b> {{ job.experience }} years
+                    </div>
+                    }
+                    <div class="x-secondary text-600 border-round">
+                      Deadline: {{ job.deadline }}
+                    </div>
+                  </div>
                 </div>
-                <span class="font-medium">
-                  <b>Experience:</b> {{ job.experience }} years
-                </span>
               </div>
-              <p>{{ job.description }}</p>
-              <div class="flex justify-content-between align-items-center">
-                <span class="surface-300 text-600 px-2 py-1 border-round">
-                  Deadline: {{ job.deadline }}
-                </span>
-                <i class="pi pi-arrow-right text-primary"></i>
+
+              <div class="flex justify-content-end">
+                <p-button
+                  severity="success"
+                  [outlined]="true"
+                  icon="pi pi-arrow-right"
+                  label="View Details"
+                ></p-button>
               </div>
             </div>
             <hr style="opacity: 0.05" />
           </div>
-          } -->
+          }
         </div>
       </div>
     </div>
   </div>
 </div>
 }@else {
-  <div class="text-center">
-    <h1>No Company Found</h1>
-  <a [href]="'/'" target="_blank" class="x-primary">
-    Return Home
-  </a>
-  </div>
+<div class="text-center">
+  <h1>No Company Found</h1>
+  <a [href]="'/'" target="_blank" class="x-primary"> Return Home </a>
+</div>
 }

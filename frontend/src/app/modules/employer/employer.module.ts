@@ -26,6 +26,8 @@ import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
 import { CalendarModule } from 'primeng/calendar';
 import { InputGroupModule } from 'primeng/inputgroup';
+import { CrudJobComponent } from './components/crud-job/crud-job.component';
+import { CrudProfileComponent } from './components/crud-profile/crud-profile.component';
 @NgModule({
   declarations: [
     /* CREATE PROFILE COMPONENTS*/
@@ -33,6 +35,8 @@ import { InputGroupModule } from 'primeng/inputgroup';
     ProfileComponent,
     JobComponent,
     PublishComponent,
+    CrudJobComponent,
+    CrudProfileComponent
   ],
   imports: [
     CalendarModule,

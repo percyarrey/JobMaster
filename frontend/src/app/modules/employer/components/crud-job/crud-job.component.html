@@ -1,4 +1,7 @@
-<div class="tabPanels">
+<p-toast></p-toast>
+<h1 class="mt-5 text-center x-primary">{{ jobId ? 'Edit' : 'Add'}} Job</h1>
+
+<div class="tabPanels mt-5">
   <form [formGroup]="JobForm" (submit)="submitForm()">
     <!-- JOB INFORMATION -->
     <div>
@@ -285,8 +288,8 @@
         [disabled]="JobForm.invalid && requirements.length<1"
         [classList]="'x-bg-primary p-button px-8 border-none ' + (JobForm.valid && requirements.length>0 ? '' : 'opacity-20') "
       >
-        Next
+        Save
       </button>
     </div>
   </form>
-</div>
+  </div>

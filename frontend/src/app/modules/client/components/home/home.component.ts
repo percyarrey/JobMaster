@@ -9,7 +9,7 @@ import { ClientService } from '../../services/client.service';
 import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Job } from '../../interfaces/job';
-import { homeCompany } from '../../interfaces/homecompany';
+import { Company } from '../../interfaces/company';
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -37,6 +37,12 @@ export class HomeComponent {
     this.clientService.getCompany().subscribe({
       next:(res=>{
         this.companyData = [...res,...this.companyData]
+      })
+    })
+    this.clientService.getJobs().subscribe({
+      next:(res=>{
+        console.log(res)
+        this.jobListing = [...res]
       })
     })
   }
@@ -107,7 +113,7 @@ export class HomeComponent {
 
   /* jobListing CAROUSEL SECTION */
   agenciesNavForward: boolean = false;
-  companyData: homeCompany[] = [
+  companyData: Company[] = [
     {
       background: 'https://via.placeholder.com/1920x1080',
       country: 'United States',
@@ -173,188 +179,7 @@ export class HomeComponent {
       year: new Date('2018-09-15'),
     },
   ];
-  jobListing: Job[] = [
-    {
-      company: {
-        id: '1',
-        logo: 'assets/images/client/home/electrician.png',
-        name: 'TechMasterLimited',
-        country: 'United States',
-        town: 'San Francisco',
-      },
-      job: {
-        id: '1',
-        title: 'Software Engineer',
-        type: 'Full-time',
-        description:
-          'We are looking for a talented software engineer to join our team.',
-        experience: 3,
-        deadline: new Date('2024-06-30T00:00:00.000Z'),
-      },
-    },
-    {
-      company: {
-        id: '1',
-        logo: 'assets/images/client/home/electrician.png',
-        name: 'TechMasterLimited',
-        country: 'United States',
-        town: 'San Francisco',
-      },
-      job: {
-        id: '1',
-        title: 'Software Engineer',
-        type: 'Full-time',
-        description:
-          'We are looking for a talented software engineer to join our team.',
-        experience: 3,
-        deadline: new Date('2024-06-30T00:00:00.000Z'),
-      },
-    },
-    {
-      company: {
-        id: '1',
-        logo: 'assets/images/client/home/electrician.png',
-        name: 'TechMasterLimited',
-        country: 'United States',
-        town: 'San Francisco',
-      },
-      job: {
-        id: '1',
-        title: 'Software Engineer',
-        type: 'Full-time',
-        description:
-          'We are looking for a talented software engineer to join our team.',
-        experience: 3,
-        deadline: new Date('2024-06-30T00:00:00.000Z'),
-      },
-    },
-    {
-      company: {
-        id: '1',
-        logo: 'assets/images/client/home/electrician.png',
-        name: 'TechMasterLimited',
-        country: 'United States',
-        town: 'San Francisco',
-      },
-      job: {
-        id: '1',
-        title: 'Software Engineer',
-        type: 'Full-time',
-        description:
-          'We are looking for a talented software engineer to join our team.',
-        experience: 3,
-        deadline: new Date('2024-06-30T00:00:00.000Z'),
-      },
-    },
-    {
-      company: {
-        id: '1',
-        logo: 'assets/images/client/home/electrician.png',
-        name: 'TechMasterLimited',
-        country: 'United States',
-        town: 'San Francisco',
-      },
-      job: {
-        id: '1',
-        title: 'Software Engineer',
-        type: 'Full-time',
-        description:
-          'We are looking for a talented software engineer to join our team.',
-        experience: 3,
-        deadline: new Date('2024-06-30T00:00:00.000Z'),
-      },
-    },
-    {
-      company: {
-        id: '1',
-        logo: 'assets/images/client/home/electrician.png',
-        name: 'TechMasterLimited',
-        country: 'United States',
-        town: 'San Francisco',
-      },
-      job: {
-        id: '1',
-        title: 'Software Engineer',
-        type: 'Full-time',
-        description:
-          'We are looking for a talented software engineer to join our team.',
-        experience: 3,
-        deadline: new Date('2024-06-30T00:00:00.000Z'),
-      },
-    },
-    {
-      company: {
-        id: '1',
-        logo: 'assets/images/client/home/electrician.png',
-        name: 'TechMasterLimited',
-        country: 'United States',
-        town: 'San Francisco',
-      },
-      job: {
-        id: '1',
-        title: 'Software Engineer',
-        type: 'Full-time',
-        description:
-          'We are looking for a talented software engineer to join our team.',
-        experience: 3,
-        deadline: new Date('2024-06-30T00:00:00.000Z'),
-      },
-    },
-    {
-      company: {
-        id: '1',
-        logo: 'assets/images/client/home/electrician.png',
-        name: 'TechMasterLimited',
-        country: 'United States',
-        town: 'San Francisco',
-      },
-      job: {
-        id: '1',
-        title: 'Software Engineer',
-        type: 'Full-time',
-        description:
-          'We are looking for a talented software engineer to join our team.',
-        experience: 3,
-        deadline: new Date('2024-06-30T00:00:00.000Z'),
-      },
-    },
-    {
-      company: {
-        id: '1',
-        logo: 'assets/images/client/home/electrician.png',
-        name: 'TechMasterLimited',
-        country: 'United States',
-        town: 'San Francisco',
-      },
-      job: {
-        id: '1',
-        title: 'Software Engineer',
-        type: 'Full-time',
-        description:
-          'We are looking for a talented software engineer to join our team.',
-        experience: 3,
-        deadline: new Date('2024-06-30T00:00:00.000Z'),
-      },
-    },
-    {
-      company: {
-        id: '1',
-        logo: 'assets/images/client/home/electrician.png',
-        name: 'TechMasterLimited',
-        country: 'United States',
-        town: 'San Francisco',
-      },
-      job: {
-        id: '1',
-        title: 'Software Engineer',
-        type: 'Full-time',
-        description:
-          'We are looking for a talented software engineer to join our team.',
-        experience: 3,
-        deadline: new Date('2024-06-30T00:00:00.000Z'),
-      },
-    },
-  ];
+  jobListing!: Job[] 
 
   navigateToCompany(id: string) {
     this.router.navigate(['/company', id]);

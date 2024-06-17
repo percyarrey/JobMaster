@@ -83,32 +83,40 @@ export class HeaderComponent implements OnInit {
     this.country = this.clientService.getSuggestions('country');
     this.items = [
       {
-        label:this.userData?.fname + ' ' + this.userData?.lname ,
-        disabled:true
+        label: this.userData?.fname + ' ' + this.userData?.lname,
+        disabled: true,
       },
       {
-        label:this.userData?.email,
-        disabled:true
+        label: this.userData?.email,
+        disabled: true,
       },
       {
         separator: true,
       },
       {
-        
         label: 'Employer',
         icon: 'pi  pi-briefcase',
         items: [
           {
             label: 'add a job',
             icon: 'pi pi-plus',
+            command: (event) => {
+              this.router.navigate(['employer/addjob']);
+            },
           },
           {
             label: 'edit profile',
             icon: 'pi pi-file',
+            command: (event) => {
+              this.router.navigate(['employer/editprofile']);
+            },
           },
           {
             label: 'all jobs',
             icon: 'pi pi-building ',
+            command: (event) => {
+              /* this.router.navigate(['/company/', res.id]); */
+            },
           },
         ],
         visible: this.userData?.accounttype === 'employer',

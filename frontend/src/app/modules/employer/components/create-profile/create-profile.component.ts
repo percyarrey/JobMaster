@@ -43,6 +43,11 @@ export class CreateProfileComponent {
             localStorage.setItem('getStarted','1')
           }),
           error:(err=>{
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Something went wrong',
+            });
             console.log(err)
           })
         });
@@ -52,10 +57,15 @@ export class CreateProfileComponent {
         this.spService.addJob(data).subscribe({
           next:res=>{
             this.activeIndex = 2;
-        this.step = 2;
-        localStorage.setItem('getStarted','2')
+          this.step = 2;
+          localStorage.setItem('getStarted','2')
           },
           error:err=>{
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Something went wrong',
+            });
             console.log(err)
           }
         });

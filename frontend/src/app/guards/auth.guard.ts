@@ -1,5 +1,5 @@
 import { inject, NgZone } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { ActivatedRoute, CanActivateFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
 
@@ -9,7 +9,8 @@ export const authGuard: CanActivateFn = (route, state) => {
   const store = inject(Store);
   return store.select('user').pipe(
     map((user) => {
-      if (route.routeConfig?.path === 'employer') {
+      if (route.parent?.url[0]?.path && route.parent?.url[0]?.path === 'employer') {
+        
         if (user && user.accounttype === 'employer') {
           if(!localStorage.getItem('getStarted') || localStorage.getItem('getStarted')!=='3'){
             return true;
@@ -40,8 +41,13 @@ export const authGuard: CanActivateFn = (route, state) => {
         }
         // Allow access to the route
         return true;
-      } else {
+      } else if(route.routeConfig?.path === 'auth') {
         return true; // Deny access to the route
+      } else{
+        ngZone.run(() => {
+          router.navigate(['/']);
+        });
+        return false;
       }
     }),
     take(1)

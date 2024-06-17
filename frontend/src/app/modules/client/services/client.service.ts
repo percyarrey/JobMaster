@@ -40,4 +40,22 @@ export class ClientService {
       `${environment.backendUrl}companies/${id}`
     );;
   }
+  /* GET JOBS*/
+  getJobs():Observable<any> {
+    return this.http.get<string[]>(
+      `${environment.backendUrl}jobs`
+    );;
+  }
+  /* JOBS DETAILS */
+  getJobDetails(id:string | null):Observable<any> {
+    return this.http.get<string[]>(
+      `${environment.backendUrl}jobs/findjob/${id}`
+    );;
+  }
+  /* JOBS DETAILS */
+  getJobByCompany(id:string | null):Observable<any> {
+    return this.http.get<string[]>(
+      `${environment.backendUrl}jobs/findjobbycompany/${id}`
+    );;
+  }
 }

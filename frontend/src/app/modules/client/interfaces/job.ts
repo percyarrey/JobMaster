@@ -1,18 +1,30 @@
 export interface Job {
+  id: string;
+  category: string;
+  companyId: Number;
+  description: string;
+  maxsalary: Number;
+  minsalary: Number;
+  logo: string;
+  name: string;
+  requirements: string[];
+  type: string;
+  experience: Number;
+  deadline: Date;
   company: {
-    logo: string;
-    id: string;
-    name: string;
+    background: string;
     country: string;
-    town: string;
-  };
-  job: {
+    facebook: string;
     id: string;
-    title: string;
-    type: string;
-    description: string;
-    experience?: number;
-    deadline?: Date;
-    requirements?: string[];
+    linked: '';
+    logo: string;
+    name: string;
+    phone: string;
+    services: string[];
+    town: string;
+    userId: Number;
+    website: '';
+    whatsapp: string;
+    year: Date;
   };
 }

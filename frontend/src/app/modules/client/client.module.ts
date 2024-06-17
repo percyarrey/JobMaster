@@ -14,13 +14,14 @@ import { ChipModule } from 'primeng/chip';
 import { ImageModule } from 'primeng/image';
 /* COMPONENTS */
 import {
+  CompanyDetailComponent,
   HomeComponent,
   JobDetailComponent,
   JobListingComponent,
 } from './components';
 
 @NgModule({
-  declarations: [HomeComponent, JobListingComponent, JobDetailComponent],
+  declarations: [HomeComponent, JobListingComponent, JobDetailComponent,CompanyDetailComponent],
   imports: [
     CommonModule,
     ClientRoutingModule,
@@ -32,6 +33,7 @@ import {
     PaginatorModule,
     BreadcrumbModule,
     ChipModule,
+    ButtonModule
   ],
 })
 export class ClientModule {}

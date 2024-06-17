@@ -1,20 +1,17 @@
 export interface Company {
-  logo: string;
-  id: string;
-  website: string;
-  established: number;
-  background: string;
-  services: string[];
-  name: string;
-  country: string;
-  town: string;
-  jobs: {
-    id: string;
-    title: string;
-    type: string;
-    description: string;
-    experience?: number;
-    deadline?: number | Date;
-    requirements?: string[];
-  }[];
+  background:string;
+  country:string
+  facebook:string;
+  id:string;
+  linked:"";
+  logo:string;
+  name:string;
+  phone:string;
+  services:string[];
+  town:string;
+  userId:Number;
+  website:"";
+  whatsapp:string;
+  year:Date;
+
 }
