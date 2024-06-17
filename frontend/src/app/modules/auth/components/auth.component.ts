@@ -115,7 +115,7 @@ export class AuthComponent implements OnInit {
             const userData = decodeToken(res.token);
             this.store.dispatch(setUser({ user: userData }));
             setTimeout(() => {
-              this.router?.navigate(['/']);
+              window.location.reload();
             }, 1000);
           },
           error(err) {
@@ -180,7 +180,7 @@ export class AuthComponent implements OnInit {
         if (userData.accounttype === 'employer') {
           this.router?.navigate(['/employer']);
         } else {
-          this.router?.navigate(['/']);
+          window.location.reload();
         }
       }, 1000);
     };

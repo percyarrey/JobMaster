@@ -36,7 +36,7 @@ import { CrudProfileComponent } from './components/crud-profile/crud-profile.com
     JobComponent,
     PublishComponent,
     CrudJobComponent,
-    CrudProfileComponent
+    CrudProfileComponent,
   ],
   imports: [
     CalendarModule,

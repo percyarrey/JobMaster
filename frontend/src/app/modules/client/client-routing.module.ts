@@ -8,6 +8,7 @@ import {
   JobDetailComponent,
   JobListingComponent,
 } from './components';
+import { ApplySuccessComponent } from './components/apply-success/apply-success.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: 'company/:id',
     component: CompanyDetailComponent,
+  },
+  {
+    path: 'success',
+    component: ApplySuccessComponent,
   },
 ];
 

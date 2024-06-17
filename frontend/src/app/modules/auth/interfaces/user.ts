@@ -1,8 +1,9 @@
 export interface User {
-  id:number;
+  id: number;
+  companyId?: Number;
   accounttype: string;
-  fname?: string |undefined;
-  lname?: string  | undefined;
+  fname?: string | undefined;
+  lname?: string | undefined;
   email?: string | undefined;
   town?: string | null | undefined;
   country?: string | undefined;

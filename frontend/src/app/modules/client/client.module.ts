@@ -11,7 +11,6 @@ import { PaginatorModule } from 'primeng/paginator';
 
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ChipModule } from 'primeng/chip';
-import { ImageModule } from 'primeng/image';
 /* COMPONENTS */
 import {
   CompanyDetailComponent,
@@ -19,9 +18,18 @@ import {
   JobDetailComponent,
   JobListingComponent,
 } from './components';
+import { ToastModule } from 'primeng/toast';
+import { ApplySuccessComponent } from './components/apply-success/apply-success.component';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
-  declarations: [HomeComponent, JobListingComponent, JobDetailComponent,CompanyDetailComponent],
+  declarations: [
+    HomeComponent,
+    JobListingComponent,
+    JobDetailComponent,
+    CompanyDetailComponent,
+    ApplySuccessComponent,
+  ],
   imports: [
     CommonModule,
     ClientRoutingModule,
@@ -33,7 +41,10 @@ import {
     PaginatorModule,
     BreadcrumbModule,
     ChipModule,
-    ButtonModule
+    ButtonModule,
+    ToastModule,
+    ButtonModule,
+    RippleModule,
   ],
 })
 export class ClientModule {}

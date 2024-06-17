@@ -10,27 +10,29 @@ import { Job } from '../../interfaces/job';
   styleUrls: ['./company-detail.component.scss'],
 })
 export class CompanyDetailComponent implements OnInit {
-  company!: Company
-  jobs!: Job[]
+  company!: Company;
+  jobs!: Job[];
 
-
-  constructor(private route: ActivatedRoute, private router: Router, private clientService:ClientService) {
-    this.route.paramMap.subscribe(params => {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private clientService: ClientService
+  ) {
+    this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       this.clientService.getCompanyDetails(id).subscribe({
         next: (res) => {
-          if(res){
-          this.company = res
+          if (res) {
+            this.company = res;
           }
-        }
+        },
       });
       this.clientService.getJobByCompany(id).subscribe({
-        next:res=>{
-          this.jobs = res
-        }
-      })
+        next: (res) => {
+          this.jobs = res;
+        },
+      });
     });
-    
   }
 
   ngOnInit() {
@@ -39,7 +41,7 @@ export class CompanyDetailComponent implements OnInit {
     // Replace this with your actual API call
   }
 
-  navigateToJob(id: string) {
+  navigateToJob(id: Number) {
     this.router.navigate(['/job', id]);
   }
 }

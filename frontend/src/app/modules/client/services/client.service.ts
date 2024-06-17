@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -26,36 +26,52 @@ export class ClientService {
     });
     return results;
   }
-  
-
 
   /* GET COMPANIES*/
-  getCompany():Observable<any> {
-    return this.http.get<string[]>(
-      `${environment.backendUrl}companies`
-    );;
+  getCompany(): Observable<any> {
+    return this.http.get<string[]>(`${environment.backendUrl}companies`);
   }
-  getCompanyDetails(id:string | null):Observable<any> {
-    return this.http.get<string[]>(
-      `${environment.backendUrl}companies/${id}`
-    );;
+  getCompanyDetails(id: string | null): Observable<any> {
+    return this.http.get<string[]>(`${environment.backendUrl}companies/${id}`);
   }
   /* GET JOBS*/
-  getJobs():Observable<any> {
-    return this.http.get<string[]>(
-      `${environment.backendUrl}jobs`
-    );;
+  getJobs(
+    query: string,
+    first: number,
+    items: number,
+    country: string
+  ): Observable<any> {
+    let params = new HttpParams();
+    if (query) {
+      params = params.set('query', query);
+    }
+    if (first) {
+      params = params.set('first', first.toString());
+    }
+    if (items) {
+      params = params.set('items', items.toString());
+    }
+    if (country) {
+      params = params.set('country', country);
+    }
+
+    return this.http.get<any[]>(`${environment.backendUrl}jobs`, { params });
   }
   /* JOBS DETAILS */
-  getJobDetails(id:string | null):Observable<any> {
+  getJobDetails(id: string | null): Observable<any> {
     return this.http.get<string[]>(
       `${environment.backendUrl}jobs/findjob/${id}`
-    );;
+    );
   }
   /* JOBS DETAILS */
-  getJobByCompany(id:string | null):Observable<any> {
+  getJobByCompany(id: string | null): Observable<any> {
     return this.http.get<string[]>(
       `${environment.backendUrl}jobs/findjobbycompany/${id}`
-    );;
+    );
+  }
+
+  /* DELETE JOB */
+  deleteJob(id: Number) {
+    return this.http.delete(`${environment.backendUrl}jobs/${id}`);
   }
 }

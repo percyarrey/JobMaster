@@ -1,20 +1,18 @@
-<div class="job-details mt-5">
-  <div>
+<p-toast></p-toast>
+@if (job) {
+<div class="job-details mt-5 px-2">
+  <div class="flex gap-3 align-items-center justify-content-between flex-wrap">
     <span class="text-2xl md:text-4xl font-bold x-font-roboto">{{
       job.name
     }}</span>
-    <span
+    <div
       [classList]="
-        'text-center ml-2 font-semibold text-white border-round-md h-fit w-6rem text-sm ' +
-        (job.type == 'Full-time'
-          ? 'x-bg-primary '
-          : job.type== 'part-time'
-          ? 'x-bg-tertiary'
-          : 'x-bg-nursery')
+        'text-center font-semibold text-white py-1 border-round-md w-8rem  h-fit ' +
+        (job.type == 'Full-time' ? 'x-bg-nursery' : 'bg-yellow-500')
       "
     >
       {{ job.type }}
-    </span>
+    </div>
   </div>
   <p class="job-description">{{ job.description }}</p>
 
@@ -26,6 +24,13 @@
     <div class="info-item">
       <i class="pi pi-calendar"></i>
       <span>Deadline: {{ job.deadline }}</span>
+    </div>
+    <div class="info-item">
+      <i class="pi pi-money-bill"></i>
+      <span
+        >Salary Range: {{ job.minsalary.toString() | currency : "XAF" }} -
+        {{ job.maxsalary.toString() | currency : "XAF" }}</span
+      >
     </div>
   </div>
 </div>
@@ -62,6 +67,35 @@
   </ul>
 </div>
 
-<div class="flex justify-content-center mt-6">
-  <p-button label="Apply Now" severity="success" styleClass="px-7"></p-button>
+@if (job.companyId === userData?.companyId) {
+<div class="flex justify-content-between mt-6">
+  <p-button
+    label="Delete"
+    severity="danger"
+    (onClick)="handleDelete()"
+    [outlined]="true"
+    styleClass="px-7"
+  ></p-button>
+  <p-button
+    label="Edit Job"
+    severity="info"
+    (onClick)="handleEdit()"
+    styleClass="px-7"
+  ></p-button>
 </div>
+}@else {
+<div class="flex justify-content-center mt-6">
+  <p-button
+    label="Apply Now"
+    (onClick)="handleApply()"
+    severity="success"
+    styleClass="px-7"
+  ></p-button>
+</div>
+
+} }@else {
+<div class="text-center">
+  <h1>No Job Found</h1>
+  <a [href]="'/'" target="_blank" class="x-primary"> Return Home </a>
+</div>
+}

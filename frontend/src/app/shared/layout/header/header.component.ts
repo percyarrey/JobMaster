@@ -223,13 +223,10 @@ export class HeaderComponent implements OnInit {
   searchClient() {
     this.searchVisible = false;
     const queryParams = { ...this.route.snapshot.queryParams }; // Get the existing query parameters
-    (queryParams['s'] = this.selectedService?.name
+    queryParams['query'] = this.selectedService?.name
       ? this.selectedService.name
-      : this.selectedService),
-      (queryParams['location'] = this.selectedCountry?.name
-        ? this.selectedCountry.name
-        : this.selectedCountry);
-    this.router.navigate([], {
+      : this.selectedService;
+    this.router.navigate(['/joblisting'], {
       relativeTo: this.route,
       queryParams: queryParams,
     });

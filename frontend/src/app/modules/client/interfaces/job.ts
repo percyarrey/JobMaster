@@ -1,5 +1,6 @@
 export interface Job {
-  id: string;
+  id: Number;
+  userId?: Number;
   category: string;
   companyId: Number;
   description: string;

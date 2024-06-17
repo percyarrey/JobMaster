@@ -183,12 +183,14 @@ export class CrudProfileComponent {
     };
     this.spService.saveProfile(finalForm).subscribe({
       next: (res) => {
-        this.router.navigate(['/company/', res.id]);
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: 'Company Infor Updated Succesfully',
         });
+        setTimeout(() => {
+          this.router.navigate(['/company/', res.id]);
+        }, 1500);
       },
       error: (err) => {
         this.messageService.add({

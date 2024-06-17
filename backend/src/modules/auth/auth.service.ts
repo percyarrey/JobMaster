@@ -21,12 +21,15 @@ import { Users } from "./entities/Users.entity";
 /* BCRYPT */
 import { hash, compare } from "bcrypt";
 import { CompleteRegDto } from "./dto/completeReg.dto";
+import { Company } from "../companies/entities/company.entity";
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(Users)
     private readonly usersRepository: Repository<Users>,
+    @InjectRepository(Company)
+    private readonly companyRepository: Repository<Company>,
     private jwtService: JwtService,
   ) {}
 
@@ -70,8 +73,16 @@ export class AuthService {
 
     if (userSave) {
       const { password: hashedPassword, accountstatus, ...user } = userSave;
+      const company = await this.companyRepository.findOne({
+        where: { userId: user.id },
+      });
+      if (company) {
+        return {
+          token: this.jwtService.sign({ ...user, companyId: company.id }),
+        };
+      }
       return {
-        token: this.jwtService.sign(user),
+        token: this.jwtService.sign({ ...user }),
       };
     }
     throw new HttpException(
@@ -100,7 +111,7 @@ export class AuthService {
     });
 
     if (existingUser) {
-      const {password: hashedPassword, ...user } = existingUser;
+      const { password: hashedPassword, ...user } = existingUser;
       return {
         token: this.jwtService.sign(user),
       };
@@ -116,7 +127,7 @@ export class AuthService {
     const userSave = await this.usersRepository.save(user);
 
     if (userSave) {
-      const {password: hashedPassword, ...user } = userSave;
+      const { password: hashedPassword, ...user } = userSave;
       return {
         token: this.jwtService.sign(user),
       };
@@ -138,8 +149,16 @@ export class AuthService {
 
     if (passwordMatch) {
       const { password: hashedPassword, accountstatus, ...user } = findUser;
+      const company = await this.companyRepository.findOne({
+        where: { userId: user.id },
+      });
+      if (company) {
+        return {
+          token: this.jwtService.sign({ ...user, companyId: company.id }),
+        };
+      }
       return {
-        token: this.jwtService.sign(user),
+        token: this.jwtService.sign({ ...user }),
       };
     }
 
@@ -172,8 +191,16 @@ export class AuthService {
     // Update other fields if necessary
 
     const updatedUser = await this.usersRepository.save(findUser);
+    const company = await this.companyRepository.findOne({
+      where: { userId: updatedUser.id },
+    });
+    if (company) {
+      return {
+        token: this.jwtService.sign({ ...updatedUser, companyId: company.id }),
+      };
+    }
     return {
-      token: this.jwtService.sign(updatedUser),
+      token: this.jwtService.sign({ ...updatedUser }),
     };
   }
 }

@@ -53,8 +53,31 @@ export class JobsService {
     return this.jobRepository.save(job);
   }
 
-  async findAll() {
-    const jobs = await this.jobRepository.find({});
+  async findAll(
+    query: string,
+    first: number,
+    items: number,
+    country: string,
+  ): Promise<{ data: any[]; totalRecords: number }> {
+    const queryBuilder = this.jobRepository.createQueryBuilder("job");
+
+    if (query) {
+      queryBuilder.where(
+        `LOWER(job.name) LIKE LOWER(:query) OR LOWER(job.description) LIKE LOWER(:query)`,
+        { query: `%${query.toLowerCase()}%` },
+      );
+    }
+
+    const totalCount = await queryBuilder.getCount();
+
+    if (first && items) {
+      queryBuilder.take(items).skip((first - 1) * items);
+    }
+
+    queryBuilder.orderBy("job.createdAt", "DESC");
+
+    const jobs = await queryBuilder.getMany();
+
     const jobsWithCompany = await Promise.all(
       jobs.map(async (job) => {
         const company = await this.companyRepository.findOne({
@@ -63,7 +86,16 @@ export class JobsService {
         return { ...job, company };
       }),
     );
-    return jobsWithCompany;
+
+    let filteredJobs = jobsWithCompany;
+
+    if (country) {
+      filteredJobs = jobsWithCompany.filter(
+        (job) => job.company.country === country,
+      );
+    }
+
+    return { data: filteredJobs, totalRecords: totalCount };
   }
 
   async findOne(id: number) {
@@ -83,15 +115,29 @@ export class JobsService {
     return null;
   }
 
-  async findJob(id: number) {
-    return await this.jobRepository.findOne({
+  async getJobDetails(id: number) {
+    const job = await this.jobRepository.findOne({
       where: {
         id,
       },
     });
+    if (job) {
+      const company = await this.companyRepository.findOne({
+        where: {
+          id: job.companyId,
+        },
+      });
+      if (company) {
+        return {
+          ...job,
+          company: company,
+        };
+      }
+    }
+    return null;
   }
 
-  async findJobsbyCompany(id: number) {
+  async findJobsByCompany(id: number) {
     return await this.jobRepository.find({
       where: {
         companyId: id,
@@ -103,7 +149,7 @@ export class JobsService {
     return `This action updates a #${id} job`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} job`;
+  async remove(id: number) {
+    return await this.jobRepository.delete(id);
   }
 }

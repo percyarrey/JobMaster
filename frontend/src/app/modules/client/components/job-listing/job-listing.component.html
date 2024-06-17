@@ -11,7 +11,7 @@
           }}</span
         >
       </div>
-      <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5">
+      <div class="flex gap-2">
         <div class="form-group form-lg">
           <select
             class="form-control"
@@ -555,6 +555,9 @@
             <option value="Zimbabwe">Zimbabwe</option>
           </select>
         </div>
+        <div>
+          <a routerLink="/joblisting" class="x-primary">Clear filter</a>
+        </div>
       </div>
     </div>
   </div>
@@ -566,7 +569,7 @@
       <div class="md:flex gap-3 flex-wrap">
         <img
           [src]="job.company.logo"
-          [alt]="job.job.title"
+          [alt]="job.name"
           width="120"
           height="70"
           style="object-fit: cover"
@@ -574,7 +577,7 @@
         <div class="flex-1">
           <div class="grid row-gap-1">
             <div class="col-12 sm:col-7 md:col-8 x-black75">
-              <div class="text-xl font-bold">{{ job.job.title }}</div>
+              <div class="text-xl font-bold">{{ job.name }}</div>
               <div class="flex align-items-center gap-2">
                 at
                 <span
@@ -584,18 +587,14 @@
                 >
                 <div
                   [classList]="
-                    'text-center font-semibold text-white py-1 border-round-md w-8rem ' +
-                    (job.job.type == 'Full-time'
-                      ? 'x-bg-primary '
-                      : job.job.type == 'part-time'
-                      ? 'x-bg-tertiary'
-                      : 'x-bg-nursery')
+                    'text-center font-semibold text-white py-1 border-round-md w-8rem  h-fit ' +
+                    (job.type == 'Full-time' ? 'x-bg-nursery' : 'bg-yellow-500')
                   "
                 >
-                  {{ job.job.type }}
+                  {{ job.type }}
                 </div>
               </div>
-              {{ job.job.description }}
+              {{ job.description }}
             </div>
             <div class="col-12 sm:col-5 md:col-4 x-black75">
               <div>
@@ -607,18 +606,18 @@
               </div>
               <div>
                 <span class="font-semibold">Experience:</span>
-                {{ job.job.experience }}
+                {{ job.experience }}
               </div>
               <div>
                 <span class="font-semibold">Deadline:</span>
-                {{ job.job.deadline?.getFullYear() }}
+                {{ job.deadline }}
               </div>
             </div>
           </div>
           <div class="grid row-gap-1">
             <div class="col-12 sm:col-7 md:col-8">
               <p-chip
-                [label]="job.job.title"
+                [label]="job.name"
                 icon="pi pi-tag"
                 class="job-label ml-2"
               ></p-chip>
@@ -627,7 +626,7 @@
               <p-button
                 severity="success"
                 type="link"
-                [routerLink]="'/job/' + job.job.id"
+                [routerLink]="'/job/' + job.id"
                 styleClass="font-medium"
                 >See this Job</p-button
               >

@@ -35,16 +35,15 @@ export class HomeComponent {
     private route: ActivatedRoute
   ) {
     this.clientService.getCompany().subscribe({
-      next:(res=>{
-        this.companyData = [...res,...this.companyData]
-      })
-    })
-    this.clientService.getJobs().subscribe({
-      next:(res=>{
-        console.log(res)
-        this.jobListing = [...res]
-      })
-    })
+      next: (res) => {
+        this.companyData = [...res, ...this.companyData];
+      },
+    });
+    this.clientService.getJobs('', 0, 10, '').subscribe({
+      next: (res) => {
+        this.jobListing = [...res];
+      },
+    });
   }
 
   /* ! HERO SECTION */
@@ -179,12 +178,12 @@ export class HomeComponent {
       year: new Date('2018-09-15'),
     },
   ];
-  jobListing!: Job[] 
+  jobListing!: Job[];
 
   navigateToCompany(id: string) {
     this.router.navigate(['/company', id]);
   }
-  navigateToJob(id: string) {
+  navigateToJob(id: Number) {
     this.router.navigate(['/job', id]);
   }
 
