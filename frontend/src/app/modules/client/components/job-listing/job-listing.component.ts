@@ -38,6 +38,39 @@ export class JobListingComponent {
           next: (res) => {
             this.jobs = res.data;
             this.totalRecords = res.totalRecords;
+            if (res.data.length < this.items) {
+              (async () => {
+                await fetch(
+                  `https://remotive.com/api/remote-jobs?${
+                    params['query'] ? 'search=' + params['query'] + '&' : ''
+                  }limit=${this.items - res.data.length}`
+                ).then(async (res: any) => {
+                  const jobs = await res.json();
+
+                  jobs.jobs.forEach((job: any) => {
+                    const externalJob: any = {
+                      category: job.category,
+                      description: job.description,
+                      id: job.id,
+                      deadline: job.publication_date,
+                      maxsalary: job.salary,
+                      name: job.title,
+                      requirements: job.tags,
+                      type: job.job_type,
+                      url: job.url,
+                      company: {
+                        name: job.company_name,
+                        logo: job.company_logo,
+                        background: job.description,
+                        country: job.candidate_required_location,
+                        town: '',
+                      },
+                    };
+                    this.jobs.push(externalJob);
+                  });
+                });
+              })();
+            }
           },
           error: (err) => {
             console.log(err);
@@ -48,7 +81,7 @@ export class JobListingComponent {
 
   /* PAGINATOR */
 
-  first: number = 0;
+  first: number = 1;
 
   items: number = 8;
 
@@ -61,12 +94,23 @@ export class JobListingComponent {
   ];
 
   onPageChange(event: event) {
-    this.first = event.first || 0;
+    this.first = event.first || 1;
     this.items = event.rows || 8;
-    console.log(event.rows);
     const queryParams = { ...this.route.snapshot.queryParams }; // Get the existing query parameters
     queryParams['first'] = event.first;
     queryParams['items'] = event.rows;
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: queryParams,
+    });
+  }
+
+  handleItemsChange() {
+    this.first = 1;
+    const queryParams = { ...this.route.snapshot.queryParams }; // Get the existing query parameters
+    queryParams['first'] = this.first;
+    queryParams['items'] = this.items;
 
     this.router.navigate([], {
       relativeTo: this.route,
@@ -92,10 +136,12 @@ export class JobListingComponent {
     'official',
   ];
 
-  navigateToCompany(id: string) {
-    this.router.navigate(['/company', id]);
-  }
-  navigateToJob(id: string) {
-    this.router.navigate(['/job', id]);
+  navigateToJob(path: string) {
+    window.open(
+      path,
+      path.slice(0, 4) === '/job' || path.slice(0, 4) === '/com'
+        ? '_parent'
+        : '_blank'
+    );
   }
 }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -8,6 +8,7 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root',
 })
 export class ClientService {
+  private remoteJobsUrl = 'https://remotive.com/api/remote-jobs';
   constructor(private http: HttpClient, private router: Router) {}
 
   /* GET SUGGESTION */

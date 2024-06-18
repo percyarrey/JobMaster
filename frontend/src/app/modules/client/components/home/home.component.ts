@@ -41,7 +41,39 @@ export class HomeComponent {
     });
     this.clientService.getJobs('', 0, 10, '').subscribe({
       next: (res) => {
-        this.jobListing = [...res];
+        this.jobListing = [...res.data];
+        if (res.data.length < 10) {
+          (async () => {
+            await fetch(
+              `https://remotive.com/api/remote-jobs?limit=${
+                10 - res.data.length
+              }`
+            ).then(async (res: any) => {
+              const jobs = await res.json();
+
+              jobs.jobs.forEach((job: any) => {
+                const externalJob: any = {
+                  category: job.category,
+                  description: job.description,
+                  id: job.id,
+                  deadline: job.publication_date,
+                  maxsalary: job.salary,
+                  name: job.title,
+                  requirements: job.tags,
+                  type: job.job_type,
+                  url: job.url,
+                  company: {
+                    logo: job.company_logo,
+                    background: job.description,
+                    country: job.candidate_required_location,
+                    town: '',
+                  },
+                };
+                this.jobListing.push(externalJob);
+              });
+            });
+          })();
+        }
       },
     });
   }
@@ -183,8 +215,9 @@ export class HomeComponent {
   navigateToCompany(id: string) {
     this.router.navigate(['/company', id]);
   }
-  navigateToJob(id: Number) {
-    this.router.navigate(['/job', id]);
+  navigateToJob(path: string) {
+    console.log(path.slice(0, 4));
+    window.open(path, path.slice(0, 4) === '/job' ? '_parent' : '_blank');
   }
 
   /* TESTIMONIAL CAROUSEL SECTION */

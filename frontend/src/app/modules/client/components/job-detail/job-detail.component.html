@@ -7,8 +7,12 @@
     }}</span>
     <div
       [classList]="
-        'text-center font-semibold text-white py-1 border-round-md w-8rem  h-fit ' +
-        (job.type == 'Full-time' ? 'x-bg-nursery' : 'bg-yellow-500')
+        'text-center font-semibold text-white py-1 border-round-md w-8rem  h-fit capitalize  ' +
+        (job.type.toLowerCase() == 'full-time'
+          ? 'x-bg-nursery'
+          : job.type.toLowerCase() == 'part-time'
+          ? 'bg-yellow-500'
+          : 'x-bg-tertiary')
       "
     >
       {{ job.type }}

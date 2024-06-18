@@ -25,7 +25,7 @@
             [suggestions]="serviceSuggestions"
             (completeMethod)="searchJob($event)"
             field="name"
-            placeholder="Job title, Keyword, or company..."
+            placeholder="Job title, Keyword"
             [inputStyle]="{
               width: '100%',
               height:'100%',
@@ -160,7 +160,7 @@
     @for (job of jobListing; track $index) {
     <div
       class="grid align-items-center cursor-pointer"
-      (click)="navigateToJob(job.id)"
+      (click)="navigateToJob(job.url ? job.url : '/job/' + job.id)"
     >
       <div class="col-12 md:col-4">
         <div class="flex align-items-center gap-2">
@@ -179,8 +179,8 @@
       <div class="col-12 md:col-4">
         <i class="pi pi-map-marker x-primary"></i>
         <span class="x-black75">
-          {{ job.company.country }} -
-          {{ job.company.town }}
+          {{ job.company.country }}
+          {{ job.company.town ? " - " + job.company.town : "" }}
         </span>
       </div>
       <div
@@ -188,8 +188,12 @@
       >
         <div
           [classList]="
-            'text-center  font-semibold text-white py-1 border-round-md w-8rem ' +
-            (job.type == 'Full-time' ? 'x-bg-nursery' : 'bg-yellow-500')
+            'text-center capitalize font-semibold text-white py-1 border-round-md w-8rem ' +
+            (job.type.toLowerCase().slice(0, 4) === 'full'
+              ? 'x-bg-nursery'
+              : job.type.toLowerCase().slice(0, 4) === 'part'
+              ? 'bg-yellow-500'
+              : 'x-bg-tertiary')
           "
         >
           {{ job.type }}

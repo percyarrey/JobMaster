@@ -28,4 +28,7 @@ export interface Job {
     whatsapp: string;
     year: Date;
   };
+
+  /* EXTERNAL JOB */
+  url?: string;
 }

@@ -564,7 +564,7 @@
 
   <!-- JOBS COMPONENTS -->
   <div class="mt-5">
-    @for (job of jobs; track $index) {
+    @if (jobs.length>0) { @for (job of jobs; track $index) {
     <div class="x-bg-secondary p-3">
       <div class="md:flex gap-3 flex-wrap">
         <img
@@ -582,19 +582,33 @@
                 at
                 <span
                   class="x-primary font-semibold cursor-pointer"
-                  (click)="navigateToCompany(job.company.id)"
+                  (click)="
+                    navigateToJob(
+                      job.url ? job.url : '/company/' + job.companyId
+                    )
+                  "
                   >{{ job.company.name }}</span
                 >
                 <div
                   [classList]="
-                    'text-center font-semibold text-white py-1 border-round-md w-8rem  h-fit ' +
-                    (job.type == 'Full-time' ? 'x-bg-nursery' : 'bg-yellow-500')
+                    'text-center font-semibold text-white py-1 border-round-md w-8rem  h-fit capitalize  ' +
+                    (job.type.toLowerCase() == 'full-time'
+                      ? 'x-bg-nursery'
+                      : job.type.toLowerCase() == 'part-time'
+                      ? 'bg-yellow-500'
+                      : 'x-bg-tertiary')
                   "
                 >
                   {{ job.type }}
                 </div>
               </div>
-              {{ job.description }}
+              <div
+                [innerHTML]="
+                  job.description.length > 300
+                    ? (job.description | slice : 0 : 300) + '...'
+                    : job.description
+                "
+              ></div>
             </div>
             <div class="col-12 sm:col-5 md:col-4 x-black75">
               <div>
@@ -602,11 +616,25 @@
                 {{ job.company.country }}
               </div>
               <div>
+                @if (job.company.town) {
                 <span class="font-semibold">Town:</span> {{ job.company.town }}
+                }
               </div>
               <div>
                 <span class="font-semibold">Experience:</span>
                 {{ job.experience }}
+              </div>
+              <div class="info-item">
+                <span class="font-semibold">Salary Range: </span>
+                <i class="pi pi-money-bill mr-1"></i>
+                @if (job.minsalary) {
+                <span
+                  >{{ job.minsalary.toString() | currency : "XAF" }} -
+                  {{ job.maxsalary.toString() | currency : "XAF" }}</span
+                >
+                }@else {
+                {{ job.maxsalary }}
+                }
               </div>
               <div>
                 <span class="font-semibold">Deadline:</span>
@@ -626,7 +654,7 @@
               <p-button
                 severity="success"
                 type="link"
-                [routerLink]="'/job/' + job.id"
+                (onClick)="navigateToJob(job.url ? job.url : '/job/' + job.id)"
                 styleClass="font-medium"
                 >See this Job</p-button
               >
@@ -634,6 +662,10 @@
           </div>
         </div>
       </div>
+    </div>
+    } }@else {
+    <div class="text-center py-6">
+      <h1 class="text-yellow-400">No Job Found</h1>
     </div>
     }
 
@@ -646,7 +678,7 @@
         optionLabel="label"
         optionValue="value"
         [(ngModel)]="items"
-        (ngModelChange)="first = 0"
+        (ngModelChange)="handleItemsChange()"
       ></p-dropdown>
       <p-paginator
         [first]="first"

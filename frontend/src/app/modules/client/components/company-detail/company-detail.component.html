@@ -82,9 +82,11 @@
                     <div
                       [classList]="
                         'text-center  font-semibold text-white py-1 border-round-md w-8rem ' +
-                        (job.type == 'Full-time'
+                        (job.type == 'full-time'
                           ? 'x-bg-nursery'
-                          : 'bg-yellow-500')
+                          : job.type == 'part-time'
+                          ? 'bg-yellow-500'
+                          : 'x-bg-tertiary')
                       "
                     >
                       {{ job.type }}

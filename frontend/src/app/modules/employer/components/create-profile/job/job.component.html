@@ -22,7 +22,7 @@
               pInputText
               formControlName="name"
             />
-            <label for="name">Job Name</label>
+            <label for="name">Job Title</label>
           </p-floatLabel>
           @if (name.invalid && (name.dirty || name.touched)) {<small
             class="block p-error"
@@ -58,7 +58,8 @@
           @if (category.invalid && (category.dirty || category.touched)) {<small
             class="block p-error"
           >
-            @if (category.errors?.['required']) {<span>Category should not be empty</span
+            @if (category.errors?.['required']) {<span
+              >Category should not be empty</span
             >} @if (category.errors?.['pattern']) {
             <span>Category should be valid</span>
             } </small
@@ -97,18 +98,22 @@
             >
             <div class="line"></div>
           </div>
-          <small class="text-sm x-black50"> Please tell us if it full-time or part-time job</small>
+          <small class="text-sm x-black50">
+            Please tell us if it full-time or part-time job</small
+          >
         </div>
         <div class="input-container">
-          <p-dropdown 
-        formControlName="type" 
-        [options]="['Full-time','Part-time']"
-        [styleClass]="'w-full'"
-        placeholder="Select a job type" />
+          <p-dropdown
+            formControlName="type"
+            [options]="['full-time', 'part-time']"
+            [styleClass]="'w-full'"
+            placeholder="Select a job type"
+          />
           @if (type.invalid && (type.dirty || type.touched)) {<small
             class="block p-error"
           >
-            @if (type.errors?.['required']) {<span>Job type should not be empty</span
+            @if (type.errors?.['required']) {<span
+              >Job type should not be empty</span
             >} @if (type.errors?.['pattern']) {
             <span>Job type should be valid</span>
             } </small
@@ -144,10 +149,9 @@
           </div>
         </div>
       </div>
-      @if ((minsalary.invalid && (minsalary.dirty || minsalary.touched))) {<small
-        class="block p-error"
-        >min Salary should be valid </small
-      >} @if ( (maxsalary.invalid && (maxsalary.dirty ||
+      @if ((minsalary.invalid && (minsalary.dirty || minsalary.touched)))
+      {<small class="block p-error">min Salary should be valid </small>} @if (
+      (maxsalary.invalid && (maxsalary.dirty ||
       maxsalary.touched))&&minsalary.valid) {<small class="block p-error"
         >max Salary should be valid </small
       >} @if (JobForm.errors?.['costMismatch'] && (maxsalary.dirty ||
@@ -172,8 +176,7 @@
         <span class="currency-symbol">YEARS</span>
         <input type="number" id="experience" formControlName="experience" />
       </div>
-      @if ((experience.errors?.['pattern'])) {<small
-        class="block p-error"
+      @if ((experience.errors?.['pattern'])) {<small class="block p-error"
         >Experience should be valid </small
       >}
     </div>
@@ -181,16 +184,14 @@
     <div class="mb-5">
       <div>
         <div class="flex align-items-center gap-4">
-          <span
-            class="x-font-roboto font-medium"
-            style="white-space: nowrap"
+          <span class="x-font-roboto font-medium" style="white-space: nowrap"
             >Deadline</span
           >
           <div class="line"></div>
         </div>
       </div>
       <div class="input-container">
-        <p-calendar formControlName="deadline" styleClass="w-full"/>
+        <p-calendar formControlName="deadline" styleClass="w-full" />
         @if (deadline.invalid && (deadline.dirty || deadline.touched)) {<small
           class="block p-error"
         >
@@ -282,8 +283,11 @@
       <button
         type="submit"
         class="x-bg-primary p-button px-8 border-none"
-        [disabled]="JobForm.invalid && requirements.length<1"
-        [classList]="'x-bg-primary p-button px-8 border-none ' + (JobForm.valid && requirements.length>0 ? '' : 'opacity-20') "
+        [disabled]="JobForm.invalid && requirements.length < 1"
+        [classList]="
+          'x-bg-primary p-button px-8 border-none ' +
+          (JobForm.valid && requirements.length > 0 ? '' : 'opacity-20')
+        "
       >
         Next
       </button>
