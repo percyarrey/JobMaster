@@ -1,14 +1,22 @@
-# Stage 1: Build the NestJS application
-FROM node:22 as build
-WORKDIR /
-COPY package.json package-lock.json ./
+FROM node:18
+
+# Set the working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
 RUN npm ci
+
+# Copy the application code
 COPY . .
+
+# Build the application
 RUN npm run build
 
-# Stage 2: Run the NestJS application
-FROM node:22
-WORKDIR /
-COPY --from=build /dist ./dist
+# Expose the port that the application will run on
 EXPOSE 3000
-CMD ["npm", "run", "start:prod"]
+
+# Start the application
+CMD ["npm", "run", "start"]

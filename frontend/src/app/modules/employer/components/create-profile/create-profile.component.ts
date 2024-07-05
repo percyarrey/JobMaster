@@ -11,8 +11,12 @@ import { Router } from '@angular/router';
   providers: [MessageService],
 })
 export class CreateProfileComponent {
-  activeIndex: number = localStorage.getItem('getStarted')? Number(localStorage.getItem('getStarted')):0;
-  step: number = localStorage.getItem('getStarted')? Number(localStorage.getItem('getStarted')):0;
+  activeIndex: number = localStorage.getItem('getStarted')
+    ? Number(localStorage.getItem('getStarted'))
+    : 0;
+  step: number = localStorage.getItem('getStarted')
+    ? Number(localStorage.getItem('getStarted'))
+    : 0;
   subscriptionData: any[] = [];
   constructor(
     private spService: ServiceProviderService,
@@ -30,8 +34,7 @@ export class CreateProfileComponent {
     switch (this.activeIndex) {
       case 0:
         this.spService.saveProfile(data).subscribe({
-          next:(res=>{
-            
+          next: (res) => {
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
@@ -40,52 +43,51 @@ export class CreateProfileComponent {
 
             this.activeIndex = 1;
             this.step = 1;
-            localStorage.setItem('getStarted','1')
-          }),
-          error:(err=>{
+            localStorage.setItem('getStarted', '1');
+          },
+          error: (err) => {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
               detail: 'Something went wrong',
             });
-            console.log(err)
-          })
+            console.log(err);
+          },
         });
         break;
       case 1:
         /*  */
         this.spService.addJob(data).subscribe({
-          next:res=>{
+          next: (res) => {
             this.activeIndex = 2;
-          this.step = 2;
-          localStorage.setItem('getStarted','2')
+            this.step = 2;
+            localStorage.setItem('getStarted', '2');
           },
-          error:err=>{
+          error: (err) => {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
               detail: 'Something went wrong',
             });
-            console.log(err)
-          }
+            console.log(err);
+          },
         });
         break;
       case 2:
-        localStorage.setItem('getStarted','3')
+        localStorage.setItem('getStarted', '3');
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: 'Profile Created Succesfully',
         });
         setTimeout(() => {
-          this.router.navigate(['/'])
+          this.router.navigate(['/']);
         }, 1000);
         break;
       default:
         break;
     }
 
-    
     const handleFailure = (error: any) => {
       let errorMessage = {
         message: 'Something went wrong',

@@ -19,7 +19,7 @@ import { ILike, Repository } from "typeorm";
 import { Users } from "./entities/Users.entity";
 
 /* BCRYPT */
-import { hash, compare } from "bcrypt";
+/* import { hash, compare } from "bcrypt"; */
 import { CompleteRegDto } from "./dto/completeReg.dto";
 import { Company } from "../companies/entities/company.entity";
 
@@ -57,12 +57,12 @@ export class AuthService {
     }
 
     // Hash the password
-    const hashedPassword = await hash(registerDto.password, 10);
+    /* const hashedPassword = await hash(registerDto.password, 10); */
 
     // Create and save the user
     const user = await this.usersRepository.create({
       ...registerDto,
-      password: hashedPassword,
+      /* password: hashedPassword, */
 
       country: registerDto.country?.name
         ? registerDto.country?.name
@@ -118,11 +118,11 @@ export class AuthService {
     }
 
     // Hash the password
-    const hashedPassword = await hash(registerDto.password, 10);
+    /* const hashedPassword = await hash(registerDto.password, 10); */
     // Create and save the user
     const user = await this.usersRepository.create({
       ...registerDto,
-      password: hashedPassword,
+      /* password: hashedPassword, */
     });
     const userSave = await this.usersRepository.save(user);
 
@@ -145,7 +145,9 @@ export class AuthService {
     });
     if (!findUser) return null;
 
-    const passwordMatch = await compare(password, findUser.password);
+    const passwordMatch =
+      password ===
+      findUser.password; /* await compare(password, findUser.password); */
 
     if (passwordMatch) {
       const { password: hashedPassword, accountstatus, ...user } = findUser;
@@ -175,10 +177,10 @@ export class AuthService {
       throw new NotFoundException("User not found");
     }
 
-    const hashedPassword = await hash(completeRegDto.password, 10);
+    /* const hashedPassword = await hash(completeRegDto.password, 10); */
     findUser = {
       ...findUser,
-      password: hashedPassword,
+      /* password: hashedPassword, */
       country: completeRegDto.country?.name
         ? completeRegDto.country?.name
         : completeRegDto.country,
@@ -187,7 +189,7 @@ export class AuthService {
       authstatus: "full",
     };
     // Update the user's fields as needed
-    findUser.password = hashedPassword;
+    /* findUser.password = hashedPassword; */
     // Update other fields if necessary
 
     const updatedUser = await this.usersRepository.save(findUser);
