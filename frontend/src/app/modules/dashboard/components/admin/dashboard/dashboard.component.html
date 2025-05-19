@@ -1,0 +1,79 @@
+<h1 class="text-3xl mt-0 x-font-roboto px-2">Dashboard</h1>
+
+<!-- STATISTICS SECTION -->
+<section class="stat-section pl-2">
+  <div class="flex overflow-x-auto gap-1 sm:gap-3 md:gap-4">
+    <div
+      class="border-round-xl cursor-pointer pl-2 md:px-5 py-3 col overflow-hidden shadow-1"
+      style="background-color: #c9fbe3"
+    >
+      <i class="pi pi-user-plus x-nursery text-3xl md:text-5xl"></i>
+      <div class="text-xl md:text-4xl font-semibold mt-2 md:mt-3">
+        {{ formatViews(9100) }}
+      </div>
+      <div class="font-medium x-black75 text-sm white-space-nowrap md:text-lg">
+        New Applicant
+      </div>
+    </div>
+    <div
+      class="border-round-xl cursor-pointer pl-2 md:px-5 py-3 col overflow-hidden shadow-1"
+      style="background-color: #f4d2da"
+    >
+      <i class="pi pi-power-off text-red-600 text-3xl md:text-5xl"></i>
+      <div class="text-xl md:text-4xl font-semibold mt-2 md:mt-3">
+        {{ formatViews(200) }}
+      </div>
+      <div class="font-medium x-black75 text-sm white-space-nowrap md:text-lg">
+        Deactivated
+      </div>
+    </div>
+    <div
+      class="border-round-xl cursor-pointer pl-2 md:px-5 py-3 col overflow-hidden shadow-1"
+      style="background-color: #95e1fb"
+    >
+      <i class="pi pi-users x-primary text-3xl md:text-5xl"></i>
+      <div class="text-xl md:text-4xl font-semibold mt-2 md:mt-3">
+        {{ formatViews(200000000) }}
+      </div>
+      <div class="font-medium x-black75 text-sm white-space-nowrap md:text-lg">
+        Total Agencies
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVITE LINK -->
+<section class="link-section py-7 px-3">
+  <div class="x-font-roboto font-semibold text-2xl x-black75">
+    Invite an Agent
+  </div>
+  <small class="x-black75"
+    >The link will expire after <span class="font-medium">24 hour</span></small
+  >
+  <div class="mt-3">
+    <p-button severity="help" [raised]="true" label="Generate link"></p-button>
+    <div class="link-box">
+      <kbd id="link">{{ link }}</kbd>
+      <p-button
+        type="button"
+        severity="help"
+        icon="pi pi-copy"
+        (click)="copyLink()"
+      ></p-button>
+    </div>
+  </div>
+</section>
+
+<!-- GRAPH SECTION -->
+<div class="graph-section py-7 px-3">
+  <div class="flex justify-content-between">
+    <div class="x-font-roboto font-semibold text-2xl x-black75">
+      Visitors Statistics
+    </div>
+  </div>
+  <div>
+    <p-chart type="line" [data]="data"></p-chart>
+  </div>
+</div>
+
+<p-toast></p-toast>

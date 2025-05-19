@@ -1,0 +1,65 @@
+<section class="w-full">
+  <div class="flex justify-content-between pb-6">
+    <div class="text-3xl font-bold">Reviews</div>
+    <p-button
+      icon="pi pi-comment"
+      label="Add a Review"
+      (click)="handleClick('create')"
+      severity="help"
+      [rounded]="true"
+    ></p-button>
+  </div>
+  <div>
+    @for (review of reviews; track $index) {
+    <div class="flex gap-3 mb-2">
+      <img
+        src="{{review.image}}"
+        alt="{{review.name}}"
+        width="45"
+        height="45"
+        class="border-circle"
+      />
+      <div class="w-full">
+        <div class="font-semibold text-lg flex justify-content-between">
+          <span>{{review.name}} </span>
+          @if (agent.profile.userId === review.userId) {
+          <div class="flex gap-3 md:gap-6">
+            <button
+              style="all: unset; cursor: pointer"
+              (click)="handleClick('edit',review.userId)"
+            >
+              <i class="pi pi-pencil x-primary text-lg"></i>
+            </button>
+            <button
+              style="all: unset; cursor: pointer"
+              (click)="handleClick('delete',review.userId)"
+            >
+              <i class="pi pi-trash text-red-600 text-lg"></i>
+            </button>
+          </div>
+          }
+        </div>
+        <div class="flex gap-3 align-items-center">
+          <div class="gap-1 flex x-black75">
+            <ng-container *ngFor="let star of [0, 1, 2, 3, 4]; let i = index">
+              <ng-container *ngIf="star < review.rating">
+                <i class="pi pi-star-fill x-secondary"></i>
+              </ng-container>
+              <ng-container *ngIf="star >= review.rating">
+                <i class="pi pi-star x-secondary"></i>
+              </ng-container>
+            </ng-container>
+          </div>
+          -
+          <div class="x-font-roboto">{{formatDate(review.date)}}</div>
+        </div>
+        <p class="mt-1 x-black75">{{review.review}}</p>
+      </div>
+    </div>
+    <hr class="p-0 m-0 my-3" style="opacity: 0.2" />
+    }
+  </div>
+  <div class="flex justify-content-center">
+    <p-button label="Show More" severity="secondary"></p-button>
+  </div>
+</section>

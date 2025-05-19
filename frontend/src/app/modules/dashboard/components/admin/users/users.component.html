@@ -1,0 +1,146 @@
+<div style="min-width: 730px">
+  <div class="flex justify-content-between">
+    <h1 class="text-3xl mt-0 x-font-roboto px-2">
+      All {{ selectedUser ? "admins" : "users" }}
+    </h1>
+    <p-toggleButton
+      [(ngModel)]="selectedUser"
+      onLabel="Admin"
+      offLabel="Users"
+    ></p-toggleButton>
+  </div>
+  <section class="flex justify-content-end">
+    <div class="p-inputgroup" style="max-width: 26rem">
+      <input
+        type="text"
+        pInputText
+        placeholder="Search username"
+        [(ngModel)]="searchValue"
+        (keyup.enter)="searchUser()"
+      />
+      <button pButton class="p-button-help" (click)="searchUser()">
+        Search
+      </button>
+    </div>
+  </section>
+
+  <section>
+    <div
+      class="mt-4 surface-0 pt-4 pb-2 px-3 border-1 border-gray-200 border-round-lg"
+    >
+      <div class="flex justify-content-end">
+        <p-dropdown
+          [options]="['Name', 'User type', 'skills']"
+          [(ngModel)]="sortBy"
+          [showClear]="true"
+          (onChange)="searchUser()"
+          placeholder="Sort by"
+        ></p-dropdown>
+      </div>
+
+      <div class="grid font-semibold mt-2">
+        <div class="col-5">Name</div>
+        <div class="col-3">User Type</div>
+        <div class="col-4">Actions</div>
+      </div>
+    </div>
+    <div class="px-1 py-2 x-black75 py-2 text-sm">
+      Showing {{ items }} of {{ totalRecords }} total users
+    </div>
+
+    <div
+      class="surface-0 pt-3 pb-2 px-3 border-1 border-gray-200 border-round-lg"
+    >
+      @for (agent of agencies; track $index) {
+      <div class="grid mb-4">
+        <div class="col-5">
+          <div class="flex gap-2">
+            <img
+              src="{{ agent.profile.profilePic }}"
+              alt="{{ agent.profile.lname }}"
+              class="x-bg-secondary"
+              style="
+                width: 3.5rem;
+                height: 3.5rem;
+                object-fit: contain;
+                object-position: center;
+              "
+            />
+            <div class="x-black75">
+              <div class="x-font-roboto font-semibold">
+                {{
+                  textLength(
+                    agent.profile.fname + " " + agent.profile.lname,
+                    24
+                  ).toLocaleUpperCase()
+                }}
+              </div>
+              <div class="flex gap-2 align-items-center text-sm">
+                <i class="pi pi-wrench x-primary text-sm"></i>
+                <span>{{ agent.service.name }}</span>
+              </div>
+              <a
+                [routerLink]="
+                  '/' +
+                  agent.profile.fname +
+                  ' ' +
+                  agent.profile.lname +
+                  '/' +
+                  agent.profile.userId
+                "
+                class="x-primary text-sm ml-2"
+                >View Profile</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          [classList]="
+            'col-3 flex align-items-center font-medium ' +
+            (agent.profile.type == 'Agency' ? 'x-primary' : 'x-nursery')
+          "
+        >
+          {{ agent.profile.type }}
+        </div>
+        <div class="col-4 flex align-items-center flex justify-content-between">
+          <div class="x-black75"><i class="pi pi-cog"></i> Manage role</div>
+          <div>
+            <p-button
+              [label]="agent.profile.blockedStatus ? 'Activate' : 'Suspend'"
+              [severity]="agent.profile.blockedStatus ? 'help' : 'danger'"
+              styleClass="py-2"
+            ></p-button>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- PAGINATOR -->
+    <div
+      class="flex justify-content-center w-full mt-5 h-10rem overflow-hidden"
+    >
+      <div class="flex align-items-center flex-wrap h-fit">
+        <span class="mx-1 text-color">Items per page: </span>
+        <p-dropdown
+          [options]="options"
+          optionLabel="label"
+          optionValue="value"
+          [(ngModel)]="items"
+          (ngModelChange)="first = 0"
+        ></p-dropdown>
+        <p-paginator
+          [first]="first"
+          [rows]="items"
+          [totalRecords]="totalRecords"
+          (onPageChange)="onPageChange($event)"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="{first} - {last} of {totalRecords}"
+          [showPageLinks]="false"
+          [showFirstLastIcon]="false"
+          styleClass="x-bg-secondary"
+        ></p-paginator>
+      </div>
+    </div>
+  </section>
+</div>

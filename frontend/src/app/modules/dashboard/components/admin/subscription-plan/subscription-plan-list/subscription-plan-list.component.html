@@ -1,0 +1,76 @@
+<h1 class="text-3xl mt-0 x-font-roboto px-2">Subscription Plan</h1>
+
+<div class="flex justify-content-between align-content-center main">
+  <div class="flex">
+    <div class="search">
+      <span class="p-input-icon-left mr-0 mb-2">
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          pInputText
+          (keyup)="search($event)"
+          placeholder="search"
+        />
+      </span>
+    </div>
+  </div>
+
+  <div class="flex mr-2 gap-2">
+    <!-- <p-button
+      (click)="handleClick('CLEAR')"
+      label="clear"
+      icon="pi pi-trash"
+      severity="danger"
+    ></p-button> -->
+    <p-button
+      (click)="handleClick('CREATE')"
+      label="Add"
+      icon="pi pi-plus"
+      severity="help"
+    ></p-button>
+  </div>
+</div>
+
+<div class="table mt-4 justify-content-evenly">
+  <p-table
+    [value]="subscriptions"
+    [(selection)]="choosenSubscriptions"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th>Plan Name</th>
+        <th>Duration</th>
+        <th>Cost</th>
+        <th class="flex justify-content-center">Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-subscription>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="subscription"></p-tableCheckbox>
+        </td>
+        <td>{{ subscription.planName }}</td>
+        <td>{{ subscription.duration }}</td>
+        <td>{{ subscription.cost }}</td>
+        <td class="flex justify-content-center gap-3 ml-0">
+          <p-button
+            severity="danger"
+            (click)="handleClick('DELETE', subscription.adminId)"
+            icon="pi pi-trash"
+            label="delete"
+          ></p-button>
+          <p-button
+            severity="help"
+            (click)="handleClick('EDIT', subscription.adminId)"
+            icon="pi pi-pencil"
+            label="edit"
+          ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,0 +1,313 @@
+<div class="tabPanels">
+  <form [formGroup]="ServiceForm" (submit)="submitForm()">
+    <!-- TOP FORM -->
+    <div class="grid justify-content-between mb-5">
+      <!-- SERVICE PROFILE PICTURE  -->
+      <div class="col-12 md:col-5">
+        <div class="flex align-items-center gap-4">
+          <span class="x-font-roboto font-medium" style="white-space: nowrap"
+            >SERVICE COVER PHOTO</span
+          >
+          <div class="line"></div>
+        </div>
+        <small class="text-sm x-black50">
+          if empty your profile picture will be used instead
+        </small>
+        <div class="flex justify-content-center align-items-center mt-3">
+          <div
+            class="flex relative align-items-center w-full justify-content-center x-bg-secondary border-round-md w-full"
+            style="height: 13rem"
+          >
+            <label for="dropzone-file" class="w-full h-full cursor-pointer">
+              @if (selectedImage) {
+              <div
+                class="relative h-full overflow-hidden border-round-md"
+                style="border: 1px solid rgba(128, 128, 128, 0.699)"
+              >
+                <Img
+                  [src]="selectedImage"
+                  alt="Profile Image"
+                  class="w-full h-full"
+                  style="object-fit: contain"
+                />
+              </div>
+              <button
+                type="button"
+                class="close-btn"
+                (click)="selectedImage = undefined"
+              >
+                <i class="pi pi-trash"></i>
+              </button>
+              } @else{
+              <div
+                class="flex x-black50 flex-column align-items-center justify-content-center h-full border-round-md"
+                style="border: 1px solid rgba(128, 128, 128, 0.699)"
+              >
+                <svg
+                  class="w-4rem"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 16"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                  />
+                </svg>
+                <p class="text-md font-semibold text-center mt-1">
+                  Upload
+                  <span class="text-md"
+                    >a Service <br />
+                    Thumbnail</span
+                  ><br />
+                  <span class="x-black50 font-normal">(Optional)</span>
+                </p>
+              </div>
+              }
+              <input
+                accept="image/*"
+                type="file"
+                id="dropzone-file"
+                class="hidden"
+                (change)="onImageChange($event)"
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- SERVICE INFORMATION -->
+      <div class="col-12 md:col-7 lg:col-6">
+        <!-- NAME -->
+        <div class="mb-5">
+          <div class="">
+            <div class="flex align-items-center gap-4">
+              <span
+                class="x-font-roboto font-medium"
+                style="white-space: nowrap"
+                >SERVICE NAME</span
+              >
+              <div class="line"></div>
+            </div>
+            <small class="text-sm x-black50">
+              This name is the name of the service you are offering
+            </small>
+          </div>
+          <div class="input-container">
+            <p-floatLabel>
+              <input
+                type="text"
+                class="w-full"
+                id="name"
+                pInputText
+                formControlName="name"
+              />
+              <label for="name">Service Name</label>
+            </p-floatLabel>
+            @if (name.invalid && (name.dirty || name.touched)) {<small
+              class="block p-error"
+            >
+              @if (name.errors?.['required']) {<span
+                >Name should not be empty</span
+              >} @if (name.errors?.['pattern']) {
+              <span>Name should be valid</span>
+              } </small
+            >}
+          </div>
+        </div>
+        <!-- CATEGORY-->
+        <div>
+          <div class="">
+            <div class="flex align-items-center gap-4">
+              <span
+                class="x-font-roboto font-medium"
+                style="white-space: nowrap"
+                >SERVICE TYPE</span
+              >
+              <div class="line"></div>
+            </div>
+            <small class="text-sm x-black50">
+              Please select the service Category
+            </small>
+          </div>
+          <div class="input-container">
+            <p-dropdown
+              id="service"
+              [styleClass]="'w-full'"
+              [options]="services"
+              formControlName="service"
+              [filter]="true"
+              placeholder="Select a Service"
+            ></p-dropdown>
+            @if (service.invalid && (service.dirty || service.touched)) {<small
+              class="block p-error"
+            >
+              @if (service.errors?.['required']) {<span
+                >Service should not be empty</span
+              >} @if (service.errors?.['pattern']) {
+              <span>Service should be valid</span>
+              } </small
+            >}
+          </div>
+          @if (ServiceForm.value.service === 'others') {
+          <div class="input-container">
+            <p-floatLabel>
+              <input
+                type="text"
+                id="others"
+                formControlName="otherService"
+                class="w-full"
+                pInputText
+              />
+              <label for="others">Please specify</label>
+            </p-floatLabel>
+            @if (otherService.invalid && (otherService.dirty ||
+            otherService.touched)) {<small class="block p-error">
+              @if (otherService.errors?.['required']) {<span
+                >Service should not be empty</span
+              >} @if (otherService.errors?.['pattern']) {
+              <span>Service should be valid</span>
+              } </small
+            >}
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+    <!-- CONTACT -->
+    <div class="mb-5">
+      <div class="mb-2">
+        <div class="flex align-items-center gap-4">
+          <span class="x-font-roboto font-medium" style="white-space: nowrap"
+            >COST RANGE</span
+          >
+          <div class="line"></div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-12 sm:col-6">
+          <label for="minCost">Minimum Cost</label>
+          <div class="currency-input">
+            <span class="currency-symbol">XAF</span>
+            <input type="number" id="minCost" formControlName="minCost" />
+          </div>
+        </div>
+
+        <div class="col">
+          <label for="maxCost">Maximum Cost</label>
+          <div class="currency-input">
+            <span class="currency-symbol">XAF</span>
+            <input type="number" id="maxCost" formControlName="maxCost" />
+          </div>
+        </div>
+      </div>
+      @if ((minCost.invalid && (minCost.dirty || minCost.touched))) {<small
+        class="block p-error"
+        >min cost should be valid </small
+      >} @if ( (maxCost.invalid && (maxCost.dirty ||
+      maxCost.touched))&&minCost.valid) {<small class="block p-error"
+        >max cost should be valid </small
+      >} @if (ServiceForm.errors?.['costMismatch'] && (maxCost.dirty ||
+      maxCost.touched)&&maxCost.valid&&minCost.valid) {
+      <small class="block p-error"
+        >Maximum cost should be greater than minimum cost.</small
+      >
+      }
+    </div>
+    <!-- SAMPLE PHOTOS -->
+    <div class="mb-5">
+      <div class="mb-3">
+        <div class="flex align-items-center gap-4">
+          <span class="x-font-roboto font-medium" style="white-space: nowrap"
+            >SAMPLE PHOTOS</span
+          >
+          <div class="line"></div>
+        </div>
+        <small class="text-sm x-black50"
+          >Upload a max of 3 photos to your portfolio</small
+        >
+      </div>
+      <div class="flex overflow-x-auto">
+        @for (image of images; track $index) {
+        <div class="image-container">
+          <img
+            [src]="image"
+            height="100"
+            width="100"
+            class="samplePhotos"
+            style="object-fit: contain"
+          />
+          <button
+            type="button"
+            class="close-btn"
+            style="bottom: 0; right: 0"
+            (click)="images.splice($index, 1)"
+          >
+            <i class="pi pi-trash"></i>
+          </button>
+        </div>
+        } @if (images.length<3) {
+        <div>
+          <label for="samplePhotos" class="samplePhotos">
+            <i class="pi pi-plus"></i>
+            <input
+              id="samplePhotos"
+              class="hidden"
+              type="file"
+              (change)="handleFileInput($event)"
+              accept="image/*"
+            />
+          </label>
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="mb-5">
+      <div class="">
+        <div class="flex align-items-center gap-4">
+          <span class="x-font-roboto font-medium" style="white-space: nowrap">
+            DESCRIPTION
+          </span>
+          <div class="line"></div>
+        </div>
+      </div>
+      <div class="input-container">
+        <textarea
+          id="float-input"
+          rows="5"
+          style="width: 100%"
+          formControlName="description"
+          pInputTextarea
+          placeholder="Write a short description of service and other Sub-Services you offer..."
+        ></textarea>
+      </div>
+      @if (description.invalid && (description.dirty || description.touched))
+      {<small class="block p-error">
+        @if (description.errors?.['required']) {<span
+          >Description should not be empty</span
+        >} </small
+      >}
+    </div>
+
+    <!-- NEXT BUTTON -->
+    <div class="flex justify-content-end">
+      <button
+        type="submit"
+        class="x-bg-primary p-button px-8 border-none"
+        [disabled]="ServiceForm.invalid"
+        [ngClass]="{
+          ' opacity-20': ServiceForm.invalid
+        }"
+      >
+        Next
+      </button>
+    </div>
+  </form>
+</div>

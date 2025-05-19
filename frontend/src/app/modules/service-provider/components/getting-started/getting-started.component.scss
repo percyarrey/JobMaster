@@ -1,0 +1,40 @@
+.custom-radio {
+  /* Increase the size of the radio button */
+  width: 24px;
+  height: 24px;
+
+  /* Change the color of the circle */
+  border: 2px solid rgba(128, 128, 128, 0.277);
+  border-radius: 50%;
+  outline: none;
+  position: relative;
+}
+
+.custom-radio::before {
+  /* Adjust the size and position of the inner circle */
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 53.1%;
+  transform: translate(-50.0001%, -50.05%);
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: transparent; /* Change the color of the inner circle */
+}
+
+.custom-radio-checked::before {
+  /* Change the color of the inner circle when radio button is checked */
+  background-color: var(--p-color);
+}
+
+.icon-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  background-color: lightgreen;
+}

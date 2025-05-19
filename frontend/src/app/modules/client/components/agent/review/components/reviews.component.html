@@ -1,0 +1,15 @@
+<div>
+  <reviews-list
+    [reviews]="reviews"
+    (onAction)="handleAction($event)"
+    [agent]="agent"
+  ></reviews-list>
+  <p-dialog header="Add a review" [(visible)]="dialogVisible">
+    <reviews-form
+      [review]="review"
+      (onAction)="handleAction($event)"
+    ></reviews-form>
+  </p-dialog>
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+</div>

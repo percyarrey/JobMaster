@@ -1,0 +1,90 @@
+[
+  {
+    "name": "Furniture Assembly",
+    "description": "Assembly of new furniture items such as beds, tables, chairs, etc."
+  },
+  {
+    "name": "Painting",
+    "description": "Interior or exterior painting of walls, ceilings, and other surfaces."
+  },
+  {
+    "name": "Carpentry",
+    "description": "Repairing or installing wooden structures, shelves, cabinets, etc."
+  },
+  {
+    "name": "Plumbing",
+    "description": "Fixing leaks, unclogging drains, installing or repairing fixtures."
+  },
+  {
+    "name": "Electrical Repairs",
+    "description": "Fixing electrical issues, replacing outlets, switches, or light fixtures."
+  },
+  {
+    "name": "Tile and Grout Work",
+    "description": "Installation, repair, or replacement of tiles and grout in bathrooms, kitchens, etc."
+  },
+  {
+    "name": "Door and Window Repair",
+    "description": "Fixing or replacing damaged doors, windows, locks, and hinges."
+  },
+  {
+    "name": "Gutter Cleaning",
+    "description": "Removing debris and leaves from gutters to ensure proper drainage."
+  },
+  {
+    "name": "Pressure Washing",
+    "description": "Cleaning exterior surfaces using high-pressure water spray."
+  },
+  {
+    "name": "General Maintenance",
+    "description": "Performing routine maintenance tasks to keep properties in good condition."
+  },
+  {
+    "name": "Drywall Repair",
+    "description": "Fixing holes, cracks, or damaged areas in drywall surfaces."
+  },
+  {
+    "name": "Deck and Fence Repair",
+    "description": "Repairing or replacing damaged deck boards, railings, or fence panels."
+  },
+  {
+    "name": "Appliance Installation",
+    "description": "Installing or replacing household appliances such as refrigerators, dishwashers, etc."
+  },
+  {
+    "name": "Light Fixture Installation",
+    "description": "Installing or replacing light fixtures, chandeliers, or ceiling fans."
+  },
+  {
+    "name": "Locksmith Services",
+    "description": "Unlocking doors, changing locks, or making duplicate keys."
+  },
+  {
+    "name": "Shelving and Storage Solutions",
+    "description": "Installing shelves, cabinets, or organizing storage spaces."
+  },
+  {
+    "name": "Bathroom Repairs and Upgrades",
+    "description": "Repairing or upgrading faucets, toilets, showerheads, or bathroom fixtures."
+  },
+  {
+    "name": "Minor Carpentry",
+    "description": "Repairing or replacing minor damaged wooden structures or furniture."
+  },
+  {
+    "name": "Hanging Artwork and Mirrors",
+    "description": "Mounting and hanging artwork, mirrors, or picture frames."
+  },
+  {
+    "name": "Ceiling Fan Installation",
+    "description": "Installing or replacing ceiling fans for better air circulation."
+  },
+  {
+    "name": "Automobile Mechanic",
+    "description": "Repairing and servicing automobiles, including engine maintenance, brakes, and suspension."
+  },
+  {
+    "name": "Glazier",
+    "description": "Cutting, installing, and repairing glass for windows, mirrors, and glass fixtures."
+  }
+]

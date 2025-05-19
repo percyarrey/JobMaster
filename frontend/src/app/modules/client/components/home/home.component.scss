@@ -1,0 +1,191 @@
+:host ::ng-deep {
+  .hero-section {
+    .p-autocomplete {
+      height: 100%;
+      width: 100%;
+      input {
+        box-shadow: none !important;
+        outline: none !important;
+        /* box-shadow: 0 0 0 0.2rem #bfdbfe; */
+      }
+    }
+    .p-autocomplete-panel .p-autocomplete-items {
+      padding: 0;
+    }
+  }
+
+  .cat-section {
+    /* .p-carousel-items-container {
+      gap: 1rem;
+    } */
+    .p-carousel-item {
+      padding: 0.2rem 0.4rem;
+      display: flex;
+      justify-content: center;
+    }
+  }
+  .agencies-section {
+    /* .p-carousel-items-container {
+      gap: 0.4rem;
+    } */
+    .p-carousel-item {
+      padding: 0.2rem 0.4rem;
+      display: flex;
+      justify-content: center;
+    }
+  }
+  .testimonial-section {
+    /* .p-carousel-items-container {
+      gap: 0.4rem;
+    } */
+    .p-carousel-item {
+      padding: 0.2rem 0.8rem;
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+/* HERO SECTION */
+.hero-section {
+  height: 100vh;
+  min-height: 660px;
+  max-height: 1080px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #6c0000; /*#841d44 Dark red color */
+  /* Gradient effect */
+  position: relative; /* Required for pseudo-elements */
+  color: white;
+
+  .hero-anim {
+    animation: heroAnim1 0.5s ease-in;
+  }
+  .hero-noanim {
+    animation: heroAnim2 0.5s ease-in;
+  }
+  @keyframes heroAnim1 {
+    0% {
+      opacity: 0;
+    }
+    50% {
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes heroAnim2 {
+    0% {
+      opacity: 0;
+    }
+    50% {
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .search-link {
+    all: unset;
+    background-color: var(--s-color);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 9px;
+    cursor: pointer;
+  }
+  .popular-links {
+    a {
+      all: unset;
+      cursor: pointer;
+      border: 2px solid white;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+    }
+  }
+
+  .hero-caption {
+    all: unset;
+    right: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: rgba(128, 128, 128, 0.7);
+    border: 3px solid white;
+    border-radius: 40px;
+    padding: 0.5rem 1rem;
+    bottom: 1rem;
+  }
+}
+
+/* CATEGORIES SECTION */
+.cat-section {
+  .category-item {
+    overflow: hidden;
+    height: 400px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .carouselNav {
+    all: unset;
+    cursor: pointer;
+    border: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1px #585859;
+    background-color: #5858590b;
+    height: 40px;
+    width: 40px;
+  }
+
+  .caption {
+    color: white;
+    padding: 1rem 1.5rem 5rem 1.5rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.6) 70%, rgba(0, 0, 0, 0));
+  }
+}
+
+/* NEW MEMBER */
+.member-section {
+  .video-cover {
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* AGENCIES */
+.agencies-section {
+  .carouselNav {
+    all: unset;
+    cursor: pointer;
+    border: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1px #585859;
+    background-color: #5858590b;
+    height: 40px;
+    width: 40px;
+  }
+}
+/* TESTIMONIAL */
+.testimonial-section {
+  .carouselNav {
+    all: unset;
+    cursor: pointer;
+    border: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1px #585859;
+    background-color: #5858590b;
+    height: 40px;
+    width: 40px;
+  }
+}

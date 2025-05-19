@@ -1,0 +1,21 @@
+footer {
+  padding-top: 72px;
+  padding-bottom: 72px;
+  background-color: #024d44;
+  color: white;
+  a {
+    color: white;
+  }
+}
+
+.app-icon {
+  img {
+    width: 50%;
+    max-width: 14rem;
+  }
+}
+
+a {
+  all: unset;
+  cursor: pointer;
+}

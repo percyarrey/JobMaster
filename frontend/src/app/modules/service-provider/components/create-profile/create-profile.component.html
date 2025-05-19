@@ -1,0 +1,91 @@
+<div class="flex justify-content-between mt-4">
+  <div class="text-xl x-font-roboto font-semibold x-black75">
+    Become a Service Provider
+  </div>
+  <div class="hidden lg:block">
+    <a routerLink="/service-provider">Skip</a>
+  </div>
+</div>
+<div class="md:flex gap-0 mt-3">
+  <div
+    class="tabButton flex justify-content-between x-font-roboto md:flex-column"
+  >
+    <button
+      (click)="activeIndex = 0"
+      [ngClass]="activeIndex === 0 ? 'activeBtn' : ''"
+    >
+      @if (step<0) {
+      <i class="pi pi-circle"></i>
+      } @if(step===0){
+      <i class="pi pi-minus-circle"></i>
+      } @if(step>0){
+      <i class="pi pi-check-circle" style="color: #40b825"></i>
+      }
+      <span [ngClass]="activeIndex <= 1 ? 'block' : ' hidden md:flex'">
+        Create Profile</span
+      >
+    </button>
+    <div>
+      <i class="pi pi-arrow-down hidden md:block"></i>
+      <i class="pi pi-arrow-right md:hidden"></i>
+    </div>
+    <button
+      (click)="activeIndex = 1"
+      [ngClass]="activeIndex === 1 ? 'activeBtn' : ''"
+      [disabled]="step < 1"
+    >
+      @if (step<1) {
+      <i class="pi pi-circle"></i>
+      } @if(step===1){
+      <i class="pi pi-minus-circle"></i>
+      } @if(step>1){
+      <i class="pi pi-check-circle" style="color: #40b825"></i>
+      }
+      <span>Add a Service</span>
+    </button>
+    <div>
+      <i class="pi pi-arrow-down hidden md:block"></i>
+      <i class="pi pi-arrow-right md:hidden"></i>
+    </div>
+    <button
+      (click)="activeIndex = 2"
+      [ngClass]="activeIndex === 2 ? 'activeBtn' : ''"
+      [disabled]="step < 2"
+    >
+      @if (step<2) {
+      <i class="pi pi-circle"></i>
+      } @if(step===2){
+      <i class="pi pi-minus-circle"></i>
+      } @if(step>2){
+      <i class="pi pi-check-circle" style="color: #40b825"></i>
+      }
+      <span [ngClass]="activeIndex > 1 ? 'block' : 'hidden sm:block'">
+        Publish Service</span
+      >
+    </button>
+  </div>
+  <div class="col">
+    <p-tabView [(activeIndex)]="activeIndex">
+      <p-tabPanel headerStyleClass="hidden">
+        <!-- PROFILE -->
+        @if (activeIndex===0) {
+        <app-profile (submitFormData)="submitForm($event)" />
+        }
+      </p-tabPanel>
+      <p-tabPanel headerStyleClass="hidden">
+        <!-- SERVICES -->
+        @if (activeIndex===1) {
+        <app-service (submitFormData)="submitForm($event)" />
+        }
+      </p-tabPanel>
+      <p-tabPanel headerStyleClass="hidden">
+        @if (activeIndex===2) {
+        <app-publish
+          (submitFormData)="submitForm($event)"
+          [Subscriptions]="subscriptionData"
+        />
+        }
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

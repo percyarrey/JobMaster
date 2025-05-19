@@ -1,0 +1,31 @@
+
+<div>
+        <div>
+            <span class="p-float-label">
+                <input id="float-input" type="text" pInputText [(ngModel)]="subscription.planName" class="p-inputtext-lg"> 
+                <label for="float-input" >Username</label>
+            </span>
+        </div>
+        <br>
+        <div>
+            <span class="p-float-label">
+                <input type="text" pInputText class="p-inputtext-lg" [(ngModel)]="subscription.duration" />
+                <label for="">Duration</label>
+            </span>
+        </div>
+        <br>
+        <div>
+            <span class="p-float-label">
+                <input type="text" pInputText [(ngModel)]="subscription.cost" class="p-inputtext-lg" />
+                <label for="cost">Cost</label>
+            </span>
+        </div>
+        <br>
+
+        <div class="flex justify-content-between">
+            <p-button label="Cancel" (click)="handleClick(subscription.adminId,'CANCEL')"  severity="help"></p-button>
+            <p-button label="Save" (click)="handleClick(subscription.adminId)" severity="help"></p-button>
+        </div>
+
+</div>
+

@@ -1,0 +1,571 @@
+<!-- HERO -->
+<section
+  class="hero-section px-2 lg:pl-5"
+  [style]="{
+    background: swapCarousel
+      ? 'linear-gradient(to bottom, #6c0000, #a10101)'
+      : 'linear-gradient(to bottom, #004eae, #0d55b0)'
+  }"
+>
+  <div class="grid h-full justify-content-center align-items-center">
+    <div class="col-11 lg:col-8">
+      <p
+        class="text-5xl md:text-7xl font-bold font-roboto line-height-2 text-center lg:text-left"
+      >
+        Find the right <span class="x-secondary">Worker</span> <br />
+        for your work, Asap
+      </p>
+      <div
+        class="flex-column row-gap-2 lg:flex-row flex md:mt-8"
+        style="min-height: 3.5rem"
+      >
+        <!-- SEARCH SERVICE -->
+        <div class="w-full">
+          <p-autoComplete
+            [showEmptyMessage]="false"
+            [emptyMessage]=""
+            [(ngModel)]="selectedService"
+            [suggestions]="serviceSuggestions"
+            (completeMethod)="searchServices($event)"
+            field="name"
+            placeholder="Search a service, worker etc.."
+            [inputStyle]="{
+              width: '100%',
+              height:'100%',
+            }"
+            [style]="{
+              height: '100%',
+              width: '100%'
+            }"
+            (keyup.enter)="searchClient()"
+            inputStyleClass="lg:border-noround-right"
+          ></p-autoComplete>
+        </div>
+        <!-- LOCATION SERVICE -->
+        <div class="w-full lg:w-30rem relative">
+          <p-autoComplete
+            [showEmptyMessage]="false"
+            [emptyMessage]=""
+            [(ngModel)]="selectedCountry"
+            [suggestions]="countrySuggestions"
+            (completeMethod)="searchCountry($event)"
+            field="name"
+            placeholder="Country, city, quarter..."
+            [inputStyle]="{
+              width: '100%',
+              height: '100%',
+              paddingLeft: '37px'
+            }"
+            [style]="{
+              height: '100%',
+              width: '100%'
+            }"
+            (keyup.enter)="searchClient()"
+            inputStyleClass="lg:border-noround"
+          ></p-autoComplete
+          ><i
+            class="pi pi-map-marker absolute text-color"
+            style="left: 8px; font-size: 20px; top: 30%"
+          ></i>
+        </div>
+
+        <!-- SEARCH BUTTON -->
+        <button
+          class="border-round lg:border-noround-left search-link font-medium text-2xl lg:text-xl h-4rem"
+          [routerLink]="'/agencies'"
+          (click)="searchClient()"
+        >
+          <i class="pi pi-search text-white text-xl"></i>
+          <span class="mx-auto">Search</span>
+        </button>
+      </div>
+      <div
+        class="flex flex-wrap popular-links x-font-roboto column-gap-3 row-gap-1 mt-5 text-md align-items-center"
+      >
+        <div class="text-xl">Popular:</div>
+        <a
+          [routerLink]="'/agencies'"
+          [queryParams]="{ category: 'Electrician' }"
+          >Electrician</a
+        >
+        <a [routerLink]="'/agencies'" [queryParams]="{ category: 'Glazier' }"
+          >Glazier</a
+        >
+        <a [routerLink]="'/agencies'" [queryParams]="{ category: 'Electronic' }"
+          >Electronic Repairer</a
+        >
+        <a [routerLink]="'/agencies'" [queryParams]="{ category: 'Mechanic' }"
+          >Automobile Mechanic</a
+        >
+      </div>
+    </div>
+
+    <div
+      [classList]="
+        'hidden col-4 p-0 h-full lg:flex align-items-end relative ' +
+        (swapCarousel ? 'hero-anim' : 'hero-noanim')
+      "
+      style="transition: all 1s ease-in"
+    >
+      <img
+        [src]="
+          swapCarousel
+            ? '/assets/images/client/home/Heroimg1.png'
+            : '/assets/images/client/home/Heroimg2.png'
+        "
+        style="
+          object-fit: cover;
+          width: 100%;
+          height: 90%;
+          object-position: center;
+          position: relative;
+          bottom: -4px;
+        "
+        alt="Hero Image"
+      />
+      <!-- CAPTION -->
+      @if(swapCarousel){
+      <a
+        routerLink="/client/details/kelly rose mary"
+        class="absolute hero-caption mr-3"
+      >
+        <img
+          src="/assets/images/client/home/Kelly Profile.png"
+          class="border-circle"
+          alt="caption image"
+        />
+        <div>
+          <div class="flex justify-content-between gap-2">
+            <span class="x-font-roboto">Kelly Rose Mary</span>
+            <span class="x-font-roboto"
+              >5 <i class="pi pi-star-fill x-secondary"></i
+            ></span>
+          </div>
+          <span class="font-medium text-lg x-font-roboto"
+            >Automation Mechanic</span
+          >
+        </div>
+      </a>
+      }@else{
+      <a
+        routerLink="/client/details/kelly rose mary"
+        class="absolute hero-caption mr-3"
+      >
+        <img
+          src="/assets/images/client/home/joseph profile.png"
+          class="border-circle"
+          alt="caption image"
+        />
+        <div>
+          <div class="flex justify-content-between gap-2">
+            <span class="x-font-roboto">Joseph Federico</span>
+            <span class="x-font-roboto"
+              >5 <i class="pi pi-star-fill x-secondary"></i
+            ></span>
+          </div>
+          <span class="font-medium text-lg x-font-roboto">Electrician</span>
+        </div>
+      </a>
+      }
+    </div>
+  </div>
+</section>
+<hr class="p-0 m-0" style="opacity: 0.2" />
+<!-- CATEGORIES -->
+<section class="cat-section px-2 lg:px-5 py-8">
+  <div class="flex align-items-center gap-2" style="height: 2.2rem">
+    <div class="w-2rem h-full border-round-md x-bg-primary"></div>
+    <span class="x-primary font-semibold text-lg">Categories</span>
+  </div>
+  <div class="flex justify-content-between">
+    <h1>Most Popular Services</h1>
+    <div class="flex align-items-center gap-2">
+      <button
+        (click)="carousel.navBackward($event)"
+        [classList]="
+          carousel.isBackwardNavDisabled()
+            ? 'border-round-left carouselNav opacity-30'
+            : 'border-round-left carouselNav '
+        "
+      >
+        <i class="pi pi-chevron-left"></i>
+      </button>
+      <button
+        (click)="carousel.navForward($event)"
+        [classList]="
+          navForward
+            ? 'border-round-right carouselNav opacity-30'
+            : 'border-round-right carouselNav '
+        "
+      >
+        <i class="pi pi-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+  <div class="mt-5 relative">
+    <p-carousel
+      [value]="categories"
+      [numVisible]="4"
+      [numScroll]="1"
+      [responsiveOptions]="responsiveOptions"
+      indicatorStyleClass="hidden"
+      [showNavigators]="false"
+      [draggable]="true"
+      (onPage)="navForward = carousel.isForwardNavDisabled()"
+      #carousel
+    >
+      <ng-template let-category pTemplate="item">
+        <div
+          class="category-item border-round-xl cursor-pointer shadow-2"
+          (click)="
+            router.navigate(['/agencies'], {
+              queryParams: { category: category.name }
+            })
+          "
+          [style.background-image]="'url(' + category.image + ')'"
+        >
+          <div class="caption">
+            <div style="opacity: 0.8">{{ category.description }}</div>
+            <div class="text-2xl font-semibold">{{ category.name }}</div>
+          </div>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+</section>
+<hr class="p-0 m-0" style="opacity: 0.2" />
+<!-- NEW MEMBER -->
+<section class="member-section px-2 lg:px-5 py-8 x-bg-secondary">
+  <div class="flex align-items-center gap-2" style="height: 2.2rem">
+    <div class="w-2rem h-full border-round-md x-bg-primary"></div>
+    <span class="x-primary font-semibold text-lg">New Member</span>
+  </div>
+  <div class="grid">
+    <div class="col-12 md:col-6">
+      <h1 class="mb-0">Become a Member Today</h1>
+      <div class="x-black50">You can become a worker with 3 simple steps</div>
+
+      <div class="mt-6 lg:ml-4 px-2">
+        <!-- ACCOUNT -->
+        <div
+          class="flex align-items-center gap-3 lg:gap-5 shadow-4 px-3 py-2 w-full lg:w-26rem cursor-pointer"
+          style="border-radius: 50px"
+          (click)="router.navigate(['/auth/register'])"
+        >
+          <div class="x-bg-primary border-circle p-3 shadow-2">
+            <i class="pi pi-user text-white text-xl"></i>
+          </div>
+          <span class="x-black50 text-xl text-center w-full lg:text-left"
+            >Create a Account</span
+          >
+        </div>
+        <!-- PROFILE -->
+        <div
+          class="flex lg:ml-6 mt-5 align-items-center gap-3 lg:gap-5 shadow-4 px-3 py-2 w-full lg:w-26rem cursor-pointer"
+          style="border-radius: 50px"
+          (click)="router.navigate(['/auth/register'])"
+        >
+          <div class="x-bg-primary border-circle p-3 shadow-2">
+            <i class="pi pi-id-card text-white text-2xl"></i>
+          </div>
+          <span class="x-black50 text-xl text-center w-full lg:text-left"
+            >Set Up a Profile</span
+          >
+        </div>
+        <!-- SERVICE -->
+        <div
+          class="flex mt-5 align-items-center gap-3 lg:gap-5 shadow-4 px-3 py-2 w-full lg:w-26rem cursor-pointer"
+          style="border-radius: 50px"
+          (click)="router.navigate(['/auth/register'])"
+        >
+          <div class="x-bg-primary border-circle p-3 shadow-2">
+            <i class="pi pi-cog text-white text-2xl"></i>
+          </div>
+          <span class="x-black50 text-xl text-center w-full lg:text-left"
+            >create a Service</span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col md:col-6">
+      <video
+        class="video-cover"
+        autoplay="autoplay"
+        muted="muted"
+        loop="loop"
+        [playbackRate]="0.5"
+        playsinline="playsinline"
+        src="assets/images/client/home/contruction.mp4"
+      ></video>
+    </div>
+  </div>
+</section>
+<hr class="p-0 m-0" style="opacity: 0.2" />
+<!-- AGENCIES -->
+<section class="agencies-section px-2 lg:px-5 py-8">
+  <div class="flex align-items-center gap-2" style="height: 2.2rem">
+    <div class="w-2rem h-full border-round-md x-bg-primary"></div>
+    <span class="x-primary font-semibold text-lg">Agencies</span>
+  </div>
+  <div class="flex justify-content-between">
+    <div>
+      <h1 class="mb-2">Frequently Booked Services</h1>
+      <p class="x-black75">Search and contact agencies with no obligation</p>
+    </div>
+    <div class="flex align-items-center gap-2">
+      <button
+        (click)="agenciesCarousel.navBackward($event)"
+        [classList]="
+          agenciesCarousel.isBackwardNavDisabled()
+            ? 'border-round-left carouselNav opacity-30'
+            : 'border-round-left carouselNav '
+        "
+      >
+        <i class="pi pi-chevron-left"></i>
+      </button>
+      <button
+        (click)="agenciesCarousel.navForward($event)"
+        [classList]="
+          agenciesNavForward
+            ? 'border-round-right carouselNav opacity-30'
+            : 'border-round-right carouselNav '
+        "
+      >
+        <i class="pi pi-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+  <div class="mt-5 relative">
+    <p-carousel
+      [value]="agencies"
+      [numVisible]="4"
+      [numScroll]="1"
+      [responsiveOptions]="responsiveOptions"
+      indicatorStyleClass="hidden"
+      [showNavigators]="false"
+      [draggable]="true"
+      (onPage)="agenciesNavForward = agenciesCarousel.isForwardNavDisabled()"
+      #agenciesCarousel
+    >
+      <ng-template let-agent pTemplate="item">
+        <app-agency [agent]="agent"></app-agency>
+      </ng-template>
+    </p-carousel>
+  </div>
+
+  <div class="ml-3">
+    <a class="x-primary font-semibold text-lg" routerLink="/agencies"
+      >ALL AGENCIES <i class="pi pi-arrow-right"></i
+    ></a>
+  </div>
+</section>
+<hr class="p-0 m-0" style="opacity: 0.2" />
+<!-- TALENT -->
+<section class="talent-section px-2 lg:px-5 py-8">
+  <div class="grid grid-nogutter">
+    <div
+      class="border-round-top-3xl md:border-round-left-3xl md:border-noround-right col-12 md:col-9 px-3 sm:px-6 py-6"
+      style="background-color: #13544e"
+    >
+      <div class="flex align-items-center gap-2" style="height: 2.2rem">
+        <div
+          class="w-2rem h-full border-round-md"
+          style="background-color: var(--s-color)"
+        ></div>
+        <span class="x-secondary font-semibold text-lg">For Talent</span>
+      </div>
+      <div class="text-white mt-3">
+        <div class="text-4xl sm:text-5xl md:text-7xl font-bold">
+          For Skilled Workers
+        </div>
+        <p class="font-semibold text-xl sm:text-2xl md:text-3xl opacity-80">
+          Meet clients you’re excited to work with and take your career or
+          business to new heights.
+        </p>
+        <div
+          class="flex flex-column row-gap-2 ml-4 opacity-80 text-lg sm:text-xl md:text-2xl font-semibold"
+        >
+          <div class="flex gap-2 align-items-center">
+            <i class="pi pi-check-circle text-2xl"></i>
+            <span>Honesty and Transparency</span>
+          </div>
+          <div class="flex gap-2 align-items-center">
+            <i class="pi pi-check-circle text-2xl"></i>
+            <span>Be Professional and Courteous</span>
+          </div>
+          <div class="flex gap-2 align-items-center">
+            <i class="pi pi-check-circle text-2xl"></i>
+            <span>Effective Communication</span>
+          </div>
+          <div class="flex gap-2 align-items-center">
+            <i class="pi pi-check-circle text-2xl"></i>
+            <span>Provide Detailed Explanations</span>
+          </div>
+        </div>
+
+        <div class="mt-7">
+          <a
+            routerLink="/auth/register"
+            class="text-color no-underline surface-0 text-xl border-round-3xl px-4 py-3 shadow-3"
+            >Become a Member</a
+          >
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-12 md:col border-round-bottom-3xl md:border-round-right-3xl md:border-noround-left"
+      style="
+        background-image: url('/assets/images/client/home/talent.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 200px;
+      "
+    ></div>
+  </div>
+</section>
+<hr class="p-0 m-0" style="opacity: 0.2" />
+<!-- TESTIMONIAL -->
+<section class="testimonial-section px-2 lg:px-5 py-8">
+  <div class="flex align-items-center gap-2" style="height: 2.2rem">
+    <div class="w-2rem h-full border-round-md x-bg-primary"></div>
+    <span class="x-primary font-semibold text-lg">Testimonial</span>
+  </div>
+  <div class="flex justify-content-between">
+    <div>
+      <h1 class="mb-2">What Our Customers Say About Us!!!</h1>
+      <p class="x-black75 text-lg">
+        Testimonies from few of our satisfied clients
+      </p>
+    </div>
+  </div>
+  <div class="relative">
+    <p-carousel
+      [value]="testimonials"
+      [numVisible]="2"
+      [numScroll]="1"
+      [responsiveOptions]="[
+    {
+      breakpoint: '768px',
+      numVisible: 1,
+      numScroll: 1,
+    }
+  ]"
+      indicatorStyleClass="hidden"
+      [showNavigators]="false"
+      [draggable]="true"
+      (onPage)="
+        testimonialNavForward = testimonialCarousel.isForwardNavDisabled()
+      "
+      #testimonialCarousel
+    >
+      <ng-template let-testimony pTemplate="item">
+        <div
+          class="x-bg-secondary w-full border-round-md py-6 px-4 md:px-6 shadow-2"
+        >
+          <div>
+            <i class="pi pi-reviews text-5xl x-primary"></i>
+          </div>
+          <p class="text-lg font-medium x-black75">
+            {{ testimony.testimony }}
+          </p>
+          <div class="flex gap-2">
+            <img
+              width="50"
+              class="border-circle"
+              src="{{ testimony.profilePath }}"
+              alt="{{ testimony.name }}"
+            />
+            <div class="font-meduim">
+              <div class="text-md">{{ testimony.name }}</div>
+              <div class="x-black50 mt-1">{{ testimony.service }}</div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-carousel>
+
+    <!-- CAROUSEL CONTROLS -->
+    <button
+      (click)="testimonialCarousel.navBackward($event)"
+      [classList]="
+        testimonialCarousel.isBackwardNavDisabled()
+          ? 'border-circle x-bg-secondary carouselNav opacity-0'
+          : 'border-circle x-bg-secondary carouselNav '
+      "
+      style="position: absolute; top: 7.7rem; left: -0.5rem"
+    >
+      <i class="pi pi-chevron-left"></i>
+    </button>
+    <button
+      (click)="testimonialCarousel.navForward($event)"
+      [classList]="
+        testimonialNavForward
+          ? 'border-circle x-bg-secondary carouselNav opacity-0'
+          : 'border-circle x-bg-secondary carouselNav '
+      "
+      style="position: absolute; top: 7.7rem; right: -0.2rem"
+    >
+      <i class="pi pi-chevron-right text-lg"></i>
+    </button>
+  </div>
+</section>
+<hr class="p-0 m-0" style="opacity: 0.2" />
+<!-- USE APP -->
+<section class="app-section px-2 lg:px-5 py-8">
+  <div
+    class="border-round-xl lg:pl-5 overflow-hidden"
+    style="background-color: #5819be"
+  >
+    <div class="grid grid-nogutter">
+      <div class="text-white mt-3 col-12 lg:col-7 p-6">
+        <div class="flex align-items-center gap-2" style="height: 2.2rem">
+          <div
+            class="w-2rem h-full border-round-md"
+            style="background-color: var(--s-color)"
+          ></div>
+          <span class="x-secondary font-semibold text-lg">Use the App</span>
+        </div>
+        <div class="text-xl sm:text-3xl md:text-5xl mt-3 font-bold">
+          Download Our App
+        </div>
+        <p class="font-semibold text-xl sm:text-2xl md:text-3xl opacity-80">
+          Get our app to get access to the following feature
+        </p>
+        <div
+          class="flex flex-column row-gap-3 ml-4 opacity-80 sm:text-lg md:text-xl font-semibold"
+        >
+          <div class="flex gap-2 align-items-center">
+            <i class="pi pi-check-circle text-2xl"></i>
+            <span>Direct Messaging worker</span>
+          </div>
+          <div class="flex gap-2 align-items-center">
+            <i class="pi pi-check-circle text-2xl"></i>
+            <span>Premium search workers</span>
+          </div>
+        </div>
+
+        <div class="mt-4 flex gap-3">
+          <img
+            src="./assets/images/layout/footer/playstore icon.png"
+            class="w-full"
+            alt="Playstore icon"
+          />
+          <img
+            src="./assets/images/layout/footer/appstore icon.png"
+            class="w-full"
+            alt="Appstore icon"
+          />
+        </div>
+      </div>
+      <div class="hidden lg:block lg:col-5">
+        <img
+          style="width: 100%; height: 100%; object-fit: cover"
+          src="./assets/images/client/home/download app.png"
+          alt="download app image"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="p-0 m-0" style="opacity: 0.2" />

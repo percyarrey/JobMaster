@@ -1,0 +1,128 @@
+:host ::ng-deep {
+  .p-dropdown-items {
+    background-color: #ffffff;
+    color: #7240bb;
+  }
+
+  .p-dropdown-items .p-dropdown-item.p-highlight {
+    background-color: #7240bb;
+    color: #ffffff;
+  }
+}
+
+.tabPanels {
+  border: 1px solid rgba(128, 128, 128, 0.333);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 95%;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+@media screen and (min-width: 576px) {
+  .tabPanels {
+    max-width: 55rem;
+    padding: 2rem 2rem;
+  }
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+  padding-top: 1.5rem;
+}
+
+.input-field {
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #b4b3b3;
+  box-shadow: 0 0 0 2px var(--lp-color);
+}
+.input-field::placeholder {
+  color: var(--black75);
+  font-family: "roboto";
+}
+
+.line {
+  height: 2px;
+  background-color: #ccc;
+  width: 100%;
+}
+
+label {
+  opacity: 0.7;
+}
+
+.close-btn {
+  all: unset;
+  position: absolute;
+  border-radius: 5px;
+  bottom: 0.6rem;
+  right: 2rem;
+  background-color: red;
+  padding: 0.3rem 0.35rem;
+  height: fit-content;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  i {
+    color: white;
+    font-size: 20px;
+  }
+}
+
+.p-field {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+
+  label {
+    opacity: 1 !important;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+}
+.currency-input {
+  display: flex;
+}
+
+.currency-symbol {
+  padding: 0.5rem;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+}
+
+input[type="number"] {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 0 4px 4px 0;
+}
+
+.image-container {
+  margin-right: 8px;
+  position: relative;
+}
+
+.samplePhotos {
+  height: 100px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(128, 128, 128, 0.333);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  i {
+    font-size: 30px;
+  }
+}

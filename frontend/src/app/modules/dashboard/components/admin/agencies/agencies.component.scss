@@ -1,0 +1,10 @@
+:host ::ng-deep {
+  .p-dropdown-items {
+    color: var(--p-color);
+  }
+
+  .p-dropdown-items .p-dropdown-item.p-highlight {
+    background-color: var(--p-color);
+    color: #ffffff;
+  }
+}

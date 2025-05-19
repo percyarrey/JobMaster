@@ -1,0 +1,25 @@
+<!-- TOAST -->
+<p-toast></p-toast>
+@if (activePage==='login') {
+<app-login
+  (submitFormData)="submitForm(activePage, $event)"
+  (socialAuth)="socialAuth($event)"
+></app-login>
+} @if (activePage==='register') {
+<app-register
+  (submitFormData)="submitForm(activePage, $event)"
+  (socialAuth)="socialAuth($event)"
+></app-register>
+} @if (activePage==='complete-registration') {
+<app-completeregister
+  (submitFormData)="submitForm(activePage, $event)"
+></app-completeregister>
+}@if (activePage==='forgot-password') {
+<app-forgot-password
+  (submitFormData)="submitForm(activePage, $event)"
+></app-forgot-password>
+} @if (activePage==='reset-password') {
+<app-resetpassword
+  (submitFormData)="submitForm(activePage, $event)"
+></app-resetpassword>
+}

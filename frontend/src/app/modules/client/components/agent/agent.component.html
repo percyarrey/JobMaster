@@ -1,0 +1,296 @@
+<!-- BREADCRUMBS -->
+<section class="crumbs-section pt-2 md:pt-6">
+  <p-breadcrumb
+    class="max-w-full"
+    [model]="items"
+    [home]="home"
+    styleClass=" border-noround  border-top-none"
+  ></p-breadcrumb>
+</section>
+<!-- PROFILE -->
+<section class="profile-section px-2 lg:px-5 pb-6 pt-5">
+  <div class="flex flex-column row-gap-2 sm:flex-row justify-content-between">
+    <div class="flex gap-2 md:align-items-center">
+      <img
+        style="
+          height: 100px;
+          width: 100px;
+          object-fit: cover;
+          object-position: center;
+        "
+        class="border-circle"
+        src="{{ agent.profile.profilePic }}"
+        alt="agent.profile.name"
+      />
+      <div class="x-black75">
+        <div class="text-lg x-font-roboto font-semibold">
+          {{
+            textLength(
+              agent.profile.fname + " " + agent.profile.lname,
+              60
+            ).toLocaleUpperCase()
+          }}
+        </div>
+        <div class="flex gap-2 align-items-center">
+          <i class="pi pi-wrench x-primary text-lg"></i>
+          <span class="text-lg">{{ agent.service.name }}</span>
+        </div>
+        <!-- <div class="flex gap-2 align-items-center">
+            <i class="pi pi-phone x-primary"></i>
+            <span
+              >({{ agent.profile.country.code }}) {{ agent.profile.phone }} /
+              {{ agent.profile.whatsapp }}</span
+            >
+          </div> -->
+        <div class="flex gap-2 align-items-center">
+          <i class="pi pi-map-marker x-primary text-lg"></i>
+          <span
+            >{{ agent.profile.country.name }} - {{ agent.profile.city }}</span
+          >
+        </div>
+        <div class="flex gap-2 align-items-center">
+          <i class="pi pi-star-fill x-secondary text-lg"></i>
+          <span
+            ><span class="font-medium">{{ agent.profile.rating }}</span> ({{
+              agent.profile.review
+            }})</span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-content-between sm:flex-column flex-wrap">
+      <button
+        style="all: unset; cursor: pointer; display: flex; align-items: center"
+        (click)="onContact('whatsapp')"
+      >
+        <img
+          height="50"
+          src="assets/images/client/details/whatsappicon.png"
+          alt="Message Me"
+        />
+        <div
+          class="relative flex align-items-center justify-content-center font-medium border-round-right"
+          style="
+            background-color: #02d869;
+            color: white;
+            height: 65%;
+            left: -4px;
+            width: 117px;
+          "
+        >
+          Message Me
+        </div>
+      </button>
+      <button
+        style="all: unset; cursor: pointer; display: flex; align-items: center"
+        (click)="onContact('call')"
+      >
+        <img
+          height="50"
+          src="assets/images/client/details/phoneicon.png"
+          alt="Call me"
+        />
+        <div
+          class="relative flex align-items-center justify-content-center font-medium border-round-right"
+          style="
+            background-color: #238fdd;
+            color: white;
+            height: 65%;
+            left: -4px;
+            width: 117px;
+          "
+        >
+          Call Me
+        </div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT SERVICE -->
+<section class="about-section pb-6 px-3 lg:px-5">
+  <div class="grid row-gap-4">
+    <div class="col-12 p-3 lg:p-5 lg:col-8 shadow-3 border-round-md">
+      <!-- PORTFOLIO -->
+      <div class="relative portfolio">
+        <p-carousel
+          [value]="agent.service.portfolio"
+          [numVisible]="1"
+          [numScroll]="1"
+          indicatorStyleClass="hidden"
+          [showNavigators]="false"
+          [draggable]="true"
+          (onPage)="portfolioNavForward = portfolio.isForwardNavDisabled()"
+          #portfolio
+        >
+          <ng-template let-image pTemplate="item">
+            <div
+              class="x-bg-secondary w-full border-round-md overflow-hidden"
+              style="
+                max-height: 500px;
+                height: calc(200px + 15vw);
+                min-height: 100px;
+              "
+            >
+              <img
+                style="
+                  width: 100%;
+                  height: 100%;
+                  object-fit: contain;
+                  object-position: center;
+                "
+                src="{{ image }}"
+                alt="portfolio image"
+              />
+            </div>
+          </ng-template>
+        </p-carousel>
+
+        <!-- CAROUSEL CONTROLS -->
+        <div
+          class="absolute flex align-items-center w-full top-0 h-full justify-content-between"
+        >
+          <button
+            (click)="portfolio.navBackward($event)"
+            [classList]="
+              portfolio.isBackwardNavDisabled()
+                ? 'border-circle x-bg-secondary carouselNav opacity-0'
+                : 'border-circle x-bg-secondary carouselNav '
+            "
+            style="left: -0.5rem; position: relative; left: -20px"
+          >
+            <i class="pi pi-chevron-left"></i>
+          </button>
+          <button
+            (click)="portfolio.navForward($event)"
+            [classList]="
+              portfolioNavForward
+                ? 'border-circle x-bg-secondary carouselNav opacity-0'
+                : 'border-circle x-bg-secondary carouselNav '
+            "
+            style="right: -0.2rem; position: relative; left: 20px"
+          >
+            <i class="pi pi-chevron-right text-lg"></i>
+          </button>
+        </div>
+      </div>
+      <!-- DESCRIPTION -->
+      <div>
+        <h2 class="mb-0 x-font-roboto">My Services</h2>
+        <p class="x-black75 mt-0">{{ agent.service.description }}</p>
+      </div>
+      <!-- ABOUT -->
+      <div>
+        <h2 class="mb-0 x-font-roboto">About me</h2>
+        <p class="x-black75 mt-0">{{ agent.profile.about }}</p>
+      </div>
+    </div>
+
+    <!-- SHARE -->
+    <div class="col-12 lg:col-4 lg:px-5">
+      <div
+        class="shadow-3 x-bg-secondary flex align-items-center flex-column row-gap-3 py-5 border-round-md"
+        style="border: 1px solid rgba(0, 0, 0, 0.2)"
+      >
+        <h1 class="m-0"><span class="x-black50">SHARE</span> PORTFOLIO</h1>
+        <div class="flex gap-4" style="opacity: 0.7">
+          <img
+            height="45"
+            src="assets/images/client/details/whatsappicon.png"
+            alt="share on whatsapp"
+          />
+          <a routerLink="/"
+            ><i
+              class="pi pi-facebook"
+              style="color: #1877f2; font-size: 40px"
+            ></i
+          ></a>
+          <a routerLink="/"
+            ><i
+              class="pi pi-linkedin"
+              style="color: #0a66c2; font-size: 40px"
+            ></i
+          ></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="p-0 m-0" style="opacity: 0.2" />
+<!-- SIMILAR AGENCIES -->
+<section class="agencies-section py-7">
+  <div class="text-center font-semibold text-2xl">
+    <span class="x-black75">More</span> {{ agent.service.name }}
+    <span class="x-black75">Around You</span>
+  </div>
+  <!-- AGENCIES COMPONENTS -->
+
+  <div class="mt-5 relative">
+    <p-carousel
+      [value]="agencies"
+      [numVisible]="4"
+      [numScroll]="1"
+      [responsiveOptions]="responsiveOptions"
+      indicatorStyleClass="hidden"
+      [showNavigators]="true"
+      [draggable]="true"
+      #agenciesCarousel
+    >
+      <ng-template let-agent pTemplate="item">
+        <app-agency [agent]="agent"></app-agency>
+      </ng-template>
+    </p-carousel>
+  </div>
+
+  <div class="ml-3 px-2 lg:px-5">
+    <a class="x-primary font-semibold text-lg" routerLink="/agencies"
+      >More {{ agent.service.name }} <i class="pi pi-arrow-right"></i
+    ></a>
+  </div>
+</section>
+<hr class="p-0 m-0" style="opacity: 0.2" />
+<!-- REVIEWS -->
+<section class="similar-section px-2 lg:px-5 py-5">
+  <!-- REVIEWS -->
+  <app-reviews [agent]="agent" />
+</section>
+<hr class="p-0 m-0" style="opacity: 0.2" />
+
+<!-- CONTACT SCROLL TOP -->
+<div
+  class="fixed flex align-items-center shadow-2 py-2 px-4 bg-white"
+  style="
+    bottom: 10px;
+    right: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 100px;
+    cursor: pointer;
+  "
+  (click)="scrollToTop()"
+>
+  <img
+    style="
+      height: 60px;
+      width: 60px;
+      object-fit: cover;
+      object-position: center;
+    "
+    class="border-circle"
+    src="{{ agent.profile.profilePic }}"
+    alt="agent.profile.name"
+  />
+  <div>
+    <div class="x-font-roboto font-semibold">
+      {{
+        textLength(
+          agent.profile.fname + " " + agent.profile.lname,
+          60
+        ).toLocaleUpperCase()
+      }}
+    </div>
+    <div class="flex gap-2 align-items-center x-black75 font-medium">
+      <i class="pi pi-wrench x-primary text-lg"></i>
+      <span class="text-lg">{{ agent.service.name }}</span>
+    </div>
+  </div>
+</div>

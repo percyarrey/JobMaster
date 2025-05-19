@@ -1,0 +1,43 @@
+<div>
+  <p-carousel
+    [value]="Subscriptions"
+    [numVisible]="3"
+    [numScroll]="1"
+    [responsiveOptions]="responsiveOptions"
+    indicatorsContentClass="lg:hidden"
+  >
+    <ng-template let-plan pTemplate="item">
+      <div
+        class="py-4 px-5 border-round mx-2 shadow-4 h-full flex flex-column"
+        style="border: 1px solid var(--p-color)"
+      >
+        <h4 class="m-0 mb-1 text-2xl font-semibold">{{ plan.name }}</h4>
+        <h6 class="m-0 mb-1 text-4xl font-bold x-font-roboto x-primary">
+          {{ plan.price === 0 ? "FREE" : plan.price + "XAF" }}
+        </h6>
+        <p class="m-0 mb-4">{{ plan.description }}</p>
+
+        <div class="feature-list flex-1">
+          @for (feature of plan.features; track $index) {
+          <div class="feature-list-item">
+            @if ($index>2) {
+            <i class="pi pi-plus text-white"></i>
+            }@else{
+            <i class="pi pi-check text-white"></i>
+            }
+            <div class="font-normal">{{ feature }}</div>
+          </div>
+          }
+          <div class="mt-auto">
+            <a
+              routerLink="/service-provider/dashboard"
+              class="x-bg-primary p-button w-full mt-2 no-underline flex justify-content-center"
+            >
+              {{ plan.price === 0 ? "Publish Service" : "Continue Payment" }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>

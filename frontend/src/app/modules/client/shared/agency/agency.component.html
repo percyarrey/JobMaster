@@ -1,0 +1,91 @@
+<div
+  class="shadow-2 border-round-lg overflow-hidden h-full pb-3 cursor-pointer relative"
+  style="max-width: 20rem"
+  (click)="
+    router.navigate([
+      'agent/' +
+        agent.profile.fname +
+        ' ' +
+        agent.profile.lname +
+        '/' +
+        agent.service.id
+    ])
+  "
+>
+  <div
+    class="x-black75 mt-3 absolute text-white border-round-2xl text-sm"
+    style="
+      hyphens: auto;
+      background-color: rgba(29, 29, 29, 0.253);
+      right: 3px;
+      top: -12px;
+      padding: 7px 5px;
+    "
+  >
+    <span class="font-bold"
+      ><i class="pi pi-star-fill x-secondary"></i>
+      {{ agent.profile.rating }}</span
+    >({{ formatViews(agent.profile.review) }})
+  </div>
+  <div class="x-bg-secondary w-full" style="height: 15.5rem">
+    <img
+      src="{{ agent.service.servicePic || agent.profile.profilePic }}"
+      class="profilePic"
+    />
+  </div>
+  <div
+    class="text-md font-semibold x-bg-primary text-center text-white py-2 x-font-roboto overflow-hidden white-space-nowrap"
+  >
+    {{ textLength(agent.service.name, 25) }}
+  </div>
+  <!-- BODY -->
+  <div class="px-3">
+    <div class="flex gap-2 align-items-center mt-2">
+      <img
+        src="{{ agent.profile.profilePic }}"
+        class="border-circle"
+        width="40"
+        alt=""
+      />
+      <div
+        class="text-lg flex gap-1 x-black75 font-medium text-center x-font-roboto overflow-hidden white-space-nowrap"
+      >
+        <span>{{
+          textLength(agent.profile.fname + " " + agent.profile.lname, 20)
+        }}</span>
+      </div>
+    </div>
+    <p class="x-black75" style="hyphens: auto">
+      {{ textLength(agent.service.description, 60) }}
+    </p>
+    <div
+      class="x-black75 flex gap-1 align-items-center x-font-roboto"
+      style="hyphens: auto; font-size: 17.5px"
+    >
+      <i class="pi pi-map-marker x-primary"></i>
+      <span>{{
+        textLength(agent.profile.country.name + " - " + agent.profile.city, 26)
+      }}</span>
+    </div>
+    <div class="x-black75 mt-3" style="hyphens: auto; font-size: 17px">
+      <span class="font-bold"
+        >From {{ agent.profile.country.symbol }}
+        {{ formatViews(agent.service.minCost) }}</span
+      >
+    </div>
+    <div class="flex justify-content-center align-items-center py-3 mt-1">
+      <a
+        class="x-primary font-bold"
+        [routerLink]="
+          '/agent/' +
+          agent.profile.fname +
+          ' ' +
+          agent.profile.lname +
+          '/' +
+          agent.service.id
+        "
+        >View Profile</a
+      >
+    </div>
+  </div>
+</div>

@@ -1,0 +1,168 @@
+<section class="mt-2 px-1 lg:px-0">
+  <div class="flex justify-content-between align-items-center pr-3">
+    <div class="w-fit">
+      <h1 class="x-primary">Getting Started</h1>
+      <hr class="shadow-2" style="opacity: 0.1" />
+    </div>
+    <a routerLink="/service_provider" class="text-md">Skip</a>
+  </div>
+  <div class="grid">
+    <div class="col-12">
+      <div class="text-xl x-black75 font-semibold mb-1">What do you want?</div>
+      <div class="text-md x-black50 mb-5" style="font-family: 'roboto'">
+        Hey <b>{{ name }}</b
+        >, you Create Your Own Service Or Store by following this Steps
+      </div>
+    </div>
+    <div class="col-12 lg:col-8" style="font-family: 'roboto'">
+      <p-accordion
+        expandIcon="pi pi-chevron-down"
+        collapseIcon="pi pi-chevron-up"
+        (activeIndexChange)="activeIndexChange($event)"
+      >
+        <p-accordionTab
+          [selected]="true"
+          iconPos="end"
+          [tabStyle]="{
+            outline: activeIndex === 0 ? '3px solid var(--lp-color)' : 'none',
+            border: '1px solid lightgrey',
+            borderRadius: '5px',
+          }"
+          [headerStyle]="{
+            padding: '8px 4px',
+            backgroundColor: '#7140bb01',
+            border: 'none',
+          }"
+          headerStyleClass="lg:pr-5"
+          [contentStyle]="{ padding: '0', margin: '0', paddingLeft: '40px' }"
+        >
+          <ng-template pTemplate="header">
+            <div
+              class="accordion-header active flex align-items-center"
+              style="min-height: 30px"
+            >
+              <div>
+                <div
+                  name="service"
+                  id="service"
+                  class="custom-radio"
+                  [ngClass]="activeIndex === 0 ? 'custom-radio-checked' : ''"
+                ></div>
+              </div>
+              <div class="icon-header ml-2">
+                <i class="pi pi-wrench text-2xl x-nursery"></i>
+              </div>
+              <div class="ml-2">
+                <div class="text-xl">Create a Service</div>
+                <div class="x-black50 font-medium text-sm">
+                  Your personalized experience. Design your ideal solution at
+                  JobMaster. Choose specific a skill and we will take care of
+                  the rest.
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <div
+            class="accordion-body py-2"
+            style="border-top: 1px solid lightgrey"
+          >
+            <div>Steps to create a service:</div>
+            <ul>
+              <li>Step 1: Lorem ipsum dolor sit amet</li>
+              <li>Step 2: Consectetur adipiscing elit</li>
+              <li>Step 3: Sed do eiusmod tempor incididunt</li>
+            </ul>
+            <div>Requirements:</div>
+            <ul>
+              <li>Requirement 1: Lorem ipsum dolor sit amet</li>
+              <li>Requirement 2: Consectetur adipiscing elit</li>
+              <li>Requirement 3: Sed do eiusmod tempor incididunt</li>
+            </ul>
+          </div>
+        </p-accordionTab>
+        <p-accordionTab
+          [disabled]="true"
+          iconPos="end"
+          [tabStyle]="{
+            outline: activeIndex === 1 ? '3px solid var(--lp-color)' : 'none',
+            border: '1px solid lightgrey',
+            borderRadius: '5px',
+            marginTop: '8px'
+          }"
+          [headerStyle]="{
+            padding: '8px 4px',
+            backgroundColor: '#7140bb01',
+            border: 'none',
+          }"
+          headerStyleClass="lg:pr-5"
+          [contentStyle]="{ padding: '0', margin: '0', paddingLeft: '40px' }"
+        >
+          <ng-template pTemplate="header">
+            <div
+              class="accordion-header active flex align-items-center"
+              style="min-height: 30px"
+            >
+              <div>
+                <div
+                  name="store"
+                  id="store"
+                  class="custom-radio"
+                  [ngClass]="activeIndex === 1 ? 'custom-radio-checked' : ''"
+                ></div>
+              </div>
+              <div class="icon-header ml-2" style="background-color: lightblue">
+                <i class="pi pi-shopping-cart text-2xl x-nursery"></i>
+              </div>
+              <div class="ml-2">
+                <div class="text-xl">Create a Store</div>
+                <div class="x-black50 font-medium text-sm">
+                  Your personalized experience. Design your ideal solution at
+                  JobMaster. Choose specific a skill and we will take care of
+                  the rest.
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <div
+            class="accordion-body py-2"
+            style="border-top: 1px solid lightgrey"
+          >
+            <div>Steps to create a store:</div>
+            <ul>
+              <li>Step 1: Lorem ipsum dolor sit amet</li>
+              <li>Step 2: Consectetur adipiscing elit</li>
+              <li>Step 3: Sed do eiusmod tempor incididunt</li>
+            </ul>
+            <div>Requirements:</div>
+            <ul>
+              <li>Requirement 1: Lorem ipsum dolor sit amet</li>
+              <li>Requirement 2: Consectetur adipiscing elit</li>
+              <li>Requirement 3: Sed do eiusmod tempor incididunt</li>
+            </ul>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+
+      <div class="flex justify-content-end mt-5">
+        <button
+          routerLink="/service-provider/create-profile"
+          class="x-bg-primary p-button px-8 border-none"
+          [disabled]="activeIndex === null"
+          [style]="activeIndex === null ? 'opacity:0.4;' : ''"
+        >
+          Proceed
+        </button>
+      </div>
+    </div>
+    <div
+      class="col hidden lg:flex justify-content-center"
+      [style]="activeIndex === null ? 'opacity: 0' : ''"
+    >
+      <img
+        src="./assets/images/service/card.png"
+        height="450"
+        alt="service card"
+      />
+    </div>
+  </div>
+</section>

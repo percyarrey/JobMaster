@@ -1,0 +1,13 @@
+
+<general-subscription-plan-list
+  [subscriptions]="subscriptions"
+  (onAction)="handleAction($event)">
+</general-subscription-plan-list>
+<p-dialog header="Subscription Plan Form" [(visible)]="dialogVisibility">
+    <general-subscription-plan-form 
+    [subscription]="subscription"
+    (onAction)="handleAction($event)">
+  </general-subscription-plan-form>
+</p-dialog>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>

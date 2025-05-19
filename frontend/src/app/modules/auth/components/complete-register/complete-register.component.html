@@ -1,0 +1,167 @@
+<section class="flex justify-content-center">
+  <div
+    class="w-full border-1 shadow-2 mx-1 border-gray-300 border-round-2xl flex align-items-center flex-column"
+    style="max-width: 40rem; padding: 55px 0px 55px 0px"
+  >
+    <div class="text-md mb-1 x-black75" style="font-family: poppins">
+      Fill the following Form
+    </div>
+    <h5 class="title text-2xl mb-5">Complete your Registration</h5>
+
+    <form [formGroup]="CompleteRegForm" (submit)="submitForm()">
+      <!-- COUNTRY-->
+      <div class="mb-4">
+        <p-floatLabel>
+          <p-autoComplete
+            field="name"
+            inputId="country"
+            formControlName="country"
+            [suggestions]="suggestions"
+            (completeMethod)="search($event)"
+            [inputStyle]="{
+              width: '100%'
+            }"
+            [style]="{
+              width: '100%'
+            }"
+          ></p-autoComplete>
+          <label for="country">Country</label>
+        </p-floatLabel>
+
+        @if (country.invalid && (country.dirty || country.touched)) {<small
+          class="block p-error"
+        >
+          Country should not be empty </small
+        >}
+      </div>
+      <!-- ADDRESS -->
+      <div class="mb-4">
+        <p-floatLabel>
+          <p-autoComplete
+            field="name"
+            formControlName="address"
+            inputId="address"
+            [suggestions]="suggestions"
+            (completeMethod)="search($event)"
+            [inputStyle]="{
+              width: '100%'
+            }"
+            [style]="{
+              width: '100%'
+            }"
+          ></p-autoComplete>
+          <label for="address">Address</label>
+        </p-floatLabel>
+
+        @if (address.invalid && (address.dirty || address.touched)) {
+        <small class="block p-error"> Address should not be empty </small>
+        }
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="mb-4">
+        <p-floatLabel>
+          <input
+            type="password"
+            class="w-full"
+            id="password"
+            pInputText
+            formControlName="password"
+          />
+          <label for="password">Password</label>
+        </p-floatLabel>
+
+        @if (password.invalid && (password.dirty || password.touched)) {
+
+        <small class="block p-error">
+          @if (password.errors?.['required']) {
+          <span>Password should not be empty</span>
+          } @if (password.errors?.['minlength']) {<span
+            >Password should be more than 8 letters</span
+          >}
+        </small>
+        }
+      </div>
+
+      <!--CONFIRM PASSWORD -->
+      <div class="mb-4">
+        <p-floatLabel>
+          <input
+            type="password"
+            class="w-full"
+            id="confirmPassword"
+            pInputText
+            formControlName="confirmPassword"
+          />
+          <label for="confirmPassword">Confirm Password</label>
+        </p-floatLabel>
+        @if (confirmPassword.invalid && (confirmPassword.dirty ||
+        confirmPassword.touched) ) {<small class="block p-error">
+          @if (confirmPassword.errors?.['required']) {<span
+            >Confirm Password should not be empty</span
+          >} @if (confirmPassword.errors?.['minlength']) {<span
+            >Confirm Password should be more than 8 letters</span
+          >} </small
+        >}
+
+        <!-- PASSWORD MISMATCH ERROR -->
+        <small>
+          @if (CompleteRegForm.errors?.['passwordMismatch'] &&
+          confirmPassword.valid && password.valid) {<span class="block p-error">
+            password should match </span
+          >}
+        </small>
+      </div>
+
+      <!-- I WANT TO -->
+      <div class="mb-6">
+        <div class="text-center font-semibold">I want to</div>
+        <div class="flex mt-3">
+          <button
+            name="client"
+            type="button"
+            class="w-full justify-content-center text-lg border-round-left cursor-pointer"
+            [ngClass]="{
+              ' x-bg-primary border-none text-white': accountType === 'client',
+              ' bg-transparent border-2 x-black75 border-right-none  border-gray-400':
+                accountType !== 'client'
+            }"
+            style="padding: 0.7rem 0"
+            (click)="handleAccountType($event)"
+          >
+            Find a Worker
+          </button>
+          <button
+            name="serviceProvider"
+            type="button"
+            class="w-full justify-content-center text-lg border-round-right text-lg cursor-pointer"
+            [ngClass]="{
+              ' x-bg-primary border-none text-white':
+                accountType === 'serviceProvider',
+              ' bg-transparent border-2 x-black75 border-left-none  border-gray-400 ':
+                accountType !== 'serviceProvider'
+            }"
+            style="padding: 0.7rem 0"
+            (click)="handleAccountType($event)"
+          >
+            Be a Service Provider
+          </button>
+        </div>
+      </div>
+
+      <!-- CONTINUE -->
+      <div class="mb-4">
+        <button
+          type="submit"
+          [disabled]="CompleteRegForm.invalid"
+          class="p-button x-bg-primary border-teal-400 w-full justify-content-center text-xl"
+          [ngClass]="{
+            'opacity-20': CompleteRegForm.invalid
+          }"
+        >
+          Continue
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

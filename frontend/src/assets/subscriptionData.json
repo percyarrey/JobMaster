@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Basic",
+    "price": 0,
+    "description": "Post up to five jobs for FREE ",
+    "features": ["Feature 1", "Feature 2", "Feature 3"]
+  },
+  {
+    "name": "Pro",
+    "price": 1500,
+    "description": "Post up to 15 jobs in this plan",
+    "features": [
+      "Feature 1",
+      "Feature 2",
+      "Feature 3",
+      "Feature 4",
+      "Feature 5"
+    ]
+  },
+  {
+    "name": "Enterprise",
+    "price": 5000,
+    "description": "Post unlimited amount of jobs using this plan ",
+    "features": [
+      "Feature 1",
+      "Feature 2",
+      "Feature 3",
+      "Feature 4",
+      "Feature 5",
+      "Feature 6",
+      "Feature 7"
+    ]
+  }
+]

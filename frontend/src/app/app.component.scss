@@ -1,0 +1,10 @@
+.app-body {
+  min-height: 100vh;
+}
+@media screen and (max-width: 992px) {
+  .dash-width {
+    position: fixed;
+    left: 61px;
+    width: calc(100vw - (60px)) !important;
+  }
+}

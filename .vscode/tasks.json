@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "npm",
+            "script": "start",
+            "path": "backend",
+            "problemMatcher": [],
+            "label": "npm: start - backend",
+            "detail": "nest start",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "npm",
+            "script": "start",
+            "path": "frontend",
+            "problemMatcher": [],
+            "label": "npm: start - frontend",
+            "detail": "ng serve"
+        }
+    ]
+}

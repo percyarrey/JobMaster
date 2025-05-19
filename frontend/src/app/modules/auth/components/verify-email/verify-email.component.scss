@@ -1,0 +1,19 @@
+.title {
+  all: unset;
+  font-weight: 550;
+  transform: scaleY(1.1);
+}
+
+form {
+  width: 100%;
+  max-width: 95%;
+}
+
+@media screen and (min-width: 576px) {
+  form {
+    max-width: 80%;
+  }
+}
+label {
+  opacity: 0.7;
+}

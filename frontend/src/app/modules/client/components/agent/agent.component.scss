@@ -1,0 +1,49 @@
+:host ::ng-deep {
+  .crumbs-section {
+    .p-menuitem-text {
+      cursor: pointer;
+    }
+  }
+  .agencies-section {
+    /* .p-carousel-items-container {
+      gap: 0.4rem;
+    } */
+    .p-carousel-item {
+      padding: 0.2rem 0.4rem;
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+/* PORTFOLIO */
+.portfolio {
+  .carouselNav {
+    all: unset;
+    cursor: pointer;
+    border: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1px #585859;
+    background-color: #5858590b;
+    height: 40px;
+    width: 40px;
+  }
+}
+
+/* AGENCIES */
+.agencies-section {
+  .carouselNav {
+    all: unset;
+    cursor: pointer;
+    border: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1px #585859;
+    background-color: #5858590b;
+    height: 40px;
+    width: 40px;
+  }
+}

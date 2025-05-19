@@ -1,0 +1,71 @@
+.menu-btn {
+  position: fixed;
+  top: 0;
+  height: 74.5px;
+  width: 61px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.panel {
+  top: 74px;
+  width: 22rem;
+  transition: all 0.3s ease-in-out;
+  border-right: 1px solid rgba(128, 128, 128, 0.088);
+  height: 100%;
+}
+
+@media screen and (max-width: 992px) {
+  .panel {
+    position: fixed;
+    width: 22rem;
+    min-height: calc(100vh - 72px);
+    overflow-y: auto;
+    transform: translateX(-22rem);
+  }
+  .closePanel {
+    transform: translateX(0);
+  }
+}
+
+.tabs-elements {
+  a {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    gap: 1.5rem;
+    font-size: 20px;
+    padding: 0.5rem 0;
+    align-items: center;
+    margin-top: 0.5rem;
+    i {
+      font-size: 21px;
+    }
+    span {
+      color: var(--black75);
+    }
+  }
+  a:hover {
+    span {
+      color: rgba(0, 0, 0, 0.878);
+    }
+  }
+  .active {
+    color: var(--p-color) !important;
+    position: relative;
+    /* border-bottom: 3px solid var(--p-color); */
+    span {
+      color: var(--p-color) !important;
+    }
+  }
+  .active::after {
+    content: "";
+    display: block;
+    background-color: var(--p-color);
+    width: 100%;
+    height: 3px;
+    position: absolute;
+    bottom: 0;
+    border-radius: 10px;
+  }
+}

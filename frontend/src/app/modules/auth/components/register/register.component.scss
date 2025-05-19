@@ -1,0 +1,118 @@
+.title {
+  all: unset;
+  font-weight: 550;
+  transform: scaleY(1.1);
+}
+
+form {
+  width: 100%;
+  max-width: 95%;
+}
+
+@media screen and (min-width: 576px) {
+  form {
+    max-width: 80%;
+  }
+}
+
+label {
+  opacity: 0.7;
+}
+
+.toggle-button {
+  all: unset;
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+
+  i {
+    font-size: 1.5rem;
+    color: var(--black75);
+  }
+}
+
+.Or-line {
+  width: 43%;
+  height: 0.1rem;
+  border: 5%;
+}
+
+.google-btn {
+  all: unset;
+  cursor: pointer;
+  background-color: #4280ef;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  border-radius: 99999px;
+
+  img {
+    margin-left: 0.3rem;
+    height: 85%;
+    width: auto !important;
+  }
+
+  div {
+    text-align: center;
+    width: 75%;
+  }
+}
+
+.facebook-btn {
+  all: unset;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  border-radius: 99999px;
+  border: 1px solid var(--black50);
+
+  img {
+    margin-left: 1.2rem;
+    height: 45%;
+    width: auto !important;
+  }
+
+  div {
+    text-align: center;
+    width: 75%;
+    color: var(--black75);
+  }
+}
+
+.Dont-line {
+  width: 20%;
+  height: 0.1rem;
+  border: 5%;
+}
+
+.register-link {
+  display: flex;
+  justify-content: center;
+
+  a {
+    text-decoration: none;
+    color: var(--p-color);
+    border-radius: 9999px;
+    border: 1px solid var(--p-color);
+    width: 75%;
+    text-align: center;
+    padding: 0.4rem 0rem;
+  }
+}
+.full-width {
+  width: 100%;
+}
+
+.autocomplete {
+  background-color: red !important;
+  font-size: 16px;
+  font-weight: bold;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
