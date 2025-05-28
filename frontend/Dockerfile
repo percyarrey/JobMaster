@@ -11,6 +11,8 @@ RUN npm install
 # Copy app files
 COPY . .
 
+# Expose the port
+EXPOSE 4200
 
 # Run dev server without globally installing Angular CLI
-CMD ["npx", "ng", "serve"]
+CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]

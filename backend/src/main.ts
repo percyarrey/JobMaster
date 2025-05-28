@@ -14,7 +14,7 @@ async function bootstrap() {
   );
 
   const CORS_OPTIONS = {
-    origin: ['http://localhost:4200'], // or '*' or whatever is required
+    origin: ['http://localhost:4200','http://54.89.40.150:4200'], // or '*' or whatever is required
     allowedHeaders: [
       'Access-Control-Allow-Origin',
       'Origin',

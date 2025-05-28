@@ -7,5 +7,5 @@ export const environment = {
   appID: '784300333637176',
   clientID:
     '107277315530-o2hi8cgb5a788vch57lplngf114ra184.apps.googleusercontent.com',
-  backendUrl: 'http://localhost:3000/',
+  backendUrl: 'http://54.89.40.150:3000/',
 };

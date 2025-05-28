@@ -1,4 +1,3 @@
-version: "3"
 
 services:
   angular:
@@ -7,6 +6,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4200:4200"
+    restart: always
 
   nest:  
     build:
@@ -21,13 +21,11 @@ services:
       NODE_ENV: development
       PORT: 3000
       JWT_SECRET: 7Rj#9Kf2@p$5qLm
+    restart: always
 
   postgres:
     image: postgres:10.4
     restart: always
-    build:
-      context: ./postgres
-      dockerfile: Dockerfile
     environment:
       POSTGRES_USER: user
       POSTGRES_DB: db
